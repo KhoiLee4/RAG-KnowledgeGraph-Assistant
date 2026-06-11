@@ -225,20 +225,25 @@ class Neo4jClient:
             logger.error("find_related_entities '%s' lỗi: %s", entity_name, e)
             raise
 
-    def get_document_metadata(self, file_id: str) -> dict[str, Any] | None:
+    def get_document_metadata(
+        self,
+        file_id: str,
+        owner_id: str | None = None,
+    ) -> dict[str, Any] | None:
         """
         Lấy metadata của Document node từ Neo4j theo file_id.
-        Dùng để kiểm tra file đã được index chưa.
-
-        Args:
-            file_id: Google Drive file ID (là thuộc tính id của Document node).
-
-        Returns:
-            Dict metadata của document, hoặc None nếu chưa được index.
+        Nếu owner_id được truyền, chỉ trả về doc thuộc user đó.
         """
         try:
-            cypher = "MATCH (d:Document {id: $file_id}) RETURN d"
-            records = self._run(cypher, {"file_id": file_id})
+            if owner_id:
+                cypher = (
+                    "MATCH (d:Document {id: $file_id, owner_id: $owner_id}) RETURN d"
+                )
+                params = {"file_id": file_id, "owner_id": owner_id}
+            else:
+                cypher = "MATCH (d:Document {id: $file_id}) RETURN d"
+                params = {"file_id": file_id}
+            records = self._run(cypher, params)
             if records:
                 return dict(records[0]["d"])
             return None
@@ -275,23 +280,38 @@ class Neo4jClient:
             "drive_link": f"https://drive.google.com/file/d/{file_id}/view",
             **(extra or {}),
         }
+        owner_id = props.get("owner_id")
+        if owner_id:
+            cypher = (
+                "MERGE (n:Document {id: $id, owner_id: $owner_id}) "
+                "SET n += $props RETURN n"
+            )
+            params = {"id": file_id, "owner_id": owner_id, "props": props}
+            records = self._run(cypher, params)
+            return dict(records[0]["n"]) if records else {}
         return self.create_entity_node("Document", props)
 
-    def list_documents(self, limit: int = 100) -> list[dict[str, Any]]:
+    def list_documents(
+        self,
+        limit: int = 100,
+        owner_id: str | None = None,
+    ) -> list[dict[str, Any]]:
         """
-        Liệt kê tất cả Document node đã được index.
-
-        Args:
-            limit: Số lượng tối đa.
-
-        Returns:
-            Danh sách dict metadata của từng document.
+        Liệt kê Document node đã được index.
+        Nếu owner_id được truyền, chỉ trả về doc của user đó.
         """
         try:
-            records = self._run(
-                "MATCH (d:Document) RETURN d ORDER BY d.file_name LIMIT $limit",
-                {"limit": limit},
-            )
+            if owner_id:
+                records = self._run(
+                    "MATCH (d:Document {owner_id: $owner_id}) "
+                    "RETURN d ORDER BY d.file_name LIMIT $limit",
+                    {"owner_id": owner_id, "limit": limit},
+                )
+            else:
+                records = self._run(
+                    "MATCH (d:Document) RETURN d ORDER BY d.file_name LIMIT $limit",
+                    {"limit": limit},
+                )
             return [dict(r["d"]) for r in records]
         except Exception as e:
             logger.error("list_documents lỗi: %s", e)

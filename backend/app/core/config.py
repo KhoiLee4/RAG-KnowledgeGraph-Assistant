@@ -21,9 +21,16 @@ class Settings(BaseSettings):
     # ── Google OAuth2 / Drive ──────────────────────────────────
     GOOGLE_CLIENT_ID: str = ""
     GOOGLE_CLIENT_SECRET: str = ""
-    GOOGLE_CREDENTIALS_FILE: str = "credentials.json"  # Tải từ Google Cloud Console
-    GOOGLE_TOKEN_FILE: str = "token.pickle"             # Token lưu sau OAuth flow
+    GOOGLE_CREDENTIALS_FILE: str = "credentials.json"  # OAuth Web client JSON (fallback)
+    GOOGLE_TOKEN_FILE: str = "token.pickle"             # Legacy single-user token (deprecated)
+    GOOGLE_TOKENS_DIR: str = "tokens"                   # Thư mục token per-user
+    GOOGLE_REDIRECT_URI: str = "http://localhost:3000/api/v1/auth/google/callback"
+    FRONTEND_URL: str = "http://localhost:3000"
+    SESSION_SECRET: str = "change-me-in-production-use-long-random-string"
     GOOGLE_DRIVE_SCOPES: list[str] = [
+        "openid",
+        "https://www.googleapis.com/auth/userinfo.email",
+        "https://www.googleapis.com/auth/userinfo.profile",
         "https://www.googleapis.com/auth/drive.readonly",
     ]
 

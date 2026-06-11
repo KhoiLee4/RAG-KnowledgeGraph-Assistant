@@ -11,7 +11,7 @@ import { Routes, Route, NavLink, useLocation } from 'react-router-dom'
 import { MessageSquare, FolderOpen, Activity, Menu, X, Database } from 'lucide-react'
 import ChatInterface from './components/ChatInterface'
 import DocumentList from './components/DocumentList'
-import { getHealth } from './api/client'
+import { getHealth, getAuthMe } from './api/client'
 
 /** Badge trạng thái hệ thống */
 function StatusBadge({ status }) {
@@ -114,6 +114,7 @@ function HealthPage() {
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [systemStatus, setSystemStatus] = useState('loading')
+  const [authUser, setAuthUser] = useState(null)
   const location = useLocation()
 
   // Lấy system status khi load
@@ -122,6 +123,12 @@ export default function App() {
       .then((data) => setSystemStatus(data.status || 'ok'))
       .catch(() => setSystemStatus('error'))
   }, [])
+
+  useEffect(() => {
+    getAuthMe()
+      .then((data) => setAuthUser(data.logged_in ? data : null))
+      .catch(() => setAuthUser(null))
+  }, [location.pathname])
 
   // Đóng sidebar khi chuyển route (mobile)
   useEffect(() => {
@@ -161,6 +168,11 @@ export default function App() {
           <div className="mt-2">
             <StatusBadge status={systemStatus} />
           </div>
+          {authUser?.email && (
+            <p className="text-xs text-gray-500 mt-2 truncate" title={authUser.email}>
+              {authUser.display_name || authUser.email}
+            </p>
+          )}
         </div>
 
         {/* Navigation */}

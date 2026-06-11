@@ -16,10 +16,11 @@ class SyncJobStore:
         self._jobs: dict[str, dict[str, Any]] = {}
         self._lock = threading.Lock()
 
-    def create(self, job_id: str) -> None:
+    def create(self, job_id: str, user_id: str | None = None) -> None:
         with self._lock:
             self._jobs[job_id] = {
                 "job_id": job_id,
+                "user_id": user_id,
                 "status": "pending",
                 "message": "Đang chờ bắt đầu...",
                 "total": 0,

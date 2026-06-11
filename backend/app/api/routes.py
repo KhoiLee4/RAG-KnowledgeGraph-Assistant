@@ -18,7 +18,7 @@ import logging
 import uuid
 from typing import Any
 
-from fastapi import APIRouter, BackgroundTasks, HTTPException, Query
+from fastapi import APIRouter, BackgroundTasks, HTTPException, Query, Request
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
@@ -29,6 +29,7 @@ from app.core.config import (
     SUPPORTED_MIME_TYPES,
     settings,
 )
+from app.core.auth_deps import require_user, user_collection_name
 from app.core.gemini_retry import format_gemini_error, is_quota_error
 
 logger = logging.getLogger(__name__)
@@ -150,18 +151,18 @@ def _summarize_sync_results(
 
 
 def _perform_drive_sync_all(
+    user_id: str,
+    collection_name: str,
     force_reindex: bool = False,
     folder_id: str | None = None,
     on_progress: Any = None,
 ) -> SyncDriveResponse:
-    """Quét Drive và index toàn bộ file được hỗ trợ."""
+    """Quét Drive và index toàn bộ file được hỗ trợ cho user."""
     from app.services.drive_service import DriveService
 
     svc_index = _get_indexing()
-    col = settings.CHROMA_DEFAULT_COLLECTION
-
-    drive = DriveService()
-    auth = drive.authenticate()
+    drive = DriveService(user_id=user_id)
+    auth = drive.load_credentials()
 
     files = drive.list_all_supported_files(folder_id=folder_id)
     if not files:
@@ -187,9 +188,11 @@ def _perform_drive_sync_all(
 
     results = svc_index.index_drive(
         file_ids=file_ids,
-        collection_name=col,
+        collection_name=collection_name,
         force_reindex=force_reindex,
         on_progress=_progress,
+        drive=drive,
+        owner_id=user_id,
     )
 
     return _summarize_sync_results(
@@ -201,6 +204,8 @@ def _perform_drive_sync_all(
 
 def _run_drive_sync_all_job(
     job_id: str,
+    user_id: str,
+    collection_name: str,
     force_reindex: bool,
     folder_id: str | None,
 ) -> None:
@@ -224,6 +229,8 @@ def _run_drive_sync_all_job(
             )
 
         result = _perform_drive_sync_all(
+            user_id=user_id,
+            collection_name=collection_name,
             force_reindex=force_reindex,
             folder_id=folder_id,
             on_progress=on_progress,
@@ -291,15 +298,16 @@ async def health_check() -> dict[str, Any]:
 # ── Chat endpoint ─────────────────────────────────────────────
 
 @router.post("/chat", summary="Hỏi đáp dựa trên knowledge base")
-async def chat(req: ChatRequest):
+async def chat(req: ChatRequest, request: Request):
     """
     Nhận câu hỏi, thực hiện retrieval + Gemini generation, trả về answer + citations.
 
     - **stream=false** (mặc định): Trả về JSON đầy đủ.
     - **stream=true**: Trả về Server-Sent Events (SSE) stream.
     """
+    user = require_user(request)
     svc = _get_chat()
-    col = req.collection_name or settings.CHROMA_DEFAULT_COLLECTION
+    col = req.collection_name or user_collection_name(user["user_id"])
 
     # ── Streaming mode ────────────────────────────────────────
     if req.stream:
@@ -339,53 +347,56 @@ async def chat(req: ChatRequest):
 # ── Google Drive: đăng nhập + đồng bộ toàn bộ ─────────────────
 
 @router.get("/drive/status", summary="Trạng thái đăng nhập Google Drive")
-async def drive_status() -> dict[str, Any]:
+async def drive_status(request: Request) -> dict[str, Any]:
     """
-    Kiểm tra đã có credentials.json / token.pickle và token còn hợp lệ không.
-    Không mở trình duyệt.
+    Kiểm tra user đã đăng nhập và token Drive còn hợp lệ không.
     """
     try:
         from app.services.drive_service import DriveService
-        return DriveService.get_auth_status()
+        from app.core.auth_deps import get_session_user
+
+        user = get_session_user(request)
+        user_id = user["user_id"] if user else None
+        status = DriveService.get_auth_status(user_id)
+        status["logged_in"] = user is not None
+        if user:
+            status["session_email"] = user.get("email")
+        return status
     except Exception as e:
         logger.error("GET /drive/status lỗi: %s", e)
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.post("/drive/login", summary="Đăng nhập Google Drive (OAuth2)")
+@router.post("/drive/login", summary="[Deprecated] Dùng GET /auth/google")
 async def drive_login() -> dict[str, Any]:
     """
-    Đăng nhập Google Drive qua OAuth2.
-
-    Lần đầu hoặc token hết hạn: **mở trình duyệt trên máy chạy backend**
-    để chọn tài khoản Google và cấp quyền đọc Drive (readonly).
-
-    Sau khi thành công, lưu token.pickle — các lần sau không cần đăng nhập lại.
+    Endpoint cũ (Desktop OAuth). Đã thay bằng Web OAuth:
+    redirect trình duyệt tới GET /api/v1/auth/google
     """
-    try:
-        from app.services.drive_service import DriveService
-        svc = DriveService(auto_authenticate=False)
-        return svc.authenticate()
-    except FileNotFoundError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
-        logger.error("POST /drive/login lỗi: %s", e)
-        raise HTTPException(status_code=500, detail=f"Lỗi đăng nhập Drive: {e}")
+    raise HTTPException(
+        status_code=410,
+        detail=(
+            "Desktop OAuth đã ngừng hỗ trợ. "
+            "Dùng GET /api/v1/auth/google để đăng nhập trên trình duyệt."
+        ),
+    )
 
 
 @router.get("/drive/files", summary="Xem trước file được hỗ trợ trên Drive")
 async def drive_list_files(
+    request: Request,
     folder_id: str | None = Query(default=None, description="Lọc theo folder ID"),
     limit: int = Query(default=50, ge=1, le=500),
 ) -> dict[str, Any]:
     """
     Liệt kê file trên Drive (chỉ các loại được hỗ trợ index).
-    Cần đã đăng nhập (POST /drive/login) trước.
+    Cần đã đăng nhập Google trước.
     """
     try:
         from app.services.drive_service import DriveService, SUPPORTED_TYPE_LABELS
 
-        svc = DriveService()
+        user = require_user(request)
+        svc = DriveService(user_id=user["user_id"])
         files = svc.list_all_supported_files(folder_id=folder_id)
         preview = [
             {
@@ -398,7 +409,7 @@ async def drive_list_files(
             }
             for f in files[:limit]
         ]
-        status = DriveService.get_auth_status()
+        status = DriveService.get_auth_status(user["user_id"])
         return {
             "total": len(files),
             "showing": len(preview),
@@ -407,25 +418,28 @@ async def drive_list_files(
         }
     except FileNotFoundError as e:
         raise HTTPException(status_code=400, detail=str(e))
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error("GET /drive/files lỗi: %s", e)
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.post("/drive/sync-all", summary="Đăng nhập (nếu cần) + index TOÀN BỘ file Drive được hỗ trợ")
+@router.post("/drive/sync-all", summary="Index TOÀN BỘ file Drive được hỗ trợ")
 async def drive_sync_all(
+    request: Request,
     force_reindex: bool = Query(default=False, description="Index lại dù đã có"),
     folder_id: str | None = Query(default=None, description="Chỉ quét folder này"),
 ) -> SyncDriveResponse:
     """
-  Luồng chính: **Đăng nhập Google → quét Drive → tải & index mọi file được hỗ trợ**.
-
-  Hỗ trợ: PDF, DOCX, XLSX, TXT, CSV, ảnh (OCR), Google Docs/Sheets/Slides.
-
-  Có thể mất vài phút tùy số lượng file (embedding qua Gemini API).
+    Quét Drive của user đang đăng nhập và index mọi file được hỗ trợ.
     """
+    user = require_user(request)
+    col = user_collection_name(user["user_id"])
     try:
         return _perform_drive_sync_all(
+            user_id=user["user_id"],
+            collection_name=col,
             force_reindex=force_reindex,
             folder_id=folder_id,
         )
@@ -441,21 +455,26 @@ async def drive_sync_all(
     summary="Bắt đầu đồng bộ Drive nền (không timeout HTTP)",
 )
 async def drive_sync_all_async(
+    request: Request,
     background_tasks: BackgroundTasks,
     force_reindex: bool = Query(default=False, description="Index lại dù đã có"),
     folder_id: str | None = Query(default=None, description="Chỉ quét folder này"),
 ) -> dict[str, str]:
     """
     Trả về ngay job_id; client poll GET /drive/sync-all/jobs/{job_id}.
-    Dùng cho đồng bộ nhiều file (có thể > 10 phút).
     """
     from app.services.sync_job_store import get_sync_job_store
 
+    user = require_user(request)
+    col = user_collection_name(user["user_id"])
+
     job_id = str(uuid.uuid4())
-    get_sync_job_store().create(job_id)
+    get_sync_job_store().create(job_id, user_id=user["user_id"])
     background_tasks.add_task(
         _run_drive_sync_all_job,
         job_id,
+        user["user_id"],
+        col,
         force_reindex,
         folder_id,
     )
@@ -466,43 +485,44 @@ async def drive_sync_all_async(
     "/drive/sync-all/jobs/{job_id}",
     summary="Trạng thái job đồng bộ Drive",
 )
-async def drive_sync_all_job_status(job_id: str) -> dict[str, Any]:
+async def drive_sync_all_job_status(request: Request, job_id: str) -> dict[str, Any]:
     from app.services.sync_job_store import get_sync_job_store
 
+    user = require_user(request)
     job = get_sync_job_store().get(job_id)
     if not job:
         raise HTTPException(status_code=404, detail="Job không tồn tại hoặc đã hết hạn.")
+    if job.get("user_id") and job["user_id"] != user["user_id"]:
+        raise HTTPException(status_code=403, detail="Không có quyền xem job này.")
     return job
 
 
 # ── Sync Drive endpoint (tùy chọn file ID / folder) ─────────────
 
 @router.post("/sync-drive", summary="Đồng bộ và index file từ Google Drive")
-async def sync_drive(req: SyncDriveRequest) -> SyncDriveResponse:
+async def sync_drive(req: SyncDriveRequest, request: Request) -> SyncDriveResponse:
     """
-    Index file từ Google Drive vào knowledge base.
-
-    Nếu **file_ids** được cung cấp: chỉ index các file đó.
-    Nếu không: liệt kê tất cả file được hỗ trợ trong Drive (hoặc folder).
-
-    Quá trình: download → parse → chunk → embed → ChromaDB + Neo4j.
+    Index file từ Google Drive vào knowledge base của user đang đăng nhập.
     """
+    user = require_user(request)
     svc = _get_indexing()
-    col = req.collection_name or settings.CHROMA_DEFAULT_COLLECTION
+    col = req.collection_name or user_collection_name(user["user_id"])
 
     try:
+        from app.services.drive_service import DriveService
+
+        drive = DriveService(user_id=user["user_id"])
+
         if req.file_ids:
-            # Index theo danh sách ID cụ thể
             results = svc.index_drive(
                 file_ids=req.file_ids,
                 collection_name=col,
                 force_reindex=req.force_reindex,
+                drive=drive,
+                owner_id=user["user_id"],
             )
         else:
-            from app.services.drive_service import DriveService
-
-            drive = DriveService()
-            auth = drive.authenticate()
+            auth = drive.load_credentials()
             files = drive.list_all_supported_files(folder_id=req.folder_id)
 
             if not files:
@@ -520,6 +540,8 @@ async def sync_drive(req: SyncDriveRequest) -> SyncDriveResponse:
                 file_ids=file_ids,
                 collection_name=col,
                 force_reindex=req.force_reindex,
+                drive=drive,
+                owner_id=user["user_id"],
             )
             return _summarize_sync_results(
                 results,
@@ -531,6 +553,8 @@ async def sync_drive(req: SyncDriveRequest) -> SyncDriveResponse:
 
     except FileNotFoundError as e:
         raise HTTPException(status_code=400, detail=str(e))
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error("POST /sync-drive lỗi: %s", e)
         raise HTTPException(status_code=500, detail=f"Lỗi đồng bộ Drive: {e}")
@@ -577,33 +601,28 @@ async def get_supported_types() -> dict[str, Any]:
 
 @router.get("/documents", summary="Liệt kê tài liệu đã index")
 async def list_documents(
+    request: Request,
     limit: int = Query(default=50, ge=1, le=500, description="Số lượng tối đa"),
 ) -> list[dict[str, Any]]:
-    """
-    Trả về danh sách tài liệu đã được index, lấy từ Neo4j.
-    Mỗi document gồm: id, file_name, mime_type, chunk_count, drive_link.
-    """
+    """Trả về danh sách tài liệu đã index của user đang đăng nhập."""
+    user = require_user(request)
     try:
         from app.db.neo4j_client import get_neo4j_client
         neo4j = get_neo4j_client()
-        return neo4j.list_documents(limit=limit)
+        return neo4j.list_documents(limit=limit, owner_id=user["user_id"])
     except Exception as e:
         logger.error("GET /documents lỗi: %s", e)
         raise HTTPException(status_code=500, detail=f"Lỗi lấy danh sách tài liệu: {e}")
 
 
 @router.get("/documents/{file_id}", summary="Chi tiết một tài liệu")
-async def get_document(file_id: str) -> dict[str, Any]:
-    """
-    Trả về metadata chi tiết của tài liệu và số chunk đã index.
-
-    Args:
-        file_id: Google Drive file ID của tài liệu.
-    """
+async def get_document(request: Request, file_id: str) -> dict[str, Any]:
+    """Trả về metadata chi tiết của tài liệu thuộc user."""
+    user = require_user(request)
     try:
         from app.db.neo4j_client import get_neo4j_client
         neo4j = get_neo4j_client()
-        doc = neo4j.get_document_metadata(file_id)
+        doc = neo4j.get_document_metadata(file_id, owner_id=user["user_id"])
         if not doc:
             raise HTTPException(
                 status_code=404,
@@ -618,20 +637,25 @@ async def get_document(file_id: str) -> dict[str, Any]:
 
 
 @router.delete("/documents/{file_id}", summary="Xóa tài liệu khỏi knowledge base")
-async def delete_document(file_id: str) -> dict[str, str]:
-    """
-    Xóa tài liệu (và toàn bộ chunk, embedding) khỏi ChromaDB và Neo4j.
-
-    Args:
-        file_id: ID tài liệu cần xóa.
-    """
+async def delete_document(request: Request, file_id: str) -> dict[str, str]:
+    """Xóa tài liệu của user khỏi ChromaDB và Neo4j."""
+    user = require_user(request)
     try:
+        from app.db.neo4j_client import get_neo4j_client
+        neo4j = get_neo4j_client()
+        doc = neo4j.get_document_metadata(file_id, owner_id=user["user_id"])
+        if not doc:
+            raise HTTPException(status_code=404, detail=f"Không tìm thấy tài liệu '{file_id}'")
+
         svc = _get_indexing()
-        svc.delete_index(file_id)
+        col = user_collection_name(user["user_id"])
+        svc.delete_index(file_id, collection_name=col, owner_id=user["user_id"])
         return {
             "status": "success",
             "message": f"Đã xóa tài liệu '{file_id}' khỏi knowledge base.",
         }
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error("DELETE /documents/%s lỗi: %s", file_id, e)
         raise HTTPException(status_code=500, detail=f"Lỗi xóa tài liệu: {e}")

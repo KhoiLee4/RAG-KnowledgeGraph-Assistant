@@ -122,18 +122,10 @@ class IndexingService:
 
     # ── Kiểm tra trạng thái ───────────────────────────────────
 
-    def check_already_indexed(self, file_id: str) -> bool:
-        """
-        Kiểm tra tài liệu đã được index chưa bằng cách tra Neo4j.
-
-        Args:
-            file_id: Google Drive file ID cần kiểm tra.
-
-        Returns:
-            True nếu đã tồn tại Document node trong Neo4j.
-        """
+    def check_already_indexed(self, file_id: str, owner_id: str | None = None) -> bool:
+        """Kiểm tra tài liệu đã được index chưa (theo user nếu có owner_id)."""
         try:
-            meta = self._neo4j.get_document_metadata(file_id)
+            meta = self._neo4j.get_document_metadata(file_id, owner_id=owner_id)
             return meta is not None
         except Exception as e:
             logger.warning("check_already_indexed '%s' lỗi: %s", file_id, e)
@@ -150,6 +142,7 @@ class IndexingService:
         collection_name: str | None = None,
         drive_link: str | None = None,
         force_reindex: bool = False,
+        owner_id: str | None = None,
     ) -> IndexResult:
         """
         Index một tài liệu vào hệ thống knowledge base.
@@ -197,12 +190,12 @@ class IndexingService:
             )
 
         # ── Bước 0a: force_reindex → xóa bản cũ trước khi ghi mới ──
-        if force_reindex and self.check_already_indexed(file_id):
+        if force_reindex and self.check_already_indexed(file_id, owner_id=owner_id):
             logger.info("force_reindex: xóa index cũ của '%s'.", file_name)
-            self.delete_index(file_id, col_name)
+            self.delete_index(file_id, col_name, owner_id=owner_id)
 
         # ── Bước 0b: Kiểm tra đã index chưa (bỏ qua nếu force_reindex) ──
-        if not force_reindex and self.check_already_indexed(file_id):
+        if not force_reindex and self.check_already_indexed(file_id, owner_id=owner_id):
             reason = "File đã được index trước đó (dùng force_reindex=True để index lại)."
             logger.info("BỎ QUA '%s': %s", file_name, reason)
             return IndexResult(
@@ -290,6 +283,7 @@ class IndexingService:
                 chunks=chunks,
                 chunk_ids=chunk_ids,
                 drive_link=link,
+                owner_id=owner_id,
             )
 
             logger.info(
@@ -319,6 +313,8 @@ class IndexingService:
         collection_name: str | None = None,
         force_reindex: bool = False,
         on_progress: Callable[[int, int], None] | None = None,
+        drive: Any | None = None,
+        owner_id: str | None = None,
     ) -> list[IndexResult]:
         """
         Index nhiều file từ Google Drive theo danh sách ID.
@@ -335,10 +331,13 @@ class IndexingService:
         Returns:
             Danh sách IndexResult cho từng file (success / skipped / error).
         """
-        # Import lazy để tránh circular import và khởi tạo không cần thiết
+        # Import lazy để tránh circular import
         from app.services.drive_service import DriveService
 
-        drive = DriveService()
+        if drive is None:
+            if not owner_id:
+                raise ValueError("index_drive cần drive instance hoặc owner_id.")
+            drive = DriveService(user_id=owner_id)
         results: list[IndexResult] = []
         quota_exhausted = False
         quota_msg = format_gemini_error(Exception("429 quota"))
@@ -398,6 +397,7 @@ class IndexingService:
                     collection_name=collection_name,
                     drive_link=drive_link,
                     force_reindex=force_reindex,
+                    owner_id=owner_id,
                 )
                 results.append(result)
                 time.sleep(0.8)
@@ -432,7 +432,12 @@ class IndexingService:
 
     # ── Xóa index ─────────────────────────────────────────────
 
-    def delete_index(self, file_id: str, collection_name: str | None = None) -> bool:
+    def delete_index(
+        self,
+        file_id: str,
+        collection_name: str | None = None,
+        owner_id: str | None = None,
+    ) -> bool:
         """
         Xóa tài liệu khỏi ChromaDB và Neo4j.
 
@@ -475,6 +480,7 @@ class IndexingService:
         chunks: list[dict],
         chunk_ids: list[str],
         drive_link: str,
+        owner_id: str | None = None,
     ) -> None:
         """
         Lưu cấu trúc Knowledge Graph vào Neo4j:
@@ -493,12 +499,15 @@ class IndexingService:
             drive_link: Link Drive.
         """
         # Tạo Document node
+        extra: dict[str, Any] = {"drive_link": drive_link}
+        if owner_id:
+            extra["owner_id"] = owner_id
         self._neo4j.save_document_metadata(
             file_id=file_id,
             file_name=file_name,
             mime_type=mime_type,
             chunk_count=chunk_count,
-            extra={"drive_link": drive_link},
+            extra=extra,
         )
 
         # Tạo Chunk nodes và quan hệ

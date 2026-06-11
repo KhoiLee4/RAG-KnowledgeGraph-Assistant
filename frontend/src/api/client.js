@@ -12,29 +12,30 @@ import axios from "axios";
 // Khi deploy tách riêng → set VITE_API_BASE_URL trong .env
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || "/api/v1";
 
-/** Axios instance cho chat (Gemini có thể chậm khi retry quota) */
-const chatApi = axios.create({
+const axiosDefaults = {
   baseURL: BASE_URL,
-  timeout: 180000, // 3 phút
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
+};
+
+/** Axios instance cho chat (Gemini có thể chậm khi retry quota) */
+const chatApi = axios.create({
+  ...axiosDefaults,
+  timeout: 180000,
 });
 
 /** Axios instance dùng chung cho toàn bộ ứng dụng */
 const api = axios.create({
-  baseURL: BASE_URL,
+  ...axiosDefaults,
   timeout: 60000,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 /** Client sync Drive — không giới hạn thời gian chờ */
 const syncApi = axios.create({
-  baseURL: BASE_URL,
+  ...axiosDefaults,
   timeout: 0,
-  headers: { "Content-Type": "application/json" },
 });
 
 /** Chuẩn hóa response sync (API: indexed/total_found/errors) */
@@ -52,6 +53,9 @@ export function normalizeSyncResult(data) {
 
 export function formatApiError(err) {
   const detail = err?.response?.data?.detail || err?.message || "";
+  if (err?.response?.status === 401) {
+    return "Chưa đăng nhập Google. Hãy đăng nhập trước khi sử dụng tính năng này.";
+  }
   if (
     err?.code === "ECONNABORTED" ||
     String(detail).toLowerCase().includes("timeout")
@@ -119,16 +123,38 @@ api.interceptors.response.use(
 );
 
 // ════════════════════════════════════════════════════════════
+// Auth API
+// ════════════════════════════════════════════════════════════
+
+/** URL bắt đầu OAuth Google (redirect trình duyệt). */
+export function getGoogleLoginUrl() {
+  return `${BASE_URL}/auth/google`;
+}
+
+/** Thông tin user đang đăng nhập. */
+export async function getAuthMe() {
+  const response = await api.get("/auth/me");
+  return response.data;
+}
+
+/** Đăng xuất (xóa session). */
+export async function logoutAuth() {
+  const response = await api.post("/auth/logout");
+  return response.data;
+}
+
+/** Kiểm tra OAuth đã cấu hình trên backend chưa. */
+export async function getAuthConfig() {
+  const response = await api.get("/auth/config");
+  return response.data;
+}
+
+// ════════════════════════════════════════════════════════════
 // Chat API
 // ════════════════════════════════════════════════════════════
 
 /**
  * Gửi câu hỏi và nhận câu trả lời từ backend RAG.
- *
- * @param {string} question - Câu hỏi của người dùng
- * @param {string} collectionName - Tên ChromaDB collection (để trống = mặc định)
- * @param {Array}  history - Lịch sử hội thoại [{role, content}]
- * @returns {Promise<{answer, citations, sources_count}>}
  */
 export async function sendChat(question, collectionName = "", history = []) {
   const response = await chatApi.post("/chat", {
@@ -140,29 +166,10 @@ export async function sendChat(question, collectionName = "", history = []) {
   return response.data;
 }
 
-/**
- * Lấy URL cho streaming chat (Server-Sent Events).
- * Dùng với EventSource hoặc fetch() stream.
- *
- * @param {string} question - Câu hỏi
- * @returns {string} URL endpoint stream
- */
 export function getChatStreamUrl() {
   return `${BASE_URL}/chat`;
 }
 
-/**
- * Gửi câu hỏi và nhận streaming response qua fetch API.
- * Gọi onChunk(text) cho mỗi đoạn văn bản nhận được.
- * Gọi onCitations(citations) khi stream kết thúc.
- * Gọi onDone() khi hoàn tất.
- *
- * @param {string} question
- * @param {Function} onChunk - Callback nhận từng chunk text
- * @param {Function} onCitations - Callback nhận danh sách citations
- * @param {Function} onDone - Callback khi hoàn tất
- * @param {Function} onError - Callback khi lỗi
- */
 export async function sendChatStream(
   question,
   onChunk,
@@ -174,8 +181,14 @@ export async function sendChatStream(
     const response = await fetch(`${BASE_URL}/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({ question, stream: true }),
     });
+
+    if (response.status === 401) {
+      onError?.("Chưa đăng nhập Google. Hãy đăng nhập trước.");
+      return;
+    }
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
@@ -201,7 +214,6 @@ export async function sendChatStream(
         } else if (data.startsWith("[ERROR]")) {
           onError?.(data.slice(7));
         } else {
-          // Đổi \\n về \n để hiển thị đúng
           onChunk?.(data.replace(/\\n/g, "\n"));
         }
       }
@@ -215,23 +227,11 @@ export async function sendChatStream(
 // Documents API
 // ════════════════════════════════════════════════════════════
 
-/**
- * Lấy danh sách tài liệu đã index.
- *
- * @param {number} limit - Số lượng tối đa (mặc định 50)
- * @returns {Promise<Array<{id, file_name, mime_type, chunk_count, drive_link}>>}
- */
 export async function getDocuments(limit = 50) {
   const response = await api.get("/documents", { params: { limit } });
   return response.data;
 }
 
-/**
- * Xóa tài liệu khỏi knowledge base.
- *
- * @param {string} fileId - Google Drive file ID
- * @returns {Promise<{status, message}>}
- */
 export async function deleteDocument(fileId) {
   const response = await api.delete(`/documents/${fileId}`);
   return response.data;
@@ -241,27 +241,16 @@ export async function deleteDocument(fileId) {
 // Google Drive API
 // ════════════════════════════════════════════════════════════
 
-/**
- * Kiểm tra trạng thái đăng nhập Google Drive.
- * @returns {Promise<{authenticated, has_credentials, has_token, email, message}>}
- */
 export async function getDriveStatus() {
   const response = await api.get("/drive/status");
   return response.data;
 }
 
-/**
- * Đăng nhập Google Drive (mở browser trên máy chạy backend).
- * @returns {Promise<{authenticated, email, message}>}
- */
-export async function loginDrive() {
-  const response = await api.post("/drive/login");
-  return response.data;
+/** Redirect trình duyệt tới Google OAuth (multi-user Web flow). */
+export function loginDrive() {
+  window.location.href = getGoogleLoginUrl();
 }
 
-/**
- * Xem trước file được hỗ trợ trên Drive.
- */
 export async function previewDriveFiles(folderId = null, limit = 20) {
   const response = await api.get("/drive/files", {
     params: { folder_id: folderId, limit },
@@ -269,10 +258,6 @@ export async function previewDriveFiles(folderId = null, limit = 20) {
   return response.data;
 }
 
-/**
- * Đồng bộ TOÀN BỘ Drive (chạy nền + poll — không timeout 10 phút).
- * @param {function} [options.onProgress] - (job) => void mỗi lần poll
- */
 export async function syncAllDrive(
   forceReindex = false,
   folderId = null,
@@ -298,15 +283,11 @@ export async function syncAllDrive(
   }
 }
 
-/** Trạng thái job đồng bộ (dùng khi cần hiển thị progress tùy chỉnh). */
 export async function getSyncJobStatus(jobId) {
   const { data } = await api.get(`/drive/sync-all/jobs/${jobId}`);
   return data;
 }
 
-/**
- * Đồng bộ theo danh sách file ID (hoặc toàn Drive nếu fileIds rỗng).
- */
 export async function syncDrive(
   fileIds = [],
   folderId = null,
@@ -324,11 +305,6 @@ export async function syncDrive(
 // Health Check
 // ════════════════════════════════════════════════════════════
 
-/**
- * Kiểm tra trạng thái hệ thống (ChromaDB + Neo4j).
- *
- * @returns {Promise<{status, services: {chromadb, neo4j}}>}
- */
 export async function getHealth() {
   const response = await api.get("/health");
   return response.data;

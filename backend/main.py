@@ -19,6 +19,9 @@ from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from starlette.middleware.sessions import SessionMiddleware
+
+from app.api.auth_routes import router as auth_router
 from app.api.routes import router
 from app.core.config import settings
 
@@ -51,6 +54,16 @@ app = FastAPI(
 # ══════════════════════════════════════════════════════════════
 # Middleware
 # ══════════════════════════════════════════════════════════════
+
+# Session cookie — lưu user_id sau OAuth (multi-user Drive)
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=settings.SESSION_SECRET,
+    session_cookie="rag_session",
+    max_age=60 * 60 * 24 * 7,  # 7 ngày
+    same_site="lax",
+    https_only=False,
+)
 
 # CORS — cho phép React frontend và Swagger UI gọi API
 app.add_middleware(
@@ -181,6 +194,7 @@ async def global_exception_handler(request: Request, exc: Exception) -> JSONResp
 # Routes
 # ══════════════════════════════════════════════════════════════
 
+app.include_router(auth_router)
 app.include_router(router)
 
 

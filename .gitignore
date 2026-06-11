@@ -1,6 +1,8 @@
 .env
 credentials.json
 token.pickle
+backend/tokens/
+tokens/
 venv/
 __pycache__/
 *.pyc

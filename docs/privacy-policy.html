@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chính sách quyền riêng tư — RAG Knowledge Assistant</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 720px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        line-height: 1.6;
+        color: #333;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
+      h2 {
+        font-size: 1.1rem;
+        margin-top: 1.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Chính sách quyền riêng tư</h1>
+    <p>
+      <strong>Ứng dụng:</strong> RAG Knowledge Graph Assistant (đồ án tốt
+      nghiệp)
+    </p>
+    <p><strong>Cập nhật:</strong> 2026</p>
+
+    <h2>1. Dữ liệu thu thập</h2>
+    <p>
+      Ứng dụng sử dụng đăng nhập Google OAuth để truy cập
+      <strong>Google Drive (chỉ đọc)</strong>
+      của bạn nhằm đồng bộ và lập chỉ mục tài liệu phục vụ hỏi đáp AI. Chúng tôi
+      lưu token OAuth và metadata tài liệu trên máy chủ bạn tự triển khai.
+    </p>
+
+    <h2>2. Mục đích sử dụng</h2>
+    <ul>
+      <li>Đọc file bạn chọn đồng bộ từ Google Drive</li>
+      <li>Tạo embedding và knowledge base cá nhân để trả lời câu hỏi</li>
+    </ul>
+
+    <h2>3. Chia sẻ dữ liệu</h2>
+    <p>
+      Dữ liệu Drive không được bán hoặc chia sẻ cho bên thứ ba, ngoại trừ Google
+      Gemini API để xử lý embedding và sinh câu trả lời (theo cấu hình API key
+      của bạn).
+    </p>
+
+    <h2>4. Lưu trữ & xóa</h2>
+    <p>
+      Token và tài liệu đã index lưu trên server local (ChromaDB, Neo4j). Bạn có
+      thể đăng xuất hoặc xóa tài liệu khỏi ứng dụng bất cứ lúc nào.
+    </p>
+
+    <h2>5. Liên hệ</h2>
+    <p>Email hỗ trợ: khoile139004@gmail.com</p>
+  </body>
+</html>

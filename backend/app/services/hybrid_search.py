@@ -1,10 +1,3 @@
-"""
-hybrid_search.py — Gộp điểm vector (ChromaDB) và keyword (token overlap).
-
-Tham khảo mô hình 85/15 vector/keyword từ hybrid RAG (pgvector + trigram);
-triển khai nhẹ không cần PostgreSQL — phù hợp ChromaDB + tài liệu tiếng Việt.
-"""
-
 from __future__ import annotations
 
 import re

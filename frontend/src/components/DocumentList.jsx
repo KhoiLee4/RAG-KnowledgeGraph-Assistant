@@ -10,9 +10,10 @@
  */
 
 import { useState, useEffect, useCallback } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import {
   FileText, Trash2, RefreshCw, ExternalLink,
-  Plus, AlertCircle, CheckCircle2, Loader2, Database
+  Plus, AlertCircle, CheckCircle2, Loader2, Database, LogOut
 } from 'lucide-react'
 import {
   getDocuments,
@@ -20,6 +21,8 @@ import {
   syncDrive,
   getDriveStatus,
   loginDrive,
+  logoutAuth,
+  getAuthConfig,
   syncAllDrive,
   previewDriveFiles,
   isBackendUnreachable,
@@ -112,9 +115,11 @@ function DocumentCard({ doc, onDelete }) {
 
 /** Panel đăng nhập Google Drive + đồng bộ toàn bộ */
 function DriveAuthPanel({ onSynced }) {
+  const [searchParams, setSearchParams] = useSearchParams()
   const [status, setStatus] = useState(null)
+  const [oauthConfigured, setOauthConfigured] = useState(true)
   const [loadingStatus, setLoadingStatus] = useState(true)
-  const [loggingIn, setLoggingIn] = useState(false)
+  const [loggingOut, setLoggingOut] = useState(false)
   const [syncingAll, setSyncingAll] = useState(false)
   const [syncProgress, setSyncProgress] = useState('')
   const [preview, setPreview] = useState(null)
@@ -124,8 +129,9 @@ function DriveAuthPanel({ onSynced }) {
   const loadStatus = useCallback(async () => {
     setLoadingStatus(true)
     try {
-      const s = await getDriveStatus()
+      const [s, cfg] = await Promise.all([getDriveStatus(), getAuthConfig()])
       setStatus(s)
+      setOauthConfigured(cfg.oauth_configured !== false)
       setBackendDown(false)
       setError('')
     } catch (err) {
@@ -146,22 +152,39 @@ function DriveAuthPanel({ onSynced }) {
     loadStatus()
   }, [loadStatus])
 
-  const handleLogin = async () => {
-    setLoggingIn(true)
+  useEffect(() => {
+    const loginResult = searchParams.get('login')
+    if (!loginResult) return
+
+    if (loginResult === 'success') {
+      loadStatus().then(() => {
+        alert('Đăng nhập Google thành công! Bạn có thể đồng bộ Drive của mình.')
+      })
+    } else if (loginResult === 'error') {
+      const reason = searchParams.get('reason') || 'unknown'
+      setError(`Đăng nhập thất bại (${reason}). Thử lại hoặc kiểm tra OAuth config trên backend.`)
+    }
+
+    searchParams.delete('login')
+    searchParams.delete('reason')
+    setSearchParams(searchParams, { replace: true })
+  }, [searchParams, setSearchParams, loadStatus])
+
+  const handleLogin = () => {
+    loginDrive()
+  }
+
+  const handleLogout = async () => {
+    setLoggingOut(true)
     setError('')
     try {
-      const res = await loginDrive()
+      await logoutAuth()
+      setPreview(null)
       await loadStatus()
-      alert(
-        res.message ||
-          `Đã đăng nhập: ${res.email}\n\nLưu ý: Cửa sổ đăng nhập mở trên máy chạy backend (không phải tab trình duyệt này nếu backend chạy server khác).`,
-      )
     } catch (err) {
-      const detail = err.response?.data?.detail || err.message
-      setError(detail)
-      alert(`Lỗi đăng nhập:\n${detail}`)
+      setError(err.response?.data?.detail || 'Không đăng xuất được.')
     } finally {
-      setLoggingIn(false)
+      setLoggingOut(false)
     }
   }
 
@@ -231,15 +254,20 @@ function DriveAuthPanel({ onSynced }) {
           <h3 className="font-semibold text-gray-800 text-sm">Google Drive</h3>
           {loadingStatus ? (
             <p className="text-xs text-gray-400 mt-1">Đang kiểm tra...</p>
-          ) : status?.authenticated ? (
+          ) : status?.logged_in && status?.authenticated ? (
             <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
               <CheckCircle2 size={12} />
-              Đã đăng nhập: {status.email || status.display_name}
+              Đã đăng nhập: {status.email || status.session_email || status.display_name}
+            </p>
+          ) : status?.logged_in ? (
+            <p className="text-xs text-amber-600 mt-1 flex items-center gap-1">
+              <AlertCircle size={12} />
+              Đã đăng nhập app nhưng chưa kết nối Drive — thử đăng nhập lại.
             </p>
           ) : (
             <p className="text-xs text-amber-600 mt-1 flex items-center gap-1">
               <AlertCircle size={12} />
-              {status?.message || 'Chưa đăng nhập Google Drive'}
+              {status?.message || 'Chưa đăng nhập — mỗi tài khoản Google có Drive riêng.'}
             </p>
           )}
           {backendDown && (
@@ -247,32 +275,54 @@ function DriveAuthPanel({ onSynced }) {
               {BACKEND_UNREACHABLE_MSG}
             </p>
           )}
-          {!backendDown && !loadingStatus && status && !status.has_credentials && (
+          {!backendDown && !loadingStatus && !oauthConfigured && (
             <div className="text-xs text-red-500 mt-2 space-y-1">
               <p>
-                Chưa tìm thấy file. Tải từ Google Cloud (OAuth → Desktop app), đổi tên thành{' '}
-                <code className="bg-gray-100 px-1 rounded">credentials.json</code> và đặt tại:
+                OAuth Web chưa cấu hình. Tạo OAuth Client loại <strong>Web application</strong>{' '}
+                trên Google Cloud Console, thêm redirect URI:
               </p>
               <p className="font-mono text-[11px] bg-red-50 p-2 rounded break-all text-red-700">
-                {status?.credentials_path ||
-                  'C:\\...\\RAG-KnowledgeGraph-Assistant\\backend\\credentials.json'}
+                http://localhost:3000/api/v1/auth/google/callback
               </p>
               <p className="text-gray-500">
-                Xem mẫu cấu trúc: <code className="bg-gray-100 px-1">backend/credentials.json.example</code>
+                Rồi set <code className="bg-gray-100 px-1">GOOGLE_CLIENT_ID</code>,{' '}
+                <code className="bg-gray-100 px-1">GOOGLE_CLIENT_SECRET</code> trong backend/.env
               </p>
             </div>
           )}
         </div>
         <div className="flex flex-wrap gap-2">
-          <button
-            onClick={handleLogin}
-            disabled={loggingIn || !status?.has_credentials}
-            className="px-3 py-1.5 text-sm border border-blue-200 text-blue-600 rounded-lg
-                       hover:bg-blue-50 disabled:opacity-50 flex items-center gap-1.5"
-          >
-            {loggingIn ? <Loader2 size={14} className="animate-spin" /> : null}
-            Đăng nhập Google
-          </button>
+          {!status?.logged_in ? (
+            <button
+              onClick={handleLogin}
+              disabled={!oauthConfigured}
+              className="px-3 py-1.5 text-sm border border-blue-200 text-blue-600 rounded-lg
+                         hover:bg-blue-50 disabled:opacity-50 flex items-center gap-1.5"
+            >
+              Đăng nhập Google
+            </button>
+          ) : (
+            <>
+              <button
+                onClick={handleLogout}
+                disabled={loggingOut}
+                className="px-3 py-1.5 text-sm border border-gray-200 text-gray-600 rounded-lg
+                           hover:bg-gray-50 disabled:opacity-50 flex items-center gap-1.5"
+              >
+                {loggingOut ? <Loader2 size={14} className="animate-spin" /> : <LogOut size={14} />}
+                Đăng xuất
+              </button>
+              <button
+                onClick={handleLogin}
+                disabled={!oauthConfigured}
+                title="Đăng nhập tài khoản Google khác"
+                className="px-3 py-1.5 text-sm border border-blue-100 text-blue-500 rounded-lg
+                           hover:bg-blue-50 disabled:opacity-50"
+              >
+                Đổi tài khoản
+              </button>
+            </>
+          )}
           <button
             onClick={handlePreview}
             disabled={!status?.authenticated}
