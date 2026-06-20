@@ -1,111 +1,104 @@
 /**
  * ChatInterface.jsx — Giao diện hội thoại chính của ứng dụng RAG.
- *
- * Tính năng:
- *   - Input câu hỏi + gửi bằng Enter hoặc button
- *   - Hiển thị answer từ Gemini
- *   - Hiển thị citations dạng card (tên file + link Drive)
- *   - Loading state (typing indicator)
- *   - Lịch sử hội thoại multi-turn
- *   - Hỗ trợ streaming response (toggle)
  */
 
 import { useState, useRef, useEffect } from 'react'
-import { Send, Loader2, BookOpen, ExternalLink, AlertCircle, RefreshCw } from 'lucide-react'
+import {
+  Send, Loader2, FileText, ExternalLink, AlertCircle,
+  RotateCcw, Sparkles, Bot, User,
+} from 'lucide-react'
 import { sendChat, sendChatStream, formatApiError } from '../api/client'
+import { PageHeader } from './layout/PageHeader'
+import { cn } from '../lib/utils'
 
-/** Component hiển thị một bong bóng tin nhắn */
+const SUGGESTIONS = [
+  'Tóm tắt nội dung báo cáo cuối kỳ',
+  'GraphRAG hoạt động như thế nào?',
+  'Liệt kê các thực thể chính trong tài liệu',
+]
+
+function SourceBadge({ source }) {
+  const config = {
+    vector: { label: 'Vector', cls: 'bg-chart-4/20 text-chart-4' },
+    graph: { label: 'Graph', cls: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' },
+    hybrid: { label: 'Hybrid', cls: 'bg-chart-2/20 text-chart-2' },
+  }
+  const { label, cls } = config[source] || config.vector
+  return (
+    <span className={cn('shrink-0 rounded px-1.5 py-0.5 text-[10px] font-semibold', cls)}>
+      {label}
+    </span>
+  )
+}
+
 function MessageBubble({ message }) {
   const isUser = message.role === 'user'
 
   return (
-    <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-4`}>
-      {/* Avatar trợ lý */}
-      {!isUser && (
-        <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-bold mr-2 flex-shrink-0 mt-1">
-          AI
-        </div>
-      )}
-
-      <div className={`max-w-[75%] ${isUser ? 'order-1' : ''}`}>
-        {/* Nội dung tin nhắn */}
+    <div className={cn('flex gap-3', isUser ? 'flex-row-reverse' : 'flex-row')}>
+      <div
+        className={cn(
+          'flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-semibold',
+          isUser ? 'bg-secondary text-secondary-foreground' : 'bg-primary text-primary-foreground',
+        )}
+      >
+        {isUser ? <User className="h-5 w-5" /> : <Bot className="h-5 w-5" />}
+      </div>
+      <div className={cn('max-w-[85%]', isUser ? 'items-end' : 'items-start')}>
         <div
-          className={`px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
+          className={cn(
+            'rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap',
             isUser
-              ? 'bg-blue-500 text-white rounded-br-sm'
-              : 'bg-white text-gray-800 shadow-sm border border-gray-100 rounded-bl-sm'
-          }`}
+              ? 'rounded-tr-sm bg-primary text-primary-foreground'
+              : 'rounded-tl-sm border border-border bg-card text-card-foreground shadow-sm',
+          )}
         >
           {message.content}
         </div>
-
-        {/* Citations cards — chỉ hiển thị cho tin nhắn AI có citations */}
         {!isUser && message.citations && message.citations.length > 0 && (
-          <div className="mt-2 space-y-1">
-            <p className="text-xs text-gray-400 px-1 flex items-center gap-1">
-              <BookOpen size={12} />
-              Nguồn tham khảo ({message.citations.length}):
-            </p>
+          <div className="mt-3 flex flex-wrap gap-2">
             {message.citations.map((cite, idx) => (
-              <CitationCard key={idx} citation={cite} index={idx + 1} />
+              <div
+                key={idx}
+                className="inline-flex max-w-full items-center gap-1.5 rounded-md bg-accent px-2 py-1 text-xs font-medium text-accent-foreground"
+              >
+                <FileText className="h-3 w-3 shrink-0" />
+                <span className="truncate">
+                  [{idx + 1}] {cite.file_name}
+                  {cite.page_estimate != null && ` · ~${cite.page_estimate}`}
+                  {cite.chunk_index != null && ` · chunk ${cite.chunk_index}`}
+                </span>
+                {cite.source && <SourceBadge source={cite.source} />}
+                {cite.drive_link && (
+                  <a
+                    href={cite.drive_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="shrink-0 hover:opacity-80"
+                    title="Mở trên Google Drive"
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                )}
+              </div>
             ))}
           </div>
         )}
       </div>
-
-      {/* Avatar người dùng */}
-      {isUser && (
-        <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 text-xs font-bold ml-2 flex-shrink-0 mt-1">
-          You
-        </div>
-      )}
     </div>
   )
 }
 
-/** Card hiển thị thông tin citation */
-function CitationCard({ citation, index }) {
-  return (
-    <div className="bg-blue-50 border border-blue-100 rounded-lg px-3 py-2 flex items-center justify-between gap-2">
-      <div className="min-w-0 flex-1">
-        <p className="text-xs font-medium text-blue-700 truncate">
-          [{index}] {citation.file_name}
-        </p>
-        <p className="text-xs text-blue-500">
-          Trang ~{citation.page_estimate} · Chunk {citation.chunk_index}
-          {citation.score && ` · Độ liên quan: ${(parseFloat(citation.score) * 100).toFixed(0)}%`}
-        </p>
-      </div>
-      {citation.drive_link && (
-        <a
-          href={citation.drive_link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-500 hover:text-blue-700 flex-shrink-0"
-          title="Mở trên Google Drive"
-        >
-          <ExternalLink size={14} />
-        </a>
-      )}
-    </div>
-  )
-}
-
-/** Typing indicator animation */
 function TypingIndicator() {
   return (
-    <div className="flex justify-start mb-4">
-      <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-bold mr-2 flex-shrink-0">
-        AI
+    <div className="flex gap-3">
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+        <Bot className="h-5 w-5" />
       </div>
-      <div className="bg-white shadow-sm border border-gray-100 rounded-2xl rounded-bl-sm px-4 py-3">
-        <div className="flex gap-1 items-center h-4">
+      <div className="rounded-2xl rounded-tl-sm border border-border bg-card px-4 py-3 shadow-sm">
+        <div className="flex h-4 items-center gap-1">
           {[0, 1, 2].map((i) => (
-            <div
-              key={i}
-              className="w-2 h-2 rounded-full bg-gray-400 typing-dot"
-              style={{ animationDelay: `${i * 0.16}s` }}
-            />
+            <div key={i} className="typing-dot h-2 w-2 rounded-full bg-muted-foreground" />
           ))}
         </div>
       </div>
@@ -113,9 +106,7 @@ function TypingIndicator() {
   )
 }
 
-/** Component chính */
 export default function ChatInterface() {
-  // Danh sách tin nhắn trong cuộc hội thoại
   const [messages, setMessages] = useState([
     {
       id: 0,
@@ -127,26 +118,20 @@ export default function ChatInterface() {
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-  const [useStream, setUseStream] = useState(false)  // Toggle streaming
+  const [useStream, setUseStream] = useState(true)
 
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
 
-  // Tự động scroll xuống khi có tin nhắn mới
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  /** Tạo history format cho backend từ messages state */
-  const buildHistory = () => {
-    return messages
-      .filter((m) => m.id !== 0) // Bỏ tin nhắn chào mừng
-      .map((m) => ({ role: m.role, content: m.content }))
-  }
+  const buildHistory = () =>
+    messages.filter((m) => m.id !== 0).map((m) => ({ role: m.role, content: m.content }))
 
-  /** Gửi câu hỏi (non-streaming) */
-  const sendMessage = async () => {
-    const question = input.trim()
+  const sendMessage = async (questionText) => {
+    const question = (questionText ?? input).trim()
     if (!question || isLoading) return
 
     const userMsg = { id: Date.now(), role: 'user', content: question, citations: [] }
@@ -157,7 +142,6 @@ export default function ChatInterface() {
 
     try {
       const result = await sendChat(question, '', buildHistory())
-
       setMessages((prev) => [
         ...prev,
         {
@@ -175,9 +159,8 @@ export default function ChatInterface() {
     }
   }
 
-  /** Gửi câu hỏi (streaming) */
-  const sendMessageStream = async () => {
-    const question = input.trim()
+  const sendMessageStream = async (questionText) => {
+    const question = (questionText ?? input).trim()
     if (!question || isLoading) return
 
     const userMsg = { id: Date.now(), role: 'user', content: question, citations: [] }
@@ -194,26 +177,20 @@ export default function ChatInterface() {
 
     await sendChatStream(
       question,
-      // onChunk: cập nhật từng đoạn văn bản
       (chunk) => {
         setMessages((prev) =>
-          prev.map((m) =>
-            m.id === aiMsgId ? { ...m, content: m.content + chunk } : m,
-          ),
+          prev.map((m) => (m.id === aiMsgId ? { ...m, content: m.content + chunk } : m)),
         )
       },
-      // onCitations: nhận citations cuối cùng
       (citations) => {
         setMessages((prev) =>
           prev.map((m) => (m.id === aiMsgId ? { ...m, citations } : m)),
         )
       },
-      // onDone
       () => {
         setIsLoading(false)
         inputRef.current?.focus()
       },
-      // onError
       (errMsg) => {
         setError(formatApiError({ message: errMsg }))
         setIsLoading(false)
@@ -221,13 +198,11 @@ export default function ChatInterface() {
     )
   }
 
-  /** Handler gửi (chọn streaming hay không) */
-  const handleSend = () => {
-    if (useStream) sendMessageStream()
-    else sendMessage()
+  const handleSend = (text) => {
+    if (useStream) sendMessageStream(text)
+    else sendMessage(text)
   }
 
-  /** Gửi bằng Enter (Shift+Enter = xuống dòng) */
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
@@ -235,7 +210,6 @@ export default function ChatInterface() {
     }
   }
 
-  /** Xóa hội thoại */
   const clearChat = () => {
     setMessages([
       {
@@ -248,102 +222,117 @@ export default function ChatInterface() {
     setError('')
   }
 
+  const userQuestionCount = messages.filter((m) => m.role === 'user').length
+  const showSuggestions = messages.length === 1 && messages[0].id === 0
+
   return (
-    <div className="flex flex-col h-full bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
-        <div>
-          <h2 className="font-semibold text-gray-800">Hỏi đáp tri thức</h2>
-          <p className="text-xs text-gray-500">Powered by Gemini 2.0 Flash + GraphRAG</p>
-        </div>
-        <div className="flex items-center gap-3">
-          {/* Toggle streaming */}
-          <label className="flex items-center gap-1.5 cursor-pointer">
-            <span className="text-xs text-gray-500">Stream</span>
-            <div
-              onClick={() => setUseStream(!useStream)}
-              className={`w-8 h-4 rounded-full transition-colors ${
-                useStream ? 'bg-blue-500' : 'bg-gray-300'
-              } relative`}
+    <div className="flex h-full flex-col">
+      <PageHeader
+        title="Hỏi đáp tri thức"
+        subtitle="Powered by Gemini 2.0 Flash + GraphRAG"
+        icon={<Sparkles className="h-5 w-5" />}
+        actions={
+          <>
+            <label className="flex items-center gap-2 text-sm text-muted-foreground">
+              <span>Stream</span>
+              <button
+                type="button"
+                onClick={() => setUseStream(!useStream)}
+                className={cn(
+                  'relative inline-flex h-6 w-11 items-center rounded-full transition-colors',
+                  useStream ? 'bg-primary' : 'border border-border bg-secondary',
+                )}
+                aria-label="Bật/tắt stream"
+              >
+                <span
+                  className={cn(
+                    'inline-block h-4 w-4 rounded-full bg-white shadow transition-transform',
+                    useStream ? 'translate-x-6' : 'translate-x-1',
+                  )}
+                />
+              </button>
+            </label>
+            <button
+              type="button"
+              onClick={clearChat}
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              aria-label="Làm mới hội thoại"
             >
-              <div
-                className={`w-3 h-3 rounded-full bg-white absolute top-0.5 transition-transform ${
-                  useStream ? 'translate-x-4' : 'translate-x-0.5'
-                }`}
-              />
+              <RotateCcw className="h-4 w-4" />
+            </button>
+          </>
+        }
+      />
+
+      <div className="chat-scroll flex-1 overflow-y-auto px-4 py-6 md:px-8">
+        <div className="mx-auto flex max-w-3xl flex-col gap-6">
+          {messages.map((msg) => (
+            <MessageBubble key={msg.id} message={msg} />
+          ))}
+          {isLoading && !useStream && <TypingIndicator />}
+          {showSuggestions && (
+            <div className="flex flex-wrap gap-2 pl-12">
+              {SUGGESTIONS.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => handleSend(s)}
+                  className="rounded-full border border-border bg-card px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
+                >
+                  {s}
+                </button>
+              ))}
             </div>
-          </label>
-          {/* Clear button */}
-          <button
-            onClick={clearChat}
-            className="text-gray-400 hover:text-gray-600 p-1 rounded"
-            title="Xóa hội thoại"
-          >
-            <RefreshCw size={16} />
-          </button>
+          )}
+          <div ref={messagesEndRef} />
         </div>
       </div>
 
-      {/* Message list */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 chat-scroll">
-        {messages.map((msg) => (
-          <MessageBubble key={msg.id} message={msg} />
-        ))}
-        {isLoading && !useStream && <TypingIndicator />}
-        <div ref={messagesEndRef} />
-      </div>
-
-      {/* Error banner */}
       {error && (
-        <div className="mx-4 mb-2 px-3 py-2 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-sm text-red-600">
+        <div className="mx-4 mb-2 flex items-center gap-2 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive md:mx-8">
           <AlertCircle size={14} />
           {error}
-          <button onClick={() => setError('')} className="ml-auto text-red-400 hover:text-red-600">
+          <button type="button" onClick={() => setError('')} className="ml-auto opacity-70 hover:opacity-100">
             ✕
           </button>
         </div>
       )}
 
-      {/* Input area */}
-      <div className="bg-white border-t border-gray-200 px-4 py-3">
-        <div className="flex items-end gap-2 max-w-4xl mx-auto">
-          <textarea
-            ref={inputRef}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Nhập câu hỏi về tài liệu của bạn... (Enter để gửi, Shift+Enter để xuống dòng)"
-            rows={1}
-            disabled={isLoading}
-            className="flex-1 resize-none border border-gray-200 rounded-xl px-4 py-2.5 text-sm
-                       focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent
-                       disabled:opacity-60 disabled:bg-gray-50 max-h-32 overflow-y-auto"
-            style={{
-              height: 'auto',
-              minHeight: '42px',
-            }}
-            onInput={(e) => {
-              e.target.style.height = 'auto'
-              e.target.style.height = Math.min(e.target.scrollHeight, 128) + 'px'
-            }}
-          />
+      <div className="border-t border-border bg-background px-4 py-4 md:px-8">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleSend()
+          }}
+          className="mx-auto flex max-w-3xl items-end gap-2"
+        >
+          <div className="flex flex-1 items-end rounded-2xl border border-border bg-card px-4 py-2 shadow-sm focus-within:border-primary/60 focus-within:ring-2 focus-within:ring-primary/20">
+            <textarea
+              ref={inputRef}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              rows={1}
+              disabled={isLoading}
+              placeholder="Nhập câu hỏi về tài liệu của bạn... (Enter để gửi, Shift+Enter để xuống dòng)"
+              className="max-h-32 flex-1 resize-none bg-transparent py-1.5 text-sm text-foreground outline-none placeholder:text-muted-foreground disabled:opacity-60"
+              onInput={(e) => {
+                e.target.style.height = 'auto'
+                e.target.style.height = `${Math.min(e.target.scrollHeight, 128)}px`
+              }}
+            />
+          </div>
           <button
-            onClick={handleSend}
+            type="submit"
             disabled={!input.trim() || isLoading}
-            className="p-2.5 bg-blue-500 text-white rounded-xl hover:bg-blue-600
-                       disabled:opacity-40 disabled:cursor-not-allowed transition-colors
-                       flex-shrink-0"
-            title="Gửi câu hỏi"
+            className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm transition-opacity hover:opacity-90 disabled:opacity-50"
+            aria-label="Gửi câu hỏi"
           >
-            {isLoading ? (
-              <Loader2 size={18} className="animate-spin" />
-            ) : (
-              <Send size={18} />
-            )}
+            {isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
           </button>
-        </div>
-        <p className="text-xs text-gray-400 text-center mt-1.5">
-          {messages.filter((m) => m.role === 'user').length} câu hỏi trong cuộc hội thoại này
+        </form>
+        <p className="mt-2 text-center text-xs text-muted-foreground">
+          {userQuestionCount} câu hỏi trong cuộc hội thoại này
         </p>
       </div>
     </div>

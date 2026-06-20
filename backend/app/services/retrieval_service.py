@@ -178,7 +178,9 @@ if __name__ == "__main__":
     import os
     from dotenv import load_dotenv
 
-    load_dotenv()
+    from app.core.config import ENV_FILE_PATH
+
+    load_dotenv(ENV_FILE_PATH)
 
     if not os.getenv("GEMINI_API_KEY"):
         print("Cần set GEMINI_API_KEY trong .env để test.")

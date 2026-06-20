@@ -23,9 +23,8 @@ from app.core.gemini_retry import call_with_gemini_retry, parse_retry_seconds
 logger = logging.getLogger(__name__)
 
 # Số lần retry khi gặp lỗi tạm thời (429 quota free tier)
-MAX_RETRIES = 6
+MAX_RETRIES = 8
 RETRY_DELAY = 3.0
-EMBED_BATCH_PAUSE = 1.5  # giây giữa các batch — tránh vượt RPM
 
 
 class EmbeddingService:
@@ -172,7 +171,7 @@ class EmbeddingService:
                         "Batch %d/%d: %d embeddings.", batch_num, total_batches, len(vectors)
                     )
                     if batch_num < total_batches:
-                        time.sleep(EMBED_BATCH_PAUSE)
+                        time.sleep(settings.EMBED_BATCH_PAUSE)
                     break
 
                 except Exception as e:
@@ -198,7 +197,9 @@ if __name__ == "__main__":
     import os
     from dotenv import load_dotenv
 
-    load_dotenv()
+    from app.core.config import ENV_FILE_PATH
+
+    load_dotenv(ENV_FILE_PATH)
 
     if not os.getenv("GEMINI_API_KEY"):
         print("Cần set GEMINI_API_KEY trong .env để test.")

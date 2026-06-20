@@ -1,9 +1,30 @@
+# Environment & secrets
 .env
+**/.env
 credentials.json
 token.pickle
 backend/tokens/
 tokens/
+
+# Python
 venv/
 __pycache__/
 *.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+
+# Node / frontend build
+node_modules/
+frontend/dist/
+frontend/node_modules/
+dist/
+
+# OS
 .DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp

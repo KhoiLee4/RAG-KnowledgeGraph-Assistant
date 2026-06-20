@@ -19,6 +19,7 @@ from google.genai import types as genai_types
 
 from app.core.config import settings
 from app.core.gemini_retry import call_with_gemini_retry, format_gemini_error, is_quota_error
+from app.services.hybrid_retrieval_service import get_hybrid_retrieval_service
 from app.services.retrieval_service import RetrievalService
 
 logger = logging.getLogger(__name__)
@@ -43,9 +44,10 @@ class ChatService:
     """
 
     def __init__(self):
-        """Khởi tạo ChatService với Gemini client và RetrievalService."""
+        """Khởi tạo ChatService với Gemini client, RetrievalService và GraphService."""
         self._client = genai.Client(api_key=settings.GEMINI_API_KEY)
         self._retrieval = RetrievalService()
+        self._hybrid = get_hybrid_retrieval_service()
         self._model = settings.GEMINI_MODEL
         logger.info("ChatService khởi tạo — model: %s", self._model)
 
@@ -97,28 +99,64 @@ class ChatService:
 
     def _extract_citations(
         self,
-        results: list[dict[str, Any]],
+        citations: list[dict[str, Any]],
     ) -> list[dict[str, str]]:
         """
-        Tạo danh sách citation từ kết quả retrieval.
-        Mỗi citation chứa thông tin để frontend hiển thị link file.
-
-        Args:
-            results: Kết quả từ RetrievalService.retrieve().
-
-        Returns:
-            Danh sách dict: {file_name, chunk_index, drive_link, page_estimate, score}.
+        Chuẩn hóa citations từ RetrievalBundle (vector / graph / community).
         """
-        return [
+        result: list[dict[str, str]] = []
+        for c in citations:
+            result.append({
+                "file_name": str(c.get("file_name", "")),
+                "chunk_index": str(c.get("chunk_index", "0")),
+                "drive_link": str(c.get("drive_link", "")),
+                "page_estimate": str(c.get("page_estimate", "1")),
+                "score": str(c.get("score", "0")),
+                "source": str(c.get("source", c.get("source_type", "vector"))),
+                "source_type": str(c.get("source_type", c.get("source", "vector"))),
+                "community_id": str(c.get("community_id", "")),
+                "summary_preview": str(c.get("summary_preview", "")),
+            })
+        return result
+
+    def _run_retrieval(
+        self,
+        question: str,
+        collection_name: str,
+        top_k: int,
+        owner_id: str | None,
+    ):
+        """Retrieve context bundle — hybrid hoặc vector-only."""
+        if settings.GRAPH_ENABLED:
+            return self._hybrid.retrieve_all(
+                query=question,
+                collection_name=collection_name,
+                owner_id=owner_id,
+                n_results=top_k,
+            )
+        chunks = self._retrieval.retrieve(
+            question, collection_name, n_results=top_k
+        )
+        context = self._retrieval.format_context(chunks)
+        from app.services.hybrid_retrieval_service import RetrievalBundle
+        citations = [
             {
-                "file_name": r["file_name"],
-                "chunk_index": str(r["chunk_index"]),
-                "drive_link": r["drive_link"],
-                "page_estimate": str(r["page_estimate"]),
-                "score": f"{r['score']:.3f}",
+                "file_name": c.get("file_name", ""),
+                "chunk_index": str(c.get("chunk_index", 0)),
+                "drive_link": c.get("drive_link", ""),
+                "page_estimate": str(c.get("page_estimate", 1)),
+                "score": f"{c.get('score', 0):.3f}",
+                "source": "vector",
+                "source_type": "vector",
             }
-            for r in results
+            for c in chunks
         ]
+        return RetrievalBundle(
+            context=context,
+            citations=citations,
+            vector_chunks=chunks,
+            route="vector_only",
+        )
 
     def _try_list_documents_answer(self, question: str) -> dict[str, Any] | None:
         """
@@ -276,24 +314,26 @@ class ChatService:
         collection_name: str | None = None,
         history: list[dict[str, str]] | None = None,
         n_context: int | None = None,
+        owner_id: str | None = None,
     ) -> dict[str, Any]:
         """
-        Xử lý câu hỏi theo pipeline RAG và trả về câu trả lời kèm citations.
+        Xử lý câu hỏi theo pipeline GraphRAG và trả về câu trả lời kèm citations.
 
         Pipeline:
-          retrieve context → build prompt → Gemini generate → parse response
+          QueryAnalyzer → HybridRetrieval (community + graph + vector) → Gemini
 
         Args:
             question: Câu hỏi của người dùng.
             collection_name: ChromaDB collection cần tìm kiếm. Mặc định từ settings.
             history: Lịch sử hội thoại dạng [{"role": "user"/"model", "content": "..."}].
             n_context: Số chunk context lấy về (mặc định từ settings.RETRIEVAL_TOP_K).
+            owner_id: User ID để phân tách graph theo từng người dùng.
 
         Returns:
             Dict gồm:
               - answer (str): Câu trả lời từ Gemini.
               - citations (list): Danh sách nguồn trích dẫn, mỗi phần tử:
-                  {file_name, chunk_index, drive_link, page_estimate, score}
+                  {file_name, chunk_index, drive_link, page_estimate, score, source}
               - sources_count (int): Số nguồn tìm được.
               - context_used (str): Context đã dùng (dùng để debug).
         """
@@ -315,13 +355,8 @@ class ChatService:
             return meta
 
         try:
-            # ── Bước 1: Retrieve context ─────────────────────
-            retrieval_results = self._retrieval.retrieve(
-                query=question,
-                collection_name=col_name,
-                n_results=top_k,
-            )
-            if not retrieval_results:
+            bundle = self._run_retrieval(question, col_name, top_k, owner_id)
+            if bundle.is_empty:
                 return {
                     "answer": (
                         "Tôi không tìm thấy thông tin liên quan trong tài liệu của bạn. "
@@ -331,12 +366,10 @@ class ChatService:
                     "sources_count": 0,
                     "context_used": "",
                 }
-            context = self._retrieval.format_context(retrieval_results)
-
-            # ── Bước 2: Build prompt ─────────────────────────
+            context = bundle.context
+            citations = self._extract_citations(bundle.citations)
             contents = self._build_prompt_contents(question, context, history)
 
-            # ── Bước 3: Gọi Gemini API (retry khi 429) ───────
             def _generate():
                 return self._client.models.generate_content(
                     model=self._model,
@@ -352,12 +385,11 @@ class ChatService:
 
             answer = response.text or "Không nhận được phản hồi từ Gemini."
 
-            # ── Bước 4: Tạo citations ────────────────────────
-            citations = self._extract_citations(retrieval_results)
-
             logger.info(
-                "ChatService.chat thành công — %d từ trả về, %d citations.",
-                len(answer.split()), len(citations),
+                "ChatService.chat thành công — %d từ, %d citations, route=%s.",
+                len(answer.split()),
+                len(citations),
+                bundle.route,
             )
 
             return {
@@ -385,6 +417,7 @@ class ChatService:
         question: str,
         collection_name: str | None = None,
         history: list[dict[str, str]] | None = None,
+        owner_id: str | None = None,
     ):
         """
         Streaming version của chat, yield từng đoạn văn bản khi Gemini trả về.
@@ -415,8 +448,8 @@ class ChatService:
             return
 
         try:
-            retrieval_results = self._retrieval.retrieve(question, col_name)
-            if not retrieval_results:
+            bundle = self._run_retrieval(question, col_name, settings.RETRIEVAL_TOP_K, owner_id)
+            if bundle.is_empty:
                 msg = (
                     "Tôi không tìm thấy thông tin liên quan trong tài liệu của bạn. "
                     "Hãy thử hỏi cụ thể hơn hoặc đồng bộ thêm tài liệu từ Drive."
@@ -426,7 +459,7 @@ class ChatService:
                 yield "data: [DONE]\n\n"
                 return
 
-            context = self._retrieval.format_context(retrieval_results)
+            context = bundle.context
             contents = self._build_prompt_contents(question, context, history)
 
             def _stream():
@@ -449,7 +482,7 @@ class ChatService:
                     yield f"data: {text}\n\n"
 
             # Gửi citations sau khi stream xong
-            citations = self._extract_citations(retrieval_results)
+            citations = self._extract_citations(bundle.citations)
             yield f"data: [CITATIONS]{json.dumps(citations, ensure_ascii=False)}\n\n"
             yield "data: [DONE]\n\n"
 
@@ -463,7 +496,9 @@ if __name__ == "__main__":
     import os
     from dotenv import load_dotenv
 
-    load_dotenv()
+    from app.core.config import ENV_FILE_PATH
+
+    load_dotenv(ENV_FILE_PATH)
 
     if not os.getenv("GEMINI_API_KEY"):
         print("Cần set GEMINI_API_KEY trong .env.")

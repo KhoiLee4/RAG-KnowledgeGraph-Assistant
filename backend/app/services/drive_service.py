@@ -35,35 +35,35 @@ logger = logging.getLogger(__name__)
 _BACKEND_DIR = Path(__file__).resolve().parent.parent.parent
 
 EXPORT_MAP: dict[str, tuple[str, str]] = {
-    "application/vnd.google-apps.document": (
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        ".docx",
-    ),
-    "application/vnd.google-apps.spreadsheet": (
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        ".xlsx",
-    ),
-    "application/vnd.google-apps.presentation": (
-        "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-        ".pptx",
-    ),
+    # "application/vnd.google-apps.document": (
+    #     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    #     ".docx",
+    # ),
+    # "application/vnd.google-apps.spreadsheet": (
+    #     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    #     ".xlsx",
+    # ),
+    # "application/vnd.google-apps.presentation": (
+    #     "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    #     ".pptx",
+    # ),
 }
 
 SUPPORTED_TYPES: list[str] = list(SUPPORTED_MIME_TYPES.keys())
 
 SUPPORTED_TYPE_LABELS: dict[str, str] = {
     "application/pdf": "PDF",
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "DOCX",
-    "application/msword": "DOC",
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "XLSX",
-    "application/vnd.ms-excel": "XLS",
-    "application/vnd.openxmlformats-officedocument.presentationml.presentation": "PPTX",
-    "text/plain": "TXT",
-    "text/markdown": "Markdown",
-    "text/csv": "CSV",
-    "application/vnd.google-apps.document": "Google Docs",
-    "application/vnd.google-apps.spreadsheet": "Google Sheets",
-    "application/vnd.google-apps.presentation": "Google Slides",
+    # "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "DOCX",
+    # "application/msword": "DOC",
+    # "application/vnd.google-apps.document": "Google Docs",
+    # "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "XLSX",
+    # "application/vnd.ms-excel": "XLS",
+    # "application/vnd.openxmlformats-officedocument.presentationml.presentation": "PPTX",
+    # "text/plain": "TXT",
+    # "text/markdown": "Markdown",
+    # "text/csv": "CSV",
+    # "application/vnd.google-apps.spreadsheet": "Google Sheets",
+    # "application/vnd.google-apps.presentation": "Google Slides",
 }
 
 

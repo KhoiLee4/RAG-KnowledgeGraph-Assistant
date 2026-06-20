@@ -23,7 +23,7 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from app.api.auth_routes import router as auth_router
 from app.api.routes import router
-from app.core.config import settings
+from app.core.config import ENV_FILE_PATH, settings
 
 # ── Cấu hình logging toàn ứng dụng ──────────────────────────
 logging.basicConfig(
@@ -121,6 +121,7 @@ async def on_startup():
     """
     logger.info("=" * 60)
     logger.info("RAG Knowledge Graph Assistant — đang khởi động...")
+    logger.info("  Env file      : %s", ENV_FILE_PATH)
     logger.info("  Gemini model  : %s", settings.GEMINI_MODEL)
     logger.info("  Embedding     : %s", settings.GEMINI_EMBEDDING_MODEL)
     logger.info("  ChromaDB      : %s:%d", settings.CHROMA_HOST, settings.CHROMA_PORT)

@@ -18,7 +18,7 @@ from dataclasses import asdict, dataclass
 from typing import Any, Callable
 
 from app.core.config import SKIP_MIME_TYPES, SUPPORTED_MIME_TYPES, settings
-from app.core.gemini_retry import format_gemini_error, is_quota_error
+from app.core.gemini_retry import format_gemini_error, is_daily_quota_exhausted, is_quota_error
 from app.db.chroma_client import get_chroma_client
 from app.db.neo4j_client import get_neo4j_client
 from app.services.chunking_service import ChunkingService
@@ -286,6 +286,10 @@ class IndexingService:
                 owner_id=owner_id,
             )
 
+            # ── Bước 6: Build Knowledge Graph (best-effort) ──
+            if settings.GRAPH_BUILD_ON_INDEX and settings.GRAPH_ENABLED:
+                self._build_entity_graph(chunks, file_id, owner_id)
+
             logger.info(
                 "Index '%s' thành công: %d chunk đã lưu.", file_name, len(chunks)
             )
@@ -339,19 +343,30 @@ class IndexingService:
                 raise ValueError("index_drive cần drive instance hoặc owner_id.")
             drive = DriveService(user_id=owner_id)
         results: list[IndexResult] = []
-        quota_exhausted = False
-        quota_msg = format_gemini_error(Exception("429 quota"))
+        consecutive_quota_failures = 0
+        daily_quota_exhausted = False
 
         logger.info("Bắt đầu index %d file từ Drive.", len(file_ids))
         total = len(file_ids)
 
         for idx, file_id in enumerate(file_ids, start=1):
-            if quota_exhausted:
+            if daily_quota_exhausted:
                 results.append(IndexResult(
                     file_id=file_id,
                     file_name=file_id,
                     status="error",
-                    reason=quota_msg,
+                    reason=format_gemini_error(Exception("daily quota exhausted")),
+                ))
+                if on_progress:
+                    on_progress(idx, total)
+                continue
+
+            if consecutive_quota_failures >= settings.INDEX_QUOTA_MAX_RETRIES + 2:
+                results.append(IndexResult(
+                    file_id=file_id,
+                    file_name=file_id,
+                    status="error",
+                    reason=format_gemini_error(Exception("429 quota")),
                 ))
                 if on_progress:
                     on_progress(idx, total)
@@ -388,7 +403,7 @@ class IndexingService:
                     file_id, mime_type
                 )
 
-                # Chạy pipeline index đầy đủ
+                # Chạy pipeline index — retry khi gặp 429
                 result = self.index_file(
                     file_id=file_id,
                     file_name=file_name,
@@ -399,14 +414,60 @@ class IndexingService:
                     force_reindex=force_reindex,
                     owner_id=owner_id,
                 )
+                quota_retries = 0
+                while (
+                    result.status == "error"
+                    and is_quota_error(Exception(result.reason))
+                    and not daily_quota_exhausted
+                    and quota_retries < settings.INDEX_QUOTA_MAX_RETRIES
+                ):
+                    if is_daily_quota_exhausted(Exception(result.reason)):
+                        daily_quota_exhausted = True
+                        break
+                    wait = settings.INDEX_QUOTA_COOLDOWN
+                    logger.warning(
+                        "index_drive: quota 429 '%s' — chờ %.0fs rồi retry (%d/%d).",
+                        file_name,
+                        wait,
+                        quota_retries + 1,
+                        settings.INDEX_QUOTA_MAX_RETRIES,
+                    )
+                    time.sleep(wait)
+                    result = self.index_file(
+                        file_id=file_id,
+                        file_name=file_name,
+                        file_bytes=content_bytes,
+                        mime_type=actual_mime,
+                        collection_name=collection_name,
+                        drive_link=drive_link,
+                        force_reindex=force_reindex,
+                        owner_id=owner_id,
+                    )
+                    quota_retries += 1
+
+                if result.status == "success":
+                    consecutive_quota_failures = 0
+                elif result.status == "error" and is_quota_error(Exception(result.reason)):
+                    consecutive_quota_failures += 1
+                    if is_daily_quota_exhausted(Exception(result.reason)):
+                        daily_quota_exhausted = True
+                else:
+                    consecutive_quota_failures = 0
+
                 results.append(result)
-                time.sleep(0.8)
+                time.sleep(settings.INDEX_FILE_PAUSE)
 
             except Exception as e:
-                if is_quota_error(e):
-                    quota_exhausted = True
-                    quota_msg = format_gemini_error(e)
-                    logger.error("index_drive: hết quota Gemini — dừng index file mới.")
+                if is_daily_quota_exhausted(e):
+                    daily_quota_exhausted = True
+                    logger.error("index_drive: quota NGÀY đã hết — dừng index file mới.")
+                elif is_quota_error(e):
+                    consecutive_quota_failures += 1
+                    logger.error(
+                        "index_drive: quota Gemini — chờ %.0fs trước file tiếp theo.",
+                        settings.INDEX_QUOTA_COOLDOWN,
+                    )
+                    time.sleep(settings.INDEX_QUOTA_COOLDOWN)
                 logger.error(
                     "index_drive: lỗi khi xử lý file '%s': %s", file_id, e,
                     exc_info=not is_quota_error(e),
@@ -542,6 +603,33 @@ class IndexingService:
             prev_id = chunk_id
 
         logger.debug("Neo4j: đã lưu graph Document + %d Chunk.", chunk_count)
+
+    def _build_entity_graph(
+        self,
+        chunks: list[dict[str, Any]],
+        file_id: str,
+        owner_id: str | None = None,
+    ) -> None:
+        """
+        Gọi GraphService để trích xuất entity và xây dựng KG từ các chunk.
+        Chạy best-effort: lỗi không làm index_file thất bại.
+        """
+        try:
+            from app.services.graph_service import GraphService
+            graph_svc = GraphService()
+            stats = graph_svc.build_graph_from_chunks(chunks, file_id, owner_id=owner_id)
+            logger.info(
+                "[Graph] '%s': +%d entity, +%d relation.",
+                file_id,
+                stats.get("entities_created", 0),
+                stats.get("relations_created", 0),
+            )
+        except Exception as e:
+            logger.warning(
+                "[Graph] build_entity_graph '%s' thất bại (bỏ qua, vector vẫn OK): %s",
+                file_id,
+                e,
+            )
 
 
 # ── Test độc lập ──────────────────────────────────────────────

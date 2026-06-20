@@ -22,9 +22,11 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/v1/auth", tags=["Authentication"])
 
-# Tắt cảnh báo scope mismatch khi Google trả thêm openid scopes
+# Dev localhost dùng http — oauthlib mặc định bắt buộc https
 import os
 os.environ.setdefault("OAUTHLIB_RELAX_TOKEN_SCOPE", "1")
+if "localhost" in settings.GOOGLE_REDIRECT_URI or "127.0.0.1" in settings.GOOGLE_REDIRECT_URI:
+    os.environ.setdefault("OAUTHLIB_INSECURE_TRANSPORT", "1")
 
 
 def _create_flow(state: str | None = None) -> Flow:
@@ -97,6 +99,9 @@ async def auth_google_start(request: Request) -> RedirectResponse:
         prompt="select_account consent",
     )
     request.session["oauth_state"] = state
+    # PKCE: code_verifier phải giữ từ lúc bắt đầu đến callback
+    if flow.code_verifier:
+        request.session["oauth_code_verifier"] = flow.code_verifier
     return RedirectResponse(url=authorization_url)
 
 
@@ -119,6 +124,9 @@ async def auth_google_callback(request: Request) -> RedirectResponse:
 
     try:
         flow = _create_flow(state=state)
+        code_verifier = request.session.pop("oauth_code_verifier", None)
+        if code_verifier:
+            flow.code_verifier = code_verifier
         # Dùng GOOGLE_REDIRECT_URI thay vì request.url (Vite proxy đổi port)
         query = request.url.query
         auth_response = (

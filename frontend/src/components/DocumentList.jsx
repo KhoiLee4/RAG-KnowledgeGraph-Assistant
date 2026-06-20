@@ -13,7 +13,8 @@ import { useState, useEffect, useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import {
   FileText, Trash2, RefreshCw, ExternalLink,
-  Plus, AlertCircle, CheckCircle2, Loader2, Database, LogOut
+  AlertCircle, CheckCircle2, Loader2, Database, LogOut,
+  FolderOpen, CloudUpload, Layers, UserCog,
 } from 'lucide-react'
 import {
   getDocuments,
@@ -29,21 +30,23 @@ import {
   BACKEND_UNREACHABLE_MSG,
   summarizeSyncErrors,
 } from '../api/client'
+import { PageHeader } from './layout/PageHeader'
+import { cn } from '../lib/utils'
 
 /** Badge màu theo MIME type */
 function MimeBadge({ mimeType }) {
   const config = {
-    'application/pdf': { label: 'PDF', color: 'bg-red-100 text-red-700' },
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': { label: 'DOCX', color: 'bg-blue-100 text-blue-700' },
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': { label: 'XLSX', color: 'bg-green-100 text-green-700' },
-    'text/plain': { label: 'TXT', color: 'bg-gray-100 text-gray-700' },
-    'image/jpeg': { label: 'JPEG', color: 'bg-yellow-100 text-yellow-700' },
-    'image/png': { label: 'PNG', color: 'bg-yellow-100 text-yellow-700' },
+    'application/pdf': { label: 'PDF', color: 'bg-red-500/15 text-red-600 dark:text-red-400' },
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': { label: 'DOCX', color: 'bg-primary/15 text-primary' },
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': { label: 'XLSX', color: 'bg-emerald-500/15 text-emerald-600' },
+    'text/plain': { label: 'TXT', color: 'bg-muted text-muted-foreground' },
+    'image/jpeg': { label: 'JPEG', color: 'bg-yellow-500/15 text-yellow-600' },
+    'image/png': { label: 'PNG', color: 'bg-yellow-500/15 text-yellow-600' },
   }
-  const { label = 'FILE', color = 'bg-gray-100 text-gray-600' } =
+  const { label = 'FILE', color = 'bg-muted text-muted-foreground' } =
     config[mimeType] || {}
   return (
-    <span className={`text-xs font-medium px-1.5 py-0.5 rounded ${color}`}>
+    <span className={cn('rounded-md px-2 py-0.5 text-xs font-bold', color)}>
       {label}
     </span>
   )
@@ -64,23 +67,21 @@ function DocumentCard({ doc, onDelete }) {
   }
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-4 flex items-start gap-3 hover:shadow-sm transition-shadow">
-      {/* Icon file */}
-      <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
-        <FileText size={20} className="text-blue-500" />
+    <div className="group flex items-center gap-4 rounded-2xl border border-border bg-card p-4 shadow-sm transition-colors hover:border-primary/40">
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent text-accent-foreground">
+        <FileText className="h-6 w-6" />
       </div>
 
-      {/* Info */}
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 mb-1">
-          <p className="font-medium text-sm text-gray-800 truncate" title={doc.file_name}>
+      <div className="min-w-0 flex-1">
+        <div className="flex flex-wrap items-center gap-2">
+          <h3 className="truncate font-semibold text-card-foreground" title={doc.file_name}>
             {doc.file_name || doc.id}
-          </p>
+          </h3>
           <MimeBadge mimeType={doc.mime_type} />
         </div>
-        <div className="flex items-center gap-3 text-xs text-gray-500">
-          <span className="flex items-center gap-1">
-            <Database size={11} />
+        <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
+          <span className="inline-flex items-center gap-1.5">
+            <Layers className="h-3.5 w-3.5" />
             {doc.chunk_count ?? '?'} chunks
           </span>
           {doc.drive_link && (
@@ -88,23 +89,22 @@ function DocumentCard({ doc, onDelete }) {
               href={doc.drive_link}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 text-blue-500 hover:text-blue-700"
+              className="inline-flex items-center gap-1.5 text-primary hover:underline"
             >
-              <ExternalLink size={11} />
+              <ExternalLink className="h-3.5 w-3.5" />
               Xem Drive
             </a>
           )}
         </div>
-        <p className="text-xs text-gray-400 mt-0.5 font-mono truncate" title={doc.id}>
+        <p className="mt-1 truncate font-mono text-xs text-muted-foreground/70" title={doc.id}>
           ID: {doc.id}
         </p>
       </div>
 
-      {/* Delete button */}
       <button
         onClick={handleDelete}
         disabled={deleting}
-        className="text-gray-300 hover:text-red-500 p-1 rounded transition-colors disabled:opacity-50"
+        className="rounded-lg p-2 text-muted-foreground opacity-0 transition-all hover:bg-destructive/10 hover:text-destructive group-hover:opacity-100 disabled:opacity-50"
         title="Xóa tài liệu"
       >
         {deleting ? <Loader2 size={16} className="animate-spin" /> : <Trash2 size={16} />}
@@ -162,7 +162,12 @@ function DriveAuthPanel({ onSynced }) {
       })
     } else if (loginResult === 'error') {
       const reason = searchParams.get('reason') || 'unknown'
-      setError(`Đăng nhập thất bại (${reason}). Thử lại hoặc kiểm tra OAuth config trên backend.`)
+      const messages = {
+        token_exchange: 'Lỗi đổi token OAuth — restart backend, xóa cookie localhost rồi đăng nhập lại.',
+        invalid_state: 'Phiên OAuth hết hạn — đăng nhập lại (mở http://localhost:3000, không dùng 127.0.0.1).',
+        access_denied: 'Bạn đã từ chối quyền truy cập Google Drive.',
+      }
+      setError(messages[reason] || `Đăng nhập thất bại (${reason}).`)
     }
 
     searchParams.delete('login')
@@ -201,8 +206,8 @@ function DriveAuthPanel({ onSynced }) {
   const handleSyncAll = async () => {
     if (
       !confirm(
-        'Đồng bộ TOÀN BỘ file được hỗ trợ trên Google Drive?\n\n' +
-          'PDF, Word, Excel, TXT, ảnh, Google Docs...\n' +
+        'Đồng bộ TOÀN BỘ file PDF được hỗ trợ trên Google Drive?\n\n' +
+          'Chỉ: .pdf\n' +
         'Quá trình có thể mất 15–30+ phút tùy số file (chạy nền, không bị timeout).',
       )
     ) {
@@ -248,56 +253,56 @@ function DriveAuthPanel({ onSynced }) {
   }
 
   return (
-    <div className="mb-4 bg-white border border-gray-200 rounded-xl p-4">
-      <div className="flex items-start justify-between gap-3 flex-wrap">
+    <div className="mb-6 rounded-2xl border border-border bg-card p-5 shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h3 className="font-semibold text-gray-800 text-sm">Google Drive</h3>
+          <h2 className="text-base font-bold text-card-foreground">Google Drive</h2>
           {loadingStatus ? (
-            <p className="text-xs text-gray-400 mt-1">Đang kiểm tra...</p>
+            <p className="mt-1 text-sm text-muted-foreground">Đang kiểm tra...</p>
           ) : status?.logged_in && status?.authenticated ? (
-            <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
-              <CheckCircle2 size={12} />
+            <p className="mt-1 flex items-center gap-1.5 text-sm text-emerald-600 dark:text-emerald-400">
+              <CheckCircle2 className="h-4 w-4" />
               Đã đăng nhập: {status.email || status.session_email || status.display_name}
             </p>
           ) : status?.logged_in ? (
-            <p className="text-xs text-amber-600 mt-1 flex items-center gap-1">
-              <AlertCircle size={12} />
+            <p className="mt-1 flex items-center gap-1.5 text-sm text-yellow-600 dark:text-yellow-400">
+              <AlertCircle className="h-4 w-4" />
               Đã đăng nhập app nhưng chưa kết nối Drive — thử đăng nhập lại.
             </p>
           ) : (
-            <p className="text-xs text-amber-600 mt-1 flex items-center gap-1">
-              <AlertCircle size={12} />
+            <p className="mt-1 flex items-center gap-1.5 text-sm text-yellow-600 dark:text-yellow-400">
+              <AlertCircle className="h-4 w-4" />
               {status?.message || 'Chưa đăng nhập — mỗi tài khoản Google có Drive riêng.'}
             </p>
           )}
           {backendDown && (
-            <p className="text-xs text-red-600 mt-2 bg-red-50 border border-red-100 rounded-lg p-2">
+            <p className="mt-2 rounded-lg border border-destructive/30 bg-destructive/10 p-2 text-xs text-destructive">
               {BACKEND_UNREACHABLE_MSG}
             </p>
           )}
           {!backendDown && !loadingStatus && !oauthConfigured && (
-            <div className="text-xs text-red-500 mt-2 space-y-1">
+            <div className="mt-2 space-y-1 text-xs text-destructive">
               <p>
                 OAuth Web chưa cấu hình. Tạo OAuth Client loại <strong>Web application</strong>{' '}
                 trên Google Cloud Console, thêm redirect URI:
               </p>
-              <p className="font-mono text-[11px] bg-red-50 p-2 rounded break-all text-red-700">
+              <p className="break-all rounded bg-destructive/10 p-2 font-mono text-[11px]">
                 http://localhost:3000/api/v1/auth/google/callback
               </p>
-              <p className="text-gray-500">
-                Rồi set <code className="bg-gray-100 px-1">GOOGLE_CLIENT_ID</code>,{' '}
-                <code className="bg-gray-100 px-1">GOOGLE_CLIENT_SECRET</code> trong backend/.env
+              <p className="text-muted-foreground">
+                Rồi set <code className="rounded bg-muted px-1">GOOGLE_CLIENT_ID</code>,{' '}
+                <code className="rounded bg-muted px-1">GOOGLE_CLIENT_SECRET</code> trong file{' '}
+                <code className="rounded bg-muted px-1">.env</code> (thư mục gốc repo)
               </p>
             </div>
           )}
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {!status?.logged_in ? (
             <button
               onClick={handleLogin}
               disabled={!oauthConfigured}
-              className="px-3 py-1.5 text-sm border border-blue-200 text-blue-600 rounded-lg
-                         hover:bg-blue-50 disabled:opacity-50 flex items-center gap-1.5"
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
             >
               Đăng nhập Google
             </button>
@@ -306,8 +311,7 @@ function DriveAuthPanel({ onSynced }) {
               <button
                 onClick={handleLogout}
                 disabled={loggingOut}
-                className="px-3 py-1.5 text-sm border border-gray-200 text-gray-600 rounded-lg
-                           hover:bg-gray-50 disabled:opacity-50 flex items-center gap-1.5"
+                className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
               >
                 {loggingOut ? <Loader2 size={14} className="animate-spin" /> : <LogOut size={14} />}
                 Đăng xuất
@@ -316,9 +320,9 @@ function DriveAuthPanel({ onSynced }) {
                 onClick={handleLogin}
                 disabled={!oauthConfigured}
                 title="Đăng nhập tài khoản Google khác"
-                className="px-3 py-1.5 text-sm border border-blue-100 text-blue-500 rounded-lg
-                           hover:bg-blue-50 disabled:opacity-50"
+                className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
               >
+                <UserCog className="h-4 w-4" />
                 Đổi tài khoản
               </button>
             </>
@@ -326,16 +330,15 @@ function DriveAuthPanel({ onSynced }) {
           <button
             onClick={handlePreview}
             disabled={!status?.authenticated}
-            className="px-3 py-1.5 text-sm border border-gray-200 text-gray-600 rounded-lg
-                       hover:bg-gray-50 disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
           >
+            <ExternalLink className="h-4 w-4" />
             Xem file trên Drive
           </button>
           <button
             onClick={handleSyncAll}
             disabled={syncingAll || !status?.authenticated}
-            className="px-3 py-1.5 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600
-                       disabled:opacity-50 flex items-center gap-1.5"
+            className="inline-flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
           >
             {syncingAll ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
             {syncingAll ? 'Đang đồng bộ...' : 'Đồng bộ toàn bộ Drive'}
@@ -343,32 +346,30 @@ function DriveAuthPanel({ onSynced }) {
         </div>
       </div>
 
-      {error && (
-        <p className="text-xs text-red-500 mt-2">{error}</p>
-      )}
+      {error && <p className="mt-3 text-xs text-destructive">{error}</p>}
 
       {syncingAll && syncProgress && (
-        <p className="text-xs text-blue-600 mt-2 flex items-center gap-1">
-          <Loader2 size={12} className="animate-spin flex-shrink-0" />
+        <p className="mt-3 flex items-center gap-1 text-xs text-primary">
+          <Loader2 size={12} className="shrink-0 animate-spin" />
           {syncProgress}
         </p>
       )}
 
       {preview && (
-        <div className="mt-3 p-3 bg-gray-50 rounded-lg text-xs">
-          <p className="font-medium text-gray-700 mb-2">
+        <div className="mt-4 rounded-lg bg-secondary/50 p-3 text-xs">
+          <p className="mb-2 font-medium text-card-foreground">
             {preview.total} file được hỗ trợ trên Drive
             {preview.account_email ? ` (${preview.account_email})` : ''}
           </p>
-          <ul className="space-y-1 max-h-32 overflow-y-auto">
+          <ul className="max-h-32 space-y-1 overflow-y-auto">
             {preview.files?.map((f) => (
-              <li key={f.id} className="text-gray-600 truncate">
+              <li key={f.id} className="truncate text-muted-foreground">
                 [{f.type_label}] {f.name}
               </li>
             ))}
           </ul>
           {preview.total > preview.showing && (
-            <p className="text-gray-400 mt-1">... và {preview.total - preview.showing} file khác</p>
+            <p className="mt-1 text-muted-foreground">... và {preview.total - preview.showing} file khác</p>
           )}
         </div>
       )}
@@ -398,10 +399,10 @@ function SyncModal({ onClose, onSync }) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
-        <h3 className="font-semibold text-gray-800 mb-1">Đồng bộ Google Drive</h3>
-        <p className="text-sm text-gray-500 mb-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+      <div className="w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-xl">
+        <h3 className="mb-1 font-semibold text-card-foreground">Đồng bộ Google Drive</h3>
+        <p className="mb-4 text-sm text-muted-foreground">
           Nhập danh sách Google Drive file ID (mỗi dòng một ID).<br />
           Để trống = đồng bộ toàn bộ Drive.
         </p>
@@ -411,44 +412,40 @@ function SyncModal({ onClose, onSync }) {
           onChange={(e) => setFileIds(e.target.value)}
           placeholder={'1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms\n1a2b3c4d5e6f...'}
           rows={5}
-          className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm font-mono
-                     focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none"
+          className="w-full resize-none rounded-xl border border-border bg-background px-3 py-2 font-mono text-sm focus:border-primary/60 focus:outline-none focus:ring-2 focus:ring-primary/20"
         />
 
-        {/* Kết quả sync */}
         {result && (
-          <div className="mt-3 p-3 bg-gray-50 rounded-lg text-sm">
-            <p className="font-medium text-gray-700 mb-1">Kết quả đồng bộ:</p>
+          <div className="mt-3 rounded-lg bg-secondary/50 p-3 text-sm">
+            <p className="mb-1 font-medium text-card-foreground">Kết quả đồng bộ:</p>
             <div className="grid grid-cols-3 gap-2 text-center">
-              <div className="bg-green-50 rounded p-2">
-                <p className="text-green-600 font-bold">{result.success}</p>
-                <p className="text-xs text-green-500">Thành công</p>
+              <div className="rounded bg-emerald-500/10 p-2">
+                <p className="font-bold text-emerald-600 dark:text-emerald-400">{result.success}</p>
+                <p className="text-xs text-muted-foreground">Thành công</p>
               </div>
-              <div className="bg-yellow-50 rounded p-2">
-                <p className="text-yellow-600 font-bold">{result.skipped}</p>
-                <p className="text-xs text-yellow-500">Bỏ qua</p>
+              <div className="rounded bg-yellow-500/10 p-2">
+                <p className="font-bold text-yellow-600 dark:text-yellow-400">{result.skipped}</p>
+                <p className="text-xs text-muted-foreground">Bỏ qua</p>
               </div>
-              <div className="bg-red-50 rounded p-2">
-                <p className="text-red-600 font-bold">{result.failed}</p>
-                <p className="text-xs text-red-500">Lỗi</p>
+              <div className="rounded bg-destructive/10 p-2">
+                <p className="font-bold text-destructive">{result.failed}</p>
+                <p className="text-xs text-muted-foreground">Lỗi</p>
               </div>
             </div>
           </div>
         )}
 
-        <div className="flex gap-2 mt-4">
+        <div className="mt-4 flex gap-2">
           <button
             onClick={onClose}
-            className="flex-1 px-4 py-2 border border-gray-200 rounded-xl text-sm text-gray-600
-                       hover:bg-gray-50 transition-colors"
+            className="flex-1 rounded-xl border border-border px-4 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent"
           >
             Đóng
           </button>
           <button
             onClick={handleSync}
             disabled={syncing}
-            className="flex-1 px-4 py-2 bg-blue-500 text-white rounded-xl text-sm
-                       hover:bg-blue-600 disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
+            className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
           >
             {syncing ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
             {syncing ? 'Đang đồng bộ...' : 'Bắt đầu sync'}
@@ -526,67 +523,62 @@ export default function DocumentList() {
   }
 
   return (
-    <div className="flex flex-col h-full bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
-        <div>
-          <h2 className="font-semibold text-gray-800">Tài liệu đã index</h2>
-          <p className="text-xs text-gray-500">
-            {loading ? 'Đang tải...' : `${documents.length} tài liệu trong knowledge base`}
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={loadDocuments}
-            className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100"
-            title="Tải lại"
-          >
-            <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
-          </button>
-          <button
-            onClick={() => setShowSyncModal(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-500 text-white text-sm
-                       rounded-lg hover:bg-blue-600 transition-colors"
-          >
-            <Plus size={14} />
-            Sync Drive
-          </button>
-        </div>
-      </div>
+    <div className="flex h-full flex-col overflow-y-auto">
+      <PageHeader
+        title="Tài liệu đã index"
+        subtitle={loading ? 'Đang tải...' : `${documents.length} tài liệu trong knowledge base`}
+        icon={<FolderOpen className="h-5 w-5" />}
+        actions={
+          <>
+            <button
+              type="button"
+              onClick={loadDocuments}
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              title="Tải lại"
+            >
+              <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowSyncModal(true)}
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition-opacity hover:opacity-90"
+            >
+              <CloudUpload className="h-4 w-4" />
+              Sync Drive
+            </button>
+          </>
+        }
+      />
 
-      {/* Content */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 chat-scroll">
+      <div className="chat-scroll mx-auto w-full max-w-5xl flex-1 space-y-6 px-6 py-6">
         <DriveAuthPanel onSynced={handleDriveSynced} />
 
-        {/* Success message */}
         {successMsg && (
-          <div className="mb-3 px-3 py-2 bg-green-50 border border-green-200 rounded-lg
-                          flex items-center gap-2 text-sm text-green-600">
+          <div className="flex items-center gap-2 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-600 dark:text-emerald-400">
             <CheckCircle2 size={14} />
             {successMsg}
           </div>
         )}
 
-        {/* Error message */}
         {error && (
-          <div className="mb-3 px-3 py-2 bg-red-50 border border-red-200 rounded-lg
-                          flex items-center gap-2 text-sm text-red-600">
+          <div className="flex items-center gap-2 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
             <AlertCircle size={14} />
             {error}
-            <button onClick={() => setError('')} className="ml-auto">✕</button>
+            <button type="button" onClick={() => setError('')} className="ml-auto opacity-70 hover:opacity-100">
+              ✕
+            </button>
           </div>
         )}
 
-        {/* Loading skeleton */}
         {loading && (
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-white border border-gray-200 rounded-xl p-4 animate-pulse">
+              <div key={i} className="animate-pulse rounded-2xl border border-border bg-card p-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 bg-gray-200 rounded-lg" />
+                  <div className="h-12 w-12 rounded-xl bg-muted" />
                   <div className="flex-1">
-                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2" />
-                    <div className="h-3 bg-gray-200 rounded w-1/2" />
+                    <div className="mb-2 h-4 w-3/4 rounded bg-muted" />
+                    <div className="h-3 w-1/2 rounded bg-muted" />
                   </div>
                 </div>
               </div>
@@ -594,34 +586,32 @@ export default function DocumentList() {
           </div>
         )}
 
-        {/* Empty state */}
         {!loading && documents.length === 0 && (
-          <div className="text-center py-16">
-            <Database size={48} className="text-gray-300 mx-auto mb-3" />
-            <p className="text-gray-500 font-medium">Chưa có tài liệu nào</p>
-            <p className="text-gray-400 text-sm mt-1">
-              Nhấn "Sync Drive" để index tài liệu từ Google Drive
+          <div className="py-16 text-center">
+            <Database size={48} className="mx-auto mb-3 text-muted-foreground/40" />
+            <p className="font-medium text-muted-foreground">Chưa có tài liệu nào</p>
+            <p className="mt-1 text-sm text-muted-foreground/70">
+              Nhấn &quot;Sync Drive&quot; để index tài liệu từ Google Drive
             </p>
             <button
+              type="button"
               onClick={() => setShowSyncModal(true)}
-              className="mt-4 px-4 py-2 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600"
+              className="mt-4 rounded-lg bg-primary px-4 py-2 text-sm text-primary-foreground transition-opacity hover:opacity-90"
             >
               Sync Drive ngay
             </button>
           </div>
         )}
 
-        {/* Document cards */}
         {!loading && documents.length > 0 && (
-          <div className="space-y-2">
+          <section className="space-y-3">
             {documents.map((doc) => (
               <DocumentCard key={doc.id} doc={doc} onDelete={handleDelete} />
             ))}
-          </div>
+          </section>
         )}
       </div>
 
-      {/* Sync modal */}
       {showSyncModal && (
         <SyncModal onClose={() => setShowSyncModal(false)} onSync={handleSync} />
       )}

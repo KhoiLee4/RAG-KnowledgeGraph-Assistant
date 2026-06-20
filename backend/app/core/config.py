@@ -6,15 +6,31 @@ phát hiện lỗi thiếu config sớm thay vì crash lúc runtime.
 """
 
 from functools import lru_cache
+from pathlib import Path
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+_BACKEND_DIR = Path(__file__).resolve().parent.parent.parent
+_PROJECT_ROOT = _BACKEND_DIR.parent
+
+
+def resolve_env_file() -> Path:
+    """Một file .env duy nhất ở thư mục gốc repo (fallback backend/.env khi migrate)."""
+    for candidate in (_PROJECT_ROOT / ".env", _BACKEND_DIR / ".env"):
+        if candidate.is_file():
+            return candidate
+    return _PROJECT_ROOT / ".env"
+
+
+ENV_FILE_PATH = resolve_env_file()
 
 
 class Settings(BaseSettings):
-    """Lớp chứa tất cả cấu hình, tự động đọc từ file .env."""
+    """Lớp chứa tất cả cấu hình, tự động đọc từ file .env ở thư mục gốc repo."""
 
     # ── Gemini AI ──────────────────────────────────────────────
     GEMINI_API_KEY: str = ""
-    GEMINI_MODEL: str = "gemini-2.0-flash"
+    GEMINI_MODEL: str = "gemini-2.5-flash"
     # google-genai: dùng gemini-embedding-001 (text-embedding-004 đã 404 trên API mới)
     GEMINI_EMBEDDING_MODEL: str = "gemini-embedding-001"
 
@@ -59,6 +75,33 @@ class Settings(BaseSettings):
     RETRIEVAL_KEYWORD_WEIGHT: float = 0.20
     RETRIEVAL_CANDIDATE_MULTIPLIER: int = 3
 
+    # ── GraphRAG ───────────────────────────────────────────────
+    GRAPH_ENABLED: bool = True          # Bật/tắt GraphRAG retrieval
+    GRAPH_ALPHA: float = 0.7            # Trọng số vector trong hybrid (0.0–1.0)
+    GRAPH_BUILD_ON_INDEX: bool = True   # Tự động build KG khi index tài liệu
+    GRAPH_ENTITY_BATCH_SIZE: int = 8    # Số chunk gộp / 1 lần gọi Gemini extract entity
+    GRAPH_ENTITY_BATCH_PAUSE: float = 3.0  # Giây nghỉ giữa các batch (tránh 429)
+
+    # ── Entity normalization ───────────────────────────────────
+    ENTITY_FUZZY_THRESHOLD: int = 85    # Ngưỡng thefuzz token_sort_ratio (0–100)
+    ENTITY_ALIAS_MAP_PATH: str = "data/entity_aliases.json"
+
+    # ── Community detection (Louvain + summary) ────────────────
+    GRAPH_BUILD_COMMUNITIES: bool = True   # Chạy sau sync-all async
+    COMMUNITY_MIN_SIZE: int = 3            # Ngưỡng merge / bỏ qua community nhỏ
+    COMMUNITY_SUMMARY_PAUSE: float = 2.0   # Giây nghỉ giữa Gemini summary calls
+    COMMUNITY_RELATED_WEIGHT: float = 2.0    # Trọng số cạnh RELATED_TO
+    COMMUNITY_COOCCUR_WEIGHT: float = 1.0   # Trọng số cạnh COOCCURS_WITH
+
+    # ── Hybrid retrieval context ───────────────────────────────
+    RETRIEVAL_CONTEXT_MAX_CHARS: int = 8000  # Budget tổng context gửi Gemini
+
+    # ── Indexing throttle (tránh 429 khi sync nhiều file) ─────
+    INDEX_FILE_PAUSE: float = 5.0           # Giây nghỉ giữa mỗi file
+    INDEX_QUOTA_COOLDOWN: float = 45.0      # Giây chờ khi gặp 429 rồi retry file
+    INDEX_QUOTA_MAX_RETRIES: int = 2        # Số lần retry / file khi quota
+    EMBED_BATCH_PAUSE: float = 2.5          # Giây nghỉ giữa batch embedding
+
     # ── FastAPI ────────────────────────────────────────────────
     APP_HOST: str = "0.0.0.0"
     APP_PORT: int = 8081
@@ -66,7 +109,7 @@ class Settings(BaseSettings):
     CORS_ORIGINS: list[str] = ["http://localhost:3000", "http://localhost:5173"]
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=str(ENV_FILE_PATH),
         env_file_encoding="utf-8",
         case_sensitive=False,
         extra="ignore",
@@ -96,22 +139,23 @@ settings = get_settings()
 SUPPORTED_MIME_TYPES: dict[str, str] = {
     # PDF
     "application/pdf": ".pdf",
-    # Word
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document": ".docx",
-    "application/msword": ".doc",
-    # Excel
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": ".xlsx",
-    "application/vnd.ms-excel": ".xls",
-    # PowerPoint (tùy chọn — comment lại nếu không cần)
-    "application/vnd.openxmlformats-officedocument.presentationml.presentation": ".pptx",
-    # Text thuần
-    "text/plain": ".txt",
-    "text/markdown": ".md",
-    "text/csv": ".csv",
-    # Google Workspace — phải export qua API, không download trực tiếp
-    "application/vnd.google-apps.document": ".docx",       # Google Docs  → DOCX
-    "application/vnd.google-apps.spreadsheet": ".xlsx",    # Google Sheets → XLSX
-    "application/vnd.google-apps.presentation": ".pptx",  # Google Slides → PPTX
+    # # Word
+    # "application/vnd.openxmlformats-officedocument.wordprocessingml.document": ".docx",
+    # "application/msword": ".doc",
+    # # Google Docs → export DOCX
+    # "application/vnd.google-apps.document": ".docx",
+    # # Excel
+    # "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": ".xlsx",
+    # "application/vnd.ms-excel": ".xls",
+    # # PowerPoint
+    # "application/vnd.openxmlformats-officedocument.presentationml.presentation": ".pptx",
+    # # Text thuần
+    # "text/plain": ".txt",
+    # "text/markdown": ".md",
+    # "text/csv": ".csv",
+    # # Google Sheets / Slides
+    # "application/vnd.google-apps.spreadsheet": ".xlsx",
+    # "application/vnd.google-apps.presentation": ".pptx",
 }
 
 # Danh sách MIME type bị bỏ qua hoàn toàn — ảnh, video, audio, binary.

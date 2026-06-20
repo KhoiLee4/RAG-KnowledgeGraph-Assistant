@@ -129,6 +129,79 @@ class Neo4jClient:
             logger.error("create_entity_node (%s) lỗi: %s", entity_type, e)
             raise
 
+    def merge_canonical_entity(self, properties: dict[str, Any]) -> dict[str, Any]:
+        """
+        MERGE Entity node theo id (derived từ canonical name_norm).
+        Gộp aliases khi node đã tồn tại.
+        """
+        ent_id = properties.get("id")
+        if not ent_id:
+            raise ValueError("merge_canonical_entity yêu cầu properties['id']")
+
+        new_aliases = properties.get("aliases") or []
+        if not isinstance(new_aliases, list):
+            new_aliases = []
+
+        try:
+            existing = self._run(
+                "MATCH (n:Entity {id: $id}) RETURN n.aliases AS aliases, n.description AS description",
+                {"id": ent_id},
+            )
+            merged_aliases = list(new_aliases)
+            description = str(properties.get("description", ""))
+
+            if existing:
+                old_aliases = existing[0].get("aliases") or []
+                if isinstance(old_aliases, list):
+                    for a in old_aliases:
+                        if a and a not in merged_aliases:
+                            merged_aliases.append(a)
+                old_desc = str(existing[0].get("description") or "")
+                if len(old_desc) > len(description):
+                    description = old_desc
+
+            props = {**properties, "aliases": merged_aliases, "description": description}
+
+            cypher = """
+            MERGE (n:Entity {id: $id})
+            ON CREATE SET n = $props
+            ON MATCH SET
+              n.name = $props.name,
+              n.name_norm = $props.name_norm,
+              n.type = $props.type,
+              n.description = $props.description,
+              n.aliases = $props.aliases,
+              n.owner_id = coalesce($props.owner_id, n.owner_id)
+            RETURN n
+            """
+            records = self._run(cypher, {"id": ent_id, "props": props})
+            result = dict(records[0]["n"]) if records else {}
+            logger.debug("Merge canonical Entity id=%s name=%s", ent_id, props.get("name"))
+            return result
+        except Exception as e:
+            logger.error("merge_canonical_entity id=%s lỗi: %s", ent_id, e)
+            raise
+
+    def merge_community_node(self, properties: dict[str, Any]) -> dict[str, Any]:
+        """MERGE Community node theo id."""
+        comm_id = properties.get("id")
+        if not comm_id:
+            raise ValueError("merge_community_node yêu cầu properties['id']")
+
+        try:
+            cypher = """
+            MERGE (n:Community {id: $id})
+            SET n = $props
+            RETURN n
+            """
+            records = self._run(cypher, {"id": comm_id, "props": properties})
+            result = dict(records[0]["n"]) if records else {}
+            logger.debug("Merge Community id=%s", comm_id)
+            return result
+        except Exception as e:
+            logger.error("merge_community_node id=%s lỗi: %s", comm_id, e)
+            raise
+
     def create_relationship(
         self,
         from_id: str,
@@ -320,6 +393,7 @@ class Neo4jClient:
     def delete_document_graph(self, file_id: str) -> bool:
         """
         Xóa toàn bộ node và quan hệ liên quan tới một document.
+        Bao gồm: Document, Chunk, và Entity orphan (không còn Chunk nào MENTIONS).
 
         Args:
             file_id: Google Drive file ID.
@@ -328,16 +402,36 @@ class Neo4jClient:
             True nếu thành công.
         """
         try:
-            # Xóa Document node và Chunk nodes
+            # Tìm Entity nodes được MENTIONS bởi Chunk của document này
+            # để sau khi xóa Chunk, dọn orphan
             self._run(
-                "MATCH (d:Document {id: $id}) DETACH DELETE d",
+                """
+                MATCH (c:Chunk {file_id: $id})-[:MENTIONS]->(e:Entity)
+                WITH e
+                DETACH DELETE e
+                """,
                 {"id": file_id},
             )
+            # Xóa Chunk nodes
             self._run(
                 "MATCH (c:Chunk {file_id: $id}) DETACH DELETE c",
                 {"id": file_id},
             )
-            logger.info("Đã xóa document graph: %s", file_id)
+            # Xóa Document node
+            self._run(
+                "MATCH (d:Document {id: $id}) DETACH DELETE d",
+                {"id": file_id},
+            )
+            # Dọn Entity thực sự orphan (không còn MENTIONS nào)
+            self._run(
+                """
+                MATCH (e:Entity)
+                WHERE NOT (e)<-[:MENTIONS]-()
+                DELETE e
+                """,
+                {},
+            )
+            logger.info("Đã xóa document graph (bao gồm Entity orphan): %s", file_id)
             return True
         except Exception as e:
             logger.error("delete_document_graph '%s' lỗi: %s", file_id, e)

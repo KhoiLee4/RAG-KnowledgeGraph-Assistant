@@ -20,6 +20,12 @@ QUOTA_USER_MESSAGE = (
     "Tab Tài liệu vẫn xem được danh sách file đã index."
 )
 
+QUOTA_DAILY_EXHAUSTED_MESSAGE = (
+    "Quota Gemini free tier đã HẾT cho hôm nay (limit: 0). "
+    "Chờ đến ngày mai (reset ~0h PST) hoặc bật billing tại https://aistudio.google.com/. "
+    "Không nên bấm sync thêm — sẽ chỉ chờ vô ích."
+)
+
 
 def is_quota_error(exc: BaseException) -> bool:
     msg = str(exc).lower()
@@ -27,6 +33,21 @@ def is_quota_error(exc: BaseException) -> bool:
         k in msg
         for k in ("429", "resource_exhausted", "quota", "rate limit", "rate_limit")
     )
+
+
+def is_daily_quota_exhausted(exc: BaseException) -> bool:
+    """
+    True khi Google báo hết quota NGÀY (limit: 0 hoặc PerDay).
+    Retry phút/giây sẽ không giúp — phải đợi reset hoặc bật billing.
+    """
+    msg = str(exc).lower()
+    if "perday" in msg or "per_day" in msg:
+        if "limit: 0" in msg or "'quotavalue': '0'" in msg:
+            return True
+    # Một số response chỉ có limit: 0 lặp lại
+    if msg.count("limit: 0") >= 2 and "free_tier" in msg:
+        return True
+    return False
 
 
 def parse_retry_seconds(exc: BaseException, default: float = 8.0) -> float:
@@ -38,6 +59,8 @@ def parse_retry_seconds(exc: BaseException, default: float = 8.0) -> float:
 
 
 def format_gemini_error(exc: BaseException) -> str:
+    if is_daily_quota_exhausted(exc):
+        return QUOTA_DAILY_EXHAUSTED_MESSAGE
     if is_quota_error(exc):
         return QUOTA_USER_MESSAGE
     text = str(exc).strip()
@@ -60,6 +83,10 @@ def call_with_gemini_retry(
         except Exception as e:
             last_exc = e
             msg = str(e).lower()
+            # Hết quota NGÀY → không retry (tránh chờ 59s x N lần vô ích)
+            if is_daily_quota_exhausted(e):
+                logger.error("%s: quota ngày đã hết — dừng retry.", label)
+                raise
             retriable = any(
                 k in msg
                 for k in ("quota", "rate", "timeout", "503", "429", "resource_exhausted")

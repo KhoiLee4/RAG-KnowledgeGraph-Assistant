@@ -44,6 +44,17 @@ class SyncJobStore:
             job = self._jobs.get(job_id)
             return dict(job) if job else None
 
+    def has_running_for_user(self, user_id: str) -> bool:
+        """True nếu user đã có job sync đang chạy."""
+        with self._lock:
+            for job in self._jobs.values():
+                if job.get("user_id") == user_id and job.get("status") in (
+                    "pending",
+                    "running",
+                ):
+                    return True
+            return False
+
 
 _store: SyncJobStore | None = None
 

@@ -310,4 +310,28 @@ export async function getHealth() {
   return response.data;
 }
 
+// ════════════════════════════════════════════════════════════
+// Graph API
+// ════════════════════════════════════════════════════════════
+
+/** Thống kê Knowledge Graph của user hiện tại. */
+export async function getGraphStats() {
+  const response = await api.get("/graph/stats");
+  return response.data;
+}
+
+/** Entity được trích xuất từ một tài liệu cụ thể. */
+export async function getDocumentEntities(fileId, limit = 50) {
+  const response = await api.get(`/graph/entities/${fileId}`, {
+    params: { limit },
+  });
+  return response.data;
+}
+
+/** Rebuild entity graph cho một tài liệu (sau khi đã index). */
+export async function rebuildDocumentGraph(fileId) {
+  const response = await api.post(`/graph/rebuild/${fileId}`);
+  return response.data;
+}
+
 export default api;

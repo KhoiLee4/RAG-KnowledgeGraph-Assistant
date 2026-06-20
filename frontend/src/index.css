@@ -2,19 +2,99 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Scrollbar tùy chỉnh cho khu vực chat */
+:root {
+  color-scheme: light;
+  --background: #f8f9fc;
+  --foreground: #1e1b2e;
+  --card: #ffffff;
+  --card-foreground: #1e1b2e;
+  --popover: #ffffff;
+  --popover-foreground: #1e1b2e;
+  --primary: #6366f1;
+  --primary-foreground: #ffffff;
+  --secondary: #eef0f7;
+  --secondary-foreground: #44425a;
+  --muted: #f1f2f8;
+  --muted-foreground: #6b6880;
+  --accent: #e8e9fd;
+  --accent-foreground: #3730a3;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e4e3ee;
+  --input: #e4e3ee;
+  --ring: #6366f1;
+  --chart-1: #6366f1;
+  --chart-2: #8b5cf6;
+  --chart-3: #a855f7;
+  --chart-4: #4f46e5;
+  --chart-5: #7c3aed;
+  --radius: 0.75rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1e1b2e;
+  --sidebar-primary: #6366f1;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #eef0f7;
+  --sidebar-accent-foreground: #3730a3;
+  --sidebar-border: #e4e3ee;
+  --sidebar-ring: #6366f1;
+}
+
+.dark {
+  color-scheme: dark;
+  --background: #0c0a14;
+  --foreground: #e7e5f0;
+  --card: #14121f;
+  --card-foreground: #e7e5f0;
+  --popover: #14121f;
+  --popover-foreground: #e7e5f0;
+  --primary: #818cf8;
+  --primary-foreground: #0c0a14;
+  --secondary: #1c1a2a;
+  --secondary-foreground: #c4c2d4;
+  --muted: #1c1a2a;
+  --muted-foreground: #908da3;
+  --accent: #2a2640;
+  --accent-foreground: #c7d2fe;
+  --destructive: #f87171;
+  --destructive-foreground: #ffffff;
+  --border: #26233a;
+  --input: #26233a;
+  --ring: #818cf8;
+  --chart-1: #818cf8;
+  --chart-2: #a78bfa;
+  --chart-3: #c084fc;
+  --chart-4: #6366f1;
+  --chart-5: #8b5cf6;
+  --sidebar: #100e1a;
+  --sidebar-foreground: #e7e5f0;
+  --sidebar-primary: #818cf8;
+  --sidebar-primary-foreground: #0c0a14;
+  --sidebar-accent: #1c1a2a;
+  --sidebar-accent-foreground: #c7d2fe;
+  --sidebar-border: #26233a;
+  --sidebar-ring: #818cf8;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
 .chat-scroll::-webkit-scrollbar {
   width: 6px;
 }
 .chat-scroll::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: transparent;
 }
 .chat-scroll::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: var(--border);
   border-radius: 3px;
 }
 
-/* Animation typing indicator */
 @keyframes bounce-dot {
   0%, 80%, 100% { transform: scale(0); }
   40% { transform: scale(1); }
