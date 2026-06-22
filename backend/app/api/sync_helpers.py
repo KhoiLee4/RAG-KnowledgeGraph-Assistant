@@ -16,7 +16,7 @@ def perform_drive_sync_all(
     folder_id: str | None = None,
     on_progress: Any = None,
 ) -> SyncDriveResponse:
-    """Quét Drive và index toàn bộ file PDF được hỗ trợ cho user."""
+    """Quét Drive và index toàn bộ tài liệu được hỗ trợ (PDF, Word, Excel...) cho user."""
     from app.services.drive_service import DriveService
 
     svc_index = get_indexing_service()

@@ -38,10 +38,11 @@ function MimeBadge({ mimeType }) {
   const config = {
     'application/pdf': { label: 'PDF', color: 'bg-red-500/15 text-red-600 dark:text-red-400' },
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document': { label: 'DOCX', color: 'bg-primary/15 text-primary' },
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': { label: 'XLSX', color: 'bg-emerald-500/15 text-emerald-600' },
-    'text/plain': { label: 'TXT', color: 'bg-muted text-muted-foreground' },
-    'image/jpeg': { label: 'JPEG', color: 'bg-yellow-500/15 text-yellow-600' },
-    'image/png': { label: 'PNG', color: 'bg-yellow-500/15 text-yellow-600' },
+    'application/msword': { label: 'DOC', color: 'bg-primary/15 text-primary' },
+    'application/vnd.google-apps.document': { label: 'GDocs', color: 'bg-primary/15 text-primary' },
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': { label: 'XLSX', color: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' },
+    'application/vnd.ms-excel': { label: 'XLS', color: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' },
+    'application/vnd.google-apps.spreadsheet': { label: 'GSheet', color: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' },
   }
   const { label = 'FILE', color = 'bg-muted text-muted-foreground' } =
     config[mimeType] || {}
@@ -206,8 +207,8 @@ function DriveAuthPanel({ onSynced }) {
   const handleSyncAll = async () => {
     if (
       !confirm(
-        'Đồng bộ TOÀN BỘ file PDF được hỗ trợ trên Google Drive?\n\n' +
-          'Chỉ: .pdf\n' +
+        'Đồng bộ TOÀN BỘ tài liệu được hỗ trợ trên Google Drive?\n\n' +
+          'Hỗ trợ: PDF, Word (.docx, .doc), Excel (.xlsx, .xls), Google Docs/Sheets\n' +
         'Quá trình có thể mất 15–30+ phút tùy số file (chạy nền, không bị timeout).',
       )
     ) {

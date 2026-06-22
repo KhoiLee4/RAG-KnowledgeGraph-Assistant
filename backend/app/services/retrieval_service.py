@@ -157,7 +157,7 @@ class RetrievalService:
         for i, r in enumerate(results, 1):
             header = (
                 f"[{i}] Nguồn: {r['file_name']} "
-                f"(Trang ~{r['page_estimate']}, Chunk {r['chunk_index']})"
+                f"(Trang {r['page_estimate']})"
             )
             entry = f"{header}\n{r['text']}"
 

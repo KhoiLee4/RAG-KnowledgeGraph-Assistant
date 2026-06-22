@@ -25,50 +25,15 @@ from app.services.entity_normalizer import (
     EntityNormalizer,
     get_entity_normalizer,
 )
+from app.services.graph_schema import (
+    BATCH_ENTITY_EXTRACTION_PROMPT,
+    ENTITY_EXTRACTION_PROMPT,
+    ENTITY_REL_CYPHER_PATTERN,
+    PATH_REL_CYPHER_PATTERN,
+    normalize_relation_type,
+)
 
 logger = logging.getLogger(__name__)
-
-ENTITY_EXTRACTION_PROMPT = """Phân tích đoạn văn bản sau và trích xuất các thực thể quan trọng.
-
-Văn bản:
-{text}
-
-Trả về JSON với format:
-{{
-  "entities": [
-    {{"name": "tên entity", "type": "PERSON|ORGANIZATION|CONCEPT|LOCATION|DATE|OTHER", "description": "mô tả ngắn"}}
-  ],
-  "relations": [
-    {{"from": "entity A", "to": "entity B", "relation": "LOẠI_QUAN_HỆ", "description": "mô tả"}}
-  ]
-}}
-
-Chỉ trả về JSON thuần, không thêm markdown hay giải thích.
-"""
-
-BATCH_ENTITY_EXTRACTION_PROMPT = """Phân tích các đoạn văn bản sau và trích xuất thực thể cho TỪNG đoạn.
-Mỗi đoạn được đánh dấu [CHUNK_N] với N là chunk_index.
-
-{texts}
-
-Trả về JSON với format:
-{{
-  "chunks": [
-    {{
-      "chunk_index": 0,
-      "entities": [
-        {{"name": "tên entity", "type": "PERSON|ORGANIZATION|CONCEPT|LOCATION|DATE|OTHER", "description": "mô tả ngắn"}}
-      ],
-      "relations": [
-        {{"from": "entity A", "to": "entity B", "relation": "LOẠI_QUAN_HỆ", "description": "mô tả"}}
-      ]
-    }}
-  ]
-}}
-
-Chỉ trả về JSON thuần, không thêm markdown hay giải thích.
-Mỗi phần tử trong "chunks" phải khớp đúng chunk_index đã cho.
-"""
 
 
 class GraphService:
@@ -272,18 +237,19 @@ class GraphService:
             if not from_id or not to_id or from_id == to_id:
                 continue
 
+            rel_type = normalize_relation_type(str(rel.get("relation", "RELATED_TO")))
             try:
                 self._neo4j.create_relationship(
                     from_id=from_id,
                     to_id=to_id,
-                    relation_type="RELATED_TO",
+                    relation_type=rel_type,
                     properties={"description": str(rel.get("description", ""))},
                     from_label="Entity",
                     to_label="Entity",
                 )
                 stats["relations_created"] += 1
             except Exception as e:
-                logger.warning("Tạo RELATED_TO lỗi: %s", e)
+                logger.warning("Tạo quan hệ Entity lỗi (%s): %s", rel_type, e)
 
         unique_ids = list(set(name_to_id.values()))
         for i, eid1 in enumerate(unique_ids):
@@ -444,7 +410,8 @@ class GraphService:
                     MATCH (e:Entity {owner_id: $owner_id})
                     WHERE size(e.name_norm) >= 3
                       AND ($query_norm CONTAINS e.name_norm
-                           OR e.name_norm IN $tokens)
+                           OR e.name_norm IN $tokens
+                           OR any(t IN $tokens WHERE size(t) >= 3 AND e.name_norm CONTAINS t))
                     RETURN DISTINCT e.name_norm AS name_norm
                     ORDER BY size(e.name_norm) DESC
                     LIMIT 15
@@ -487,12 +454,12 @@ class GraphService:
             return {"text": "", "entities": [], "relations": [], "chunk_refs": []}
 
         if owner_id:
-            cypher = """
-            MATCH (e:Entity {owner_id: $owner_id})
+            cypher = f"""
+            MATCH (e:Entity {{owner_id: $owner_id}})
             WHERE e.name_norm IN $entity_norms
-            OPTIONAL MATCH (e)-[r:RELATED_TO|COOCCURS_WITH]-(e2:Entity {owner_id: $owner_id})
+            OPTIONAL MATCH (e)-[r:{ENTITY_REL_CYPHER_PATTERN}]-(e2:Entity {{owner_id: $owner_id}})
             OPTIONAL MATCH (c:Chunk)-[:MENTIONS]->(e)
-            OPTIONAL MATCH (d:Document {owner_id: $owner_id})-[:CONTAINS]->(c)
+            OPTIONAL MATCH (d:Document {{owner_id: $owner_id}})-[:CONTAINS]->(c)
             RETURN e.name AS name, e.type AS type,
                    coalesce(e.description, '') AS description,
                    e2.name AS related_name, type(r) AS rel_type,
@@ -507,10 +474,10 @@ class GraphService:
                 "limit": limit,
             }
         else:
-            cypher = """
+            cypher = f"""
             MATCH (e:Entity)
             WHERE e.name_norm IN $entity_norms
-            OPTIONAL MATCH (e)-[r:RELATED_TO|COOCCURS_WITH]-(e2:Entity)
+            OPTIONAL MATCH (e)-[r:{ENTITY_REL_CYPHER_PATTERN}]-(e2:Entity)
             OPTIONAL MATCH (c:Chunk)-[:MENTIONS]->(e)
             OPTIONAL MATCH (d:Document)-[:CONTAINS]->(c)
             RETURN e.name AS name, e.type AS type,
@@ -599,6 +566,134 @@ class GraphService:
             "entities": list(entities_map.values()),
             "relations": relations,
             "chunk_refs": chunk_refs,
+        }
+
+    def find_entity_paths(
+        self,
+        entity_norms: list[str],
+        owner_id: str | None = None,
+        max_paths: int = 5,
+        max_hops: int = 5,
+    ) -> dict[str, Any]:
+        """
+        Tìm đường đi ngắn nhất giữa các cặp entity (câu hỏi quan hệ multi-entity).
+        """
+        from itertools import combinations
+
+        norms = list(dict.fromkeys(n for n in entity_norms if n))[:4]
+        if len(norms) < 2:
+            return {"text": "", "paths": [], "relations": []}
+
+        paths: list[dict[str, Any]] = []
+        relations: list[dict[str, str]] = []
+        rel_seen: set[str] = set()
+
+        def _run_path_query(norm_a: str, norm_b: str, rel_pattern: str) -> list[dict[str, Any]]:
+            if owner_id:
+                cypher = f"""
+                MATCH (a:Entity {{owner_id: $oid, name_norm: $norm_a}})
+                MATCH (b:Entity {{owner_id: $oid, name_norm: $norm_b}})
+                WHERE a <> b
+                MATCH path = shortestPath(
+                  (a)-[:{rel_pattern}*..{max_hops}]-(b)
+                )
+                RETURN [n IN nodes(path) | {{name: n.name, type: n.type}}] AS nodes,
+                       [r IN relationships(path) | {{
+                         type: type(r), desc: coalesce(r.description, '')
+                       }}] AS rels,
+                       length(path) AS hops
+                LIMIT 1
+                """
+                params = {"oid": owner_id, "norm_a": norm_a, "norm_b": norm_b}
+            else:
+                cypher = f"""
+                MATCH (a:Entity {{name_norm: $norm_a}})
+                MATCH (b:Entity {{name_norm: $norm_b}})
+                WHERE a <> b
+                MATCH path = shortestPath(
+                  (a)-[:{rel_pattern}*..{max_hops}]-(b)
+                )
+                RETURN [n IN nodes(path) | {{name: n.name, type: n.type}}] AS nodes,
+                       [r IN relationships(path) | {{
+                         type: type(r), desc: coalesce(r.description, '')
+                       }}] AS rels,
+                       length(path) AS hops
+                LIMIT 1
+                """
+                params = {"norm_a": norm_a, "norm_b": norm_b}
+            try:
+                return self._neo4j.run_cypher(cypher, params)
+            except Exception as e:
+                logger.warning("find_entity_paths (%s ↔ %s) lỗi: %s", norm_a, norm_b, e)
+                return []
+
+        for norm_a, norm_b in combinations(norms, 2):
+            if len(paths) >= max_paths:
+                break
+
+            records = _run_path_query(norm_a, norm_b, PATH_REL_CYPHER_PATTERN)
+            if not records:
+                records = _run_path_query(norm_a, norm_b, ENTITY_REL_CYPHER_PATTERN)
+            if not records:
+                continue
+
+            rec = records[0]
+            node_list = rec.get("nodes") or []
+            rel_list = rec.get("rels") or []
+            if len(node_list) < 2:
+                continue
+
+            names = [str(n.get("name", "")) for n in node_list if n.get("name")]
+            if len(names) < 2:
+                continue
+
+            steps: list[str] = []
+            for i, rel in enumerate(rel_list):
+                rt = str(rel.get("type", "RELATED_TO"))
+                desc = str(rel.get("desc", "")).strip()
+                from_name = names[i] if i < len(names) else "?"
+                to_name = names[i + 1] if i + 1 < len(names) else "?"
+                step = f"{from_name} —[{rt}]→ {to_name}"
+                if desc:
+                    step += f" ({desc})"
+                steps.append(step)
+
+                rel_key = f"{from_name}|{to_name}|{rt}"
+                if rel_key not in rel_seen:
+                    rel_seen.add(rel_key)
+                    relations.append({
+                        "from": from_name,
+                        "to": to_name,
+                        "rel_type": rt,
+                        "description": desc[:80],
+                    })
+
+            paths.append({
+                "from_norm": norm_a,
+                "to_norm": norm_b,
+                "from_name": names[0],
+                "to_name": names[-1],
+                "hops": rec.get("hops", len(rel_list)),
+                "steps": steps,
+            })
+
+        if not paths:
+            return {"text": "", "paths": [], "relations": []}
+
+        lines = ["=== QUAN HỆ GRAPH (PATH) ===", ""]
+        for i, path in enumerate(paths, 1):
+            lines.append(
+                f"Đường {i}: {path['from_name']} ↔ {path['to_name']} "
+                f"({path['hops']} bước)"
+            )
+            for step in path["steps"]:
+                lines.append(f"  • {step}")
+            lines.append("")
+
+        return {
+            "text": "\n".join(lines).strip(),
+            "paths": paths,
+            "relations": relations,
         }
 
     def graph_retrieve(
@@ -697,9 +792,9 @@ class GraphService:
 
             # 2-hop: Entity -[:RELATED_TO|COOCCURS_WITH]- Entity -[:MENTIONS]- Chunk
             if owner_id:
-                cypher_2hop = """
-                MATCH (e1:Entity {owner_id: $owner_id, name_norm: $name_norm})
-                      -[:RELATED_TO|COOCCURS_WITH]-(e2:Entity)
+                cypher_2hop = f"""
+                MATCH (e1:Entity {{owner_id: $owner_id, name_norm: $name_norm}})
+                      -[:{ENTITY_REL_CYPHER_PATTERN}]-(e2:Entity)
                 MATCH (c:Chunk)-[:MENTIONS]->(e2)
                 MATCH (d:Document)-[:CONTAINS]->(c)
                 RETURN c.id AS chunk_id, d.file_name AS file_name, d.id AS file_id,
@@ -712,8 +807,8 @@ class GraphService:
                     "limit": max_results,
                 }
             else:
-                cypher_2hop = """
-                MATCH (e1:Entity {name_norm: $name_norm})-[:RELATED_TO|COOCCURS_WITH]-(e2:Entity)
+                cypher_2hop = f"""
+                MATCH (e1:Entity {{name_norm: $name_norm}})-[:{ENTITY_REL_CYPHER_PATTERN}]-(e2:Entity)
                 MATCH (c:Chunk)-[:MENTIONS]->(e2)
                 MATCH (d:Document)-[:CONTAINS]->(c)
                 RETURN c.id AS chunk_id, d.file_name AS file_name, d.id AS file_id,

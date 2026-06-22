@@ -19,21 +19,23 @@ from google.genai import types as genai_types
 
 from app.core.config import settings
 from app.core.gemini_retry import call_with_gemini_retry, format_gemini_error, is_quota_error
+from app.services.citation_formatter import format_citations
 from app.services.hybrid_retrieval_service import get_hybrid_retrieval_service
 from app.services.retrieval_service import RetrievalService
 
 logger = logging.getLogger(__name__)
 
 # System prompt định nghĩa hành vi của trợ lý
-SYSTEM_PROMPT = """Bạn là trợ lý ảo thông minh chuyên quản trị tri thức cá nhân.
-Nhiệm vụ: Trả lời câu hỏi của người dùng DỰA TRÊN các tài liệu được cung cấp trong CONTEXT.
+SYSTEM_PROMPT = """Bạn là trợ lý ảo thông minh, chuyên trả lời dựa trên tài liệu cá nhân của người dùng.
 
-Quy tắc BẮT BUỘC:
-1. Chỉ dùng thông tin từ CONTEXT để trả lời. KHÔNG bịa thêm thông tin ngoài context.
-2. Khi trả lời, hãy trích dẫn nguồn bằng cách đề cập số thứ tự [1], [2]... tương ứng.
-3. Nếu CONTEXT không có đủ thông tin, hãy trả lời: "Tôi không tìm thấy thông tin này trong tài liệu của bạn."
-4. Trả lời bằng ngôn ngữ giống người dùng (tiếng Việt hoặc tiếng Anh).
-5. Câu trả lời phải ngắn gọn, rõ ràng, có cấu trúc khi cần.
+QUY TẮC BẮT BUỘC:
+1. Chỉ dùng thông tin từ CONTEXT. Không bịa đặt thêm.
+2. Trả lời tự nhiên, mạch lạc, lịch sự — bằng tiếng Việt nếu người dùng hỏi tiếng Việt, tiếng Anh nếu hỏi tiếng Anh.
+3. Cấu trúc rõ ràng: câu mở đầu ngắn gọn → chi tiết → tóm tắt ngắn nếu phù hợp.
+4. Khi liệt kê nhiều mục (nhiệm vụ, địa chỉ, quy định…), dùng gạch đầu dòng.
+5. Trích dẫn nguồn bằng [1], [2]… đặt CUỐI câu hoặc cuối đoạn liên quan.
+6. KHÔNG viết "Knowledge Graph", "Community", "Vector", "chunk", "context" hay thuật ngữ kỹ thuật trong câu trả lời.
+7. Nếu CONTEXT thiếu thông tin, trả lời: "Tôi không tìm thấy thông tin này trong tài liệu của bạn." và gợi ý hỏi cụ thể hơn nếu có thể.
 """
 
 
@@ -101,23 +103,8 @@ class ChatService:
         self,
         citations: list[dict[str, Any]],
     ) -> list[dict[str, str]]:
-        """
-        Chuẩn hóa citations từ RetrievalBundle (vector / graph / community).
-        """
-        result: list[dict[str, str]] = []
-        for c in citations:
-            result.append({
-                "file_name": str(c.get("file_name", "")),
-                "chunk_index": str(c.get("chunk_index", "0")),
-                "drive_link": str(c.get("drive_link", "")),
-                "page_estimate": str(c.get("page_estimate", "1")),
-                "score": str(c.get("score", "0")),
-                "source": str(c.get("source", c.get("source_type", "vector"))),
-                "source_type": str(c.get("source_type", c.get("source", "vector"))),
-                "community_id": str(c.get("community_id", "")),
-                "summary_preview": str(c.get("summary_preview", "")),
-            })
-        return result
+        """Chuẩn hóa citations thân thiện với người dùng."""
+        return format_citations(citations)
 
     def _run_retrieval(
         self,
@@ -125,37 +112,42 @@ class ChatService:
         collection_name: str,
         top_k: int,
         owner_id: str | None,
+        retrieval_mode: str = "auto",
     ):
         """Retrieve context bundle — hybrid hoặc vector-only."""
-        if settings.GRAPH_ENABLED:
-            return self._hybrid.retrieve_all(
-                query=question,
-                collection_name=collection_name,
-                owner_id=owner_id,
-                n_results=top_k,
+        if retrieval_mode == "rag" or not settings.GRAPH_ENABLED:
+            chunks = self._retrieval.retrieve(
+                question, collection_name, n_results=top_k
             )
-        chunks = self._retrieval.retrieve(
-            question, collection_name, n_results=top_k
-        )
-        context = self._retrieval.format_context(chunks)
-        from app.services.hybrid_retrieval_service import RetrievalBundle
-        citations = [
-            {
-                "file_name": c.get("file_name", ""),
-                "chunk_index": str(c.get("chunk_index", 0)),
-                "drive_link": c.get("drive_link", ""),
-                "page_estimate": str(c.get("page_estimate", 1)),
-                "score": f"{c.get('score', 0):.3f}",
-                "source": "vector",
-                "source_type": "vector",
-            }
-            for c in chunks
-        ]
-        return RetrievalBundle(
-            context=context,
-            citations=citations,
-            vector_chunks=chunks,
-            route="vector_only",
+            context = self._retrieval.format_context(chunks)
+            from app.services.hybrid_retrieval_service import RetrievalBundle
+            citations = [
+                {
+                    "file_name": c.get("file_name", ""),
+                    "file_id": c.get("file_id", ""),
+                    "chunk_index": str(c.get("chunk_index", 0)),
+                    "drive_link": c.get("drive_link", ""),
+                    "page_estimate": str(c.get("page_estimate", 1)),
+                    "score": f"{c.get('score', 0):.3f}",
+                    "source": "vector",
+                    "source_type": "vector",
+                    "snippet": str(c.get("text", ""))[:200],
+                }
+                for c in chunks
+            ]
+            return RetrievalBundle(
+                context=context,
+                citations=citations,
+                vector_chunks=chunks,
+                route="rag_only",
+            )
+
+        return self._hybrid.retrieve_all(
+            query=question,
+            collection_name=collection_name,
+            owner_id=owner_id,
+            n_results=top_k,
+            retrieval_mode=retrieval_mode,
         )
 
     def _try_list_documents_answer(self, question: str) -> dict[str, Any] | None:
@@ -219,7 +211,11 @@ class ChatService:
             label = {
                 "application/pdf": "PDF",
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "Word",
+                "application/msword": "Word",
+                "application/vnd.google-apps.document": "Google Docs",
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "Excel",
+                "application/vnd.ms-excel": "Excel",
+                "application/vnd.google-apps.spreadsheet": "Google Sheets",
                 "text/plain": "TXT",
             }.get(mime, mime.split("/")[-1].upper() if "/" in mime else "Khác")
             name = d.get("file_name") or d.get("id", "?")
@@ -315,6 +311,7 @@ class ChatService:
         history: list[dict[str, str]] | None = None,
         n_context: int | None = None,
         owner_id: str | None = None,
+        retrieval_mode: str = "auto",
     ) -> dict[str, Any]:
         """
         Xử lý câu hỏi theo pipeline GraphRAG và trả về câu trả lời kèm citations.
@@ -355,7 +352,9 @@ class ChatService:
             return meta
 
         try:
-            bundle = self._run_retrieval(question, col_name, top_k, owner_id)
+            bundle = self._run_retrieval(
+                question, col_name, top_k, owner_id, retrieval_mode
+            )
             if bundle.is_empty:
                 return {
                     "answer": (
@@ -418,6 +417,7 @@ class ChatService:
         collection_name: str | None = None,
         history: list[dict[str, str]] | None = None,
         owner_id: str | None = None,
+        retrieval_mode: str = "auto",
     ):
         """
         Streaming version của chat, yield từng đoạn văn bản khi Gemini trả về.
@@ -448,7 +448,9 @@ class ChatService:
             return
 
         try:
-            bundle = self._run_retrieval(question, col_name, settings.RETRIEVAL_TOP_K, owner_id)
+            bundle = self._run_retrieval(
+                question, col_name, settings.RETRIEVAL_TOP_K, owner_id, retrieval_mode
+            )
             if bundle.is_empty:
                 msg = (
                     "Tôi không tìm thấy thông tin liên quan trong tài liệu của bạn. "

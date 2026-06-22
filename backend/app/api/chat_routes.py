@@ -32,6 +32,7 @@ async def chat(req: ChatRequest, request: Request):
                 collection_name=col,
                 history=req.history or None,
                 owner_id=user["user_id"],
+                retrieval_mode=req.retrieval_mode,
             ):
                 yield chunk
 
@@ -47,6 +48,7 @@ async def chat(req: ChatRequest, request: Request):
             collection_name=col,
             history=req.history or None,
             owner_id=user["user_id"],
+            retrieval_mode=req.retrieval_mode,
         )
         return {
             "answer": result["answer"],

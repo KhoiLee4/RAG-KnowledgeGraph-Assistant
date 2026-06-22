@@ -3,7 +3,12 @@
 import dataclasses
 from typing import Any
 
+from typing import Literal
+
 from pydantic import BaseModel, Field
+
+
+RetrievalMode = Literal["auto", "rag", "graph_rag"]
 
 
 class ChatRequest(BaseModel):
@@ -18,6 +23,10 @@ class ChatRequest(BaseModel):
         description="Lịch sử hội thoại: [{role: 'user'/'model', content: '...'}]",
     )
     stream: bool = Field(default=False, description="True = streaming SSE response")
+    retrieval_mode: RetrievalMode = Field(
+        default="auto",
+        description="auto = tự chọn, rag = chỉ tài liệu, graph_rag = GraphRAG đầy đủ",
+    )
 
 
 class ChatResponse(BaseModel):

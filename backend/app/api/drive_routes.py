@@ -53,7 +53,7 @@ async def drive_list_files(
     folder_id: str | None = Query(default=None, description="Lọc theo folder ID"),
     limit: int = Query(default=50, ge=1, le=500),
 ) -> dict[str, Any]:
-    """Liệt kê file PDF trên Drive. Cần đăng nhập Google trước."""
+    """Liệt kê tài liệu được hỗ trợ trên Drive. Cần đăng nhập Google trước."""
     try:
         from app.services.drive_service import DriveService, SUPPORTED_TYPE_LABELS
 
@@ -93,7 +93,7 @@ async def drive_sync_all(
     force_reindex: bool = Query(default=False, description="Index lại dù đã có"),
     folder_id: str | None = Query(default=None, description="Chỉ quét folder này"),
 ) -> SyncDriveResponse:
-    """Quét Drive của user và index mọi file PDF được hỗ trợ."""
+    """Quét Drive của user và index mọi tài liệu được hỗ trợ (PDF, Word, Excel...)."""
     user = require_user(request)
     col = user_collection_name(user["user_id"])
     try:

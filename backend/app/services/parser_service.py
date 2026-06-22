@@ -25,7 +25,9 @@ logger = logging.getLogger(__name__)
 MIME_TO_PARSER: dict[str, str] = {
     "application/pdf": "parse_pdf",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "parse_docx",
+    "application/msword": "parse_doc",
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "parse_xlsx",
+    "application/vnd.ms-excel": "parse_xls",
     "text/plain": "parse_text",
     "text/markdown": "parse_text",
     "text/html": "parse_text",
@@ -115,6 +117,57 @@ class ParserService:
             logger.error("parse_docx lỗi: %s", e)
             raise
 
+    def parse_doc(self, file_bytes: bytes) -> str:
+        """
+        Trích xuất văn bản từ file Word cũ (.doc).
+        Chuyển sang .docx qua LibreOffice (nếu có), rồi dùng parse_docx.
+        """
+        docx_bytes = self._convert_doc_to_docx_bytes(file_bytes)
+        return self.parse_docx(docx_bytes)
+
+    def _convert_doc_to_docx_bytes(self, file_bytes: bytes) -> bytes:
+        import shutil
+        import subprocess
+        import tempfile
+
+        soffice = shutil.which("soffice") or shutil.which("libreoffice")
+        if not soffice and os.name == "nt":
+            for candidate in (
+                r"C:\Program Files\LibreOffice\program\soffice.exe",
+                r"C:\Program Files (x86)\LibreOffice\program\soffice.exe",
+            ):
+                if os.path.isfile(candidate):
+                    soffice = candidate
+                    break
+
+        if not soffice:
+            raise ValueError(
+                "Không đọc được file .doc (Word 97–2003). "
+                "Hãy lưu lại thành .docx hoặc cài LibreOffice."
+            )
+
+        with tempfile.TemporaryDirectory() as tmp:
+            doc_path = os.path.join(tmp, "input.doc")
+            with open(doc_path, "wb") as f:
+                f.write(file_bytes)
+
+            result = subprocess.run(
+                [soffice, "--headless", "--convert-to", "docx", "--outdir", tmp, doc_path],
+                capture_output=True,
+                timeout=120,
+                check=False,
+            )
+            if result.returncode != 0:
+                stderr = (result.stderr or b"").decode("utf-8", errors="replace")[:200]
+                raise ValueError(f"Chuyển đổi .doc sang .docx thất bại: {stderr}")
+
+            docx_path = os.path.join(tmp, "input.docx")
+            if not os.path.isfile(docx_path):
+                raise ValueError("Chuyển đổi .doc sang .docx không tạo được file kết quả.")
+
+            with open(docx_path, "rb") as f:
+                return f.read()
+
     # ── XLSX ──────────────────────────────────────────────────
 
     def parse_xlsx(self, file_bytes: bytes) -> str:
@@ -150,6 +203,36 @@ class ParserService:
             raise ImportError("Cài openpyxl: pip install openpyxl")
         except Exception as e:
             logger.error("parse_xlsx lỗi: %s", e)
+            raise
+
+    def parse_xls(self, file_bytes: bytes) -> str:
+        """
+        Trích xuất dữ liệu từ file Excel cũ (.xls).
+        """
+        try:
+            import xlrd
+
+            book = xlrd.open_workbook(file_contents=file_bytes)
+            lines: list[str] = []
+
+            for sheet in book.sheets():
+                lines.append(f"[Sheet: {sheet.name}]")
+                for rx in range(sheet.nrows):
+                    cells = [
+                        str(sheet.cell_value(rx, cx)).strip()
+                        for cx in range(sheet.ncols)
+                    ]
+                    if any(cells):
+                        lines.append("\t".join(cells))
+
+            result = "\n".join(lines)
+            logger.info("XLS: extract %d ký tự từ %d sheet.", len(result), book.nsheets)
+            return result
+
+        except ImportError:
+            raise ImportError("Cài xlrd: pip install xlrd")
+        except Exception as e:
+            logger.error("parse_xls lỗi: %s", e)
             raise
 
     # ── CSV ───────────────────────────────────────────────────

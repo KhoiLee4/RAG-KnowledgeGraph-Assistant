@@ -13,7 +13,7 @@ from typing import Any
 from app.core.config import settings
 from app.services.community_service import get_community_service
 from app.services.graph_service import GraphService
-from app.services.query_analyzer import QueryAnalysis, get_query_analyzer
+from app.services.query_analyzer import QueryAnalysis, get_query_analyzer, is_relationship_query
 from app.services.retrieval_service import RetrievalService
 
 logger = logging.getLogger(__name__)
@@ -95,6 +95,72 @@ class HybridRetrievalService:
 
         return "\n".join(lines).strip(), citations, ref
 
+    def _build_graph_section(
+        self,
+        path_relations: list[dict[str, Any]],
+        graph_facts: dict[str, Any],
+        ref_start: int,
+        max_chars: int,
+    ) -> tuple[str, list[dict[str, Any]], int]:
+        relations = path_relations + (graph_facts.get("relations") or [])
+        chunk_refs = graph_facts.get("chunk_refs") or []
+
+        if not relations:
+            return "", [], ref_start
+
+        lines = ["=== QUAN HỆ & SỰ THẬT (GRAPH) ===", ""]
+        citations: list[dict[str, Any]] = []
+        ref = ref_start
+        seen_rel: set[str] = set()
+
+        for rel in relations[:10]:
+            rel_key = f"{rel.get('from', '')}|{rel.get('to', '')}|{rel.get('rel_type', '')}"
+            if rel_key in seen_rel:
+                continue
+            seen_rel.add(rel_key)
+
+            desc = str(rel.get("description", "")).strip()
+            rel_type = str(rel.get("rel_type", "RELATED_TO")).replace("_", " ").lower()
+            line = f"[{ref}] {rel.get('from', '')} — {rel_type} → {rel.get('to', '')}"
+            if desc:
+                line += f" ({desc})"
+
+            if len("\n".join(lines) + line) > max_chars:
+                break
+
+            lines.append(line)
+            lines.append("")
+
+            source_file = ""
+            drive_link = ""
+            file_id = ""
+            for cref in chunk_refs:
+                fn = str(cref.get("file_name", ""))
+                if fn:
+                    source_file = fn
+                    drive_link = str(cref.get("drive_link", ""))
+                    cid = str(cref.get("chunk_id", ""))
+                    if "__chunk_" in cid:
+                        file_id = cid.split("__chunk_")[0]
+                    break
+
+            citations.append({
+                "source_type": "graph",
+                "ref": ref,
+                "file_name": f"{rel.get('from', '')} → {rel.get('to', '')}",
+                "drive_link": drive_link,
+                "file_id": file_id,
+                "page_estimate": "0",
+                "score": "1.000",
+                "source": "graph",
+                "relation": rel_type,
+                "snippet": desc,
+                "source_file": source_file,
+            })
+            ref += 1
+
+        return "\n".join(lines).strip(), citations, ref
+
     def _build_vector_section(
         self,
         chunks: list[dict[str, Any]],
@@ -112,8 +178,7 @@ class HybridRetrievalService:
         for chunk in chunks:
             header = (
                 f"[{ref}] Nguồn: {chunk.get('file_name', 'Unknown')} "
-                f"(Trang ~{chunk.get('page_estimate', 1)}, "
-                f"Chunk {chunk.get('chunk_index', 0)})"
+                f"(Trang {chunk.get('page_estimate', 1)})"
             )
             body = str(chunk.get("text", ""))
             entry = f"{header}\n{body}"
@@ -139,11 +204,13 @@ class HybridRetrievalService:
             "source_type": chunk.get("source", "vector"),
             "ref": ref,
             "file_name": chunk.get("file_name", ""),
+            "file_id": chunk.get("file_id", ""),
             "chunk_index": str(chunk.get("chunk_index", 0)),
             "drive_link": chunk.get("drive_link", ""),
             "page_estimate": str(chunk.get("page_estimate", 1)),
             "score": f"{chunk.get('score', chunk.get('combined_score', 0)):.3f}",
             "source": chunk.get("source", "vector"),
+            "snippet": str(chunk.get("text", ""))[:200],
         }
 
     def _fuse_context(
@@ -171,12 +238,13 @@ class HybridRetrievalService:
         collection_name: str | None = None,
         owner_id: str | None = None,
         n_results: int | None = None,
+        retrieval_mode: str = "auto",
     ) -> RetrievalBundle:
         """Full pipeline: classify → route → retrieve → fuse."""
         col = collection_name or settings.CHROMA_DEFAULT_COLLECTION
         default_k = n_results or settings.RETRIEVAL_TOP_K
 
-        if not settings.GRAPH_ENABLED:
+        if retrieval_mode == "rag" or not settings.GRAPH_ENABLED:
             chunks = self._retrieval.retrieve(query, col, n_results=default_k)
             context = self._retrieval.format_context(chunks)
             citations = [self._chunk_citation(c, i + 1) for i, c in enumerate(chunks)]
@@ -184,7 +252,7 @@ class HybridRetrievalService:
                 context=context,
                 citations=citations,
                 vector_chunks=chunks,
-                route="vector_only",
+                route="rag_only",
                 query_type="combined",
             )
 
@@ -199,6 +267,19 @@ class HybridRetrievalService:
             owner_id=owner_id,
             use_gemini_fallback=(qtype == "factual"),
         )
+
+        if len(entity_norms) < 2 and (
+            is_relationship_query(query) or qtype == "factual"
+        ):
+            entity_norms = self._graph.resolve_query_entity_norms(
+                query,
+                owner_id=owner_id,
+                use_gemini_fallback=True,
+            )
+
+        path_data: dict[str, Any] = {"text": "", "paths": [], "relations": []}
+        if len(entity_norms) >= 2:
+            path_data = self._graph.find_entity_paths(entity_norms, owner_id=owner_id)
 
         communities: list[dict[str, Any]] = []
         if owner_id and qtype in ("descriptive", "combined"):
@@ -218,7 +299,7 @@ class HybridRetrievalService:
                 entity_norms, owner_id=owner_id, limit=15
             )
 
-        graph_text = str(graph_facts.get("text") or "")[: budgets["graph"]]
+        path_relations = path_data.get("relations") or []
 
         vector_chunks: list[dict[str, Any]] = []
         if settings.GRAPH_ENABLED:
@@ -241,29 +322,30 @@ class HybridRetrievalService:
             vector_chunks = self._retrieval.retrieve(query, col, n_results=top_k)
 
         ref = 1
-        comm_text, comm_cites, ref = self._build_community_section(
-            communities, ref, budgets["community"]
-        )
-        vec_text, vec_cites, ref = self._build_vector_section(
-            vector_chunks, ref, budgets["vector"]
-        )
-
-        graph_citations: list[dict[str, Any]] = []
-        for i, rel in enumerate(graph_facts.get("relations", [])[:10], 1):
-            graph_citations.append({
-                "source_type": "graph",
-                "ref": f"G{i}",
-                "file_name": f"{rel.get('from', '')} → {rel.get('to', '')}",
-                "chunk_index": "0",
-                "drive_link": "",
-                "page_estimate": "0",
-                "score": "1.000",
-                "source": "graph",
-                "relation": rel.get("rel_type", ""),
-            })
+        if qtype == "factual":
+            graph_text, graph_cites, ref = self._build_graph_section(
+                path_relations, graph_facts, ref, budgets["graph"]
+            )
+            comm_text, comm_cites, ref = self._build_community_section(
+                communities, ref, budgets["community"]
+            )
+            vec_text, vec_cites, _ = self._build_vector_section(
+                vector_chunks, ref, budgets["vector"]
+            )
+            all_citations = graph_cites + comm_cites + vec_cites
+        else:
+            comm_text, comm_cites, ref = self._build_community_section(
+                communities, ref, budgets["community"]
+            )
+            graph_text, graph_cites, ref = self._build_graph_section(
+                path_relations, graph_facts, ref, budgets["graph"]
+            )
+            vec_text, vec_cites, _ = self._build_vector_section(
+                vector_chunks, ref, budgets["vector"]
+            )
+            all_citations = comm_cites + graph_cites + vec_cites
 
         fused = self._fuse_context(qtype, comm_text, graph_text, vec_text)
-        all_citations = comm_cites + graph_citations + vec_cites
 
         bundle = RetrievalBundle(
             context=fused,

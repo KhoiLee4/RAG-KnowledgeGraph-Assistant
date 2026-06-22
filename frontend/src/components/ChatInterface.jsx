@@ -7,9 +7,15 @@ import {
   Send, Loader2, FileText, ExternalLink, AlertCircle,
   RotateCcw, Sparkles, Bot, User,
 } from 'lucide-react'
-import { sendChat, sendChatStream, formatApiError } from '../api/client'
+import { sendChatStream, formatApiError } from '../api/client'
 import { PageHeader } from './layout/PageHeader'
 import { cn } from '../lib/utils'
+
+const RETRIEVAL_MODES = [
+  { id: 'auto', label: 'Tự động', hint: 'Hệ thống chọn RAG hoặc GraphRAG' },
+  { id: 'rag', label: 'RAG', hint: 'Chỉ tìm trong nội dung tài liệu' },
+  { id: 'graph_rag', label: 'GraphRAG', hint: 'Kết hợp đồ thị tri thức + tài liệu' },
+]
 
 const SUGGESTIONS = [
   'Tóm tắt nội dung báo cáo cuối kỳ',
@@ -17,17 +23,114 @@ const SUGGESTIONS = [
   'Liệt kê các thực thể chính trong tài liệu',
 ]
 
-function SourceBadge({ source }) {
-  const config = {
-    vector: { label: 'Vector', cls: 'bg-chart-4/20 text-chart-4' },
-    graph: { label: 'Graph', cls: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' },
-    hybrid: { label: 'Hybrid', cls: 'bg-chart-2/20 text-chart-2' },
+const WELCOME_MESSAGE = {
+  id: 0,
+  role: 'model',
+  content: 'Xin chào! Tôi là trợ lý ảo của bạn. Hãy đặt câu hỏi về các tài liệu bạn đã lưu trữ.',
+  citations: [],
+}
+
+const RESET_MESSAGE = {
+  id: 0,
+  role: 'model',
+  content: 'Hội thoại đã được xóa. Hãy đặt câu hỏi mới!',
+  citations: [],
+}
+
+function chatStorageKey(userId) {
+  return `rag-chat:${userId || 'guest'}`
+}
+
+function loadChatFromStorage(userId) {
+  try {
+    const raw = localStorage.getItem(chatStorageKey(userId))
+    if (!raw) return null
+    const data = JSON.parse(raw)
+    if (!Array.isArray(data.messages) || data.messages.length === 0) return null
+    return {
+      messages: data.messages,
+      retrievalMode: data.retrievalMode || 'auto',
+    }
+  } catch {
+    return null
   }
-  const { label, cls } = config[source] || config.vector
+}
+
+function saveChatToStorage(userId, messages, retrievalMode) {
+  try {
+    const toSave = messages.filter(
+      (m) => m.role === 'user' || (m.role === 'model' && m.content.trim()),
+    )
+    if (toSave.length === 0) return
+    localStorage.setItem(
+      chatStorageKey(userId),
+      JSON.stringify({ messages: toSave, retrievalMode, savedAt: Date.now() }),
+    )
+  } catch {
+    // Bỏ qua nếu localStorage đầy hoặc bị chặn
+  }
+}
+
+function SourceBadge({ source, sourceLabel }) {
+  const config = {
+    vector: { label: 'Tài liệu', cls: 'bg-chart-4/20 text-chart-4' },
+    graph: { label: 'Đồ thị', cls: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' },
+    hybrid: { label: 'Kết hợp', cls: 'bg-chart-2/20 text-chart-2' },
+    community: { label: 'Tổng quan', cls: 'bg-violet-500/15 text-violet-600 dark:text-violet-400' },
+  }
+  const { label, cls } = config[source] || { label: sourceLabel || 'Nguồn', cls: 'bg-muted text-muted-foreground' }
   return (
     <span className={cn('shrink-0 rounded px-1.5 py-0.5 text-[10px] font-semibold', cls)}>
-      {label}
+      {sourceLabel || label}
     </span>
+  )
+}
+
+function CitationChip({ cite, index }) {
+  const title = cite.label || cite.file_name || 'Nguồn'
+  const location = cite.location || (cite.page ? `Trang ${cite.page}` : null)
+  const link = cite.location_link || cite.drive_link
+  const snippet = cite.snippet
+
+  const content = (
+    <>
+      <FileText className="h-3 w-3 shrink-0" />
+      <span className="min-w-0">
+        <span className="font-semibold">[{index}]</span>{' '}
+        <span className="truncate">{title}</span>
+        {location && <span className="text-muted-foreground"> · {location}</span>}
+      </span>
+      {cite.source && <SourceBadge source={cite.source} sourceLabel={cite.source_label} />}
+      {link && (
+        <ExternalLink className="h-3 w-3 shrink-0 opacity-70" />
+      )}
+    </>
+  )
+
+  const className = cn(
+    'inline-flex max-w-full items-center gap-1.5 rounded-lg border border-border/60',
+    'bg-accent/50 px-2.5 py-1.5 text-xs text-accent-foreground transition-colors',
+    link && 'hover:bg-accent hover:border-primary/30',
+  )
+
+  if (link) {
+    return (
+      <a
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={className}
+        title={snippet || `Mở ${title}${location ? ` — ${location}` : ''}`}
+      >
+        {content}
+      </a>
+    )
+  }
+
+  return (
+    <div className={className} title={snippet || title}>
+      {content}
+    </div>
   )
 }
 
@@ -56,32 +159,15 @@ function MessageBubble({ message }) {
           {message.content}
         </div>
         {!isUser && message.citations && message.citations.length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-2">
-            {message.citations.map((cite, idx) => (
-              <div
-                key={idx}
-                className="inline-flex max-w-full items-center gap-1.5 rounded-md bg-accent px-2 py-1 text-xs font-medium text-accent-foreground"
-              >
-                <FileText className="h-3 w-3 shrink-0" />
-                <span className="truncate">
-                  [{idx + 1}] {cite.file_name}
-                  {cite.page_estimate != null && ` · ~${cite.page_estimate}`}
-                  {cite.chunk_index != null && ` · chunk ${cite.chunk_index}`}
-                </span>
-                {cite.source && <SourceBadge source={cite.source} />}
-                {cite.drive_link && (
-                  <a
-                    href={cite.drive_link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="shrink-0 hover:opacity-80"
-                    title="Mở trên Google Drive"
-                  >
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
-                )}
-              </div>
-            ))}
+          <div className="mt-3 space-y-1.5">
+            <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+              Nguồn tham khảo
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {message.citations.map((cite, idx) => (
+                <CitationChip key={idx} cite={cite} index={cite.index || idx + 1} />
+              ))}
+            </div>
           </div>
         )}
       </div>
@@ -89,77 +175,40 @@ function MessageBubble({ message }) {
   )
 }
 
-function TypingIndicator() {
-  return (
-    <div className="flex gap-3">
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
-        <Bot className="h-5 w-5" />
-      </div>
-      <div className="rounded-2xl rounded-tl-sm border border-border bg-card px-4 py-3 shadow-sm">
-        <div className="flex h-4 items-center gap-1">
-          {[0, 1, 2].map((i) => (
-            <div key={i} className="typing-dot h-2 w-2 rounded-full bg-muted-foreground" />
-          ))}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-export default function ChatInterface() {
-  const [messages, setMessages] = useState([
-    {
-      id: 0,
-      role: 'model',
-      content: 'Xin chào! Tôi là trợ lý ảo của bạn. Hãy đặt câu hỏi về các tài liệu bạn đã lưu trữ.',
-      citations: [],
-    },
-  ])
+export default function ChatInterface({ userId = 'guest' }) {
+  const [messages, setMessages] = useState([WELCOME_MESSAGE])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-  const [useStream, setUseStream] = useState(true)
+  const [retrievalMode, setRetrievalMode] = useState('auto')
 
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
 
   useEffect(() => {
+    const saved = loadChatFromStorage(userId)
+    if (saved) {
+      setMessages(saved.messages)
+      setRetrievalMode(saved.retrievalMode)
+    } else {
+      setMessages([WELCOME_MESSAGE])
+      setRetrievalMode('auto')
+    }
+  }, [userId])
+
+  useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
+
+  useEffect(() => {
+    if (isLoading) return
+    saveChatToStorage(userId, messages, retrievalMode)
+  }, [messages, retrievalMode, isLoading, userId])
 
   const buildHistory = () =>
     messages.filter((m) => m.id !== 0).map((m) => ({ role: m.role, content: m.content }))
 
   const sendMessage = async (questionText) => {
-    const question = (questionText ?? input).trim()
-    if (!question || isLoading) return
-
-    const userMsg = { id: Date.now(), role: 'user', content: question, citations: [] }
-    setMessages((prev) => [...prev, userMsg])
-    setInput('')
-    setIsLoading(true)
-    setError('')
-
-    try {
-      const result = await sendChat(question, '', buildHistory())
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now() + 1,
-          role: 'model',
-          content: result.answer,
-          citations: result.citations || [],
-        },
-      ])
-    } catch (err) {
-      setError(formatApiError(err))
-    } finally {
-      setIsLoading(false)
-      inputRef.current?.focus()
-    }
-  }
-
-  const sendMessageStream = async (questionText) => {
     const question = (questionText ?? input).trim()
     if (!question || isLoading) return
 
@@ -177,6 +226,8 @@ export default function ChatInterface() {
 
     await sendChatStream(
       question,
+      buildHistory(),
+      retrievalMode,
       (chunk) => {
         setMessages((prev) =>
           prev.map((m) => (m.id === aiMsgId ? { ...m, content: m.content + chunk } : m)),
@@ -198,27 +249,20 @@ export default function ChatInterface() {
     )
   }
 
-  const handleSend = (text) => {
-    if (useStream) sendMessageStream(text)
-    else sendMessage(text)
-  }
-
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
-      handleSend()
+      sendMessage()
     }
   }
 
   const clearChat = () => {
-    setMessages([
-      {
-        id: 0,
-        role: 'model',
-        content: 'Hội thoại đã được xóa. Hãy đặt câu hỏi mới!',
-        citations: [],
-      },
-    ])
+    try {
+      localStorage.removeItem(chatStorageKey(userId))
+    } catch {
+      // ignore
+    }
+    setMessages([RESET_MESSAGE])
     setError('')
   }
 
@@ -233,30 +277,30 @@ export default function ChatInterface() {
         icon={<Sparkles className="h-5 w-5" />}
         actions={
           <>
-            <label className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span>Stream</span>
-              <button
-                type="button"
-                onClick={() => setUseStream(!useStream)}
-                className={cn(
-                  'relative inline-flex h-6 w-11 items-center rounded-full transition-colors',
-                  useStream ? 'bg-primary' : 'border border-border bg-secondary',
-                )}
-                aria-label="Bật/tắt stream"
-              >
-                <span
+            <div className="flex items-center gap-1 rounded-lg border border-border bg-card p-0.5">
+              {RETRIEVAL_MODES.map((mode) => (
+                <button
+                  key={mode.id}
+                  type="button"
+                  title={mode.hint}
+                  onClick={() => setRetrievalMode(mode.id)}
                   className={cn(
-                    'inline-block h-4 w-4 rounded-full bg-white shadow transition-transform',
-                    useStream ? 'translate-x-6' : 'translate-x-1',
+                    'rounded-md px-2.5 py-1 text-xs font-medium transition-colors',
+                    retrievalMode === mode.id
+                      ? 'bg-primary text-primary-foreground shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground',
                   )}
-                />
-              </button>
-            </label>
+                >
+                  {mode.label}
+                </button>
+              ))}
+            </div>
             <button
               type="button"
               onClick={clearChat}
               className="flex h-9 w-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
               aria-label="Làm mới hội thoại"
+              title="Xóa lịch sử hội thoại"
             >
               <RotateCcw className="h-4 w-4" />
             </button>
@@ -269,14 +313,13 @@ export default function ChatInterface() {
           {messages.map((msg) => (
             <MessageBubble key={msg.id} message={msg} />
           ))}
-          {isLoading && !useStream && <TypingIndicator />}
           {showSuggestions && (
             <div className="flex flex-wrap gap-2 pl-12">
               {SUGGESTIONS.map((s) => (
                 <button
                   key={s}
                   type="button"
-                  onClick={() => handleSend(s)}
+                  onClick={() => sendMessage(s)}
                   className="rounded-full border border-border bg-card px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
                 >
                   {s}
@@ -302,7 +345,7 @@ export default function ChatInterface() {
         <form
           onSubmit={(e) => {
             e.preventDefault()
-            handleSend()
+            sendMessage()
           }}
           className="mx-auto flex max-w-3xl items-end gap-2"
         >
@@ -332,7 +375,7 @@ export default function ChatInterface() {
           </button>
         </form>
         <p className="mt-2 text-center text-xs text-muted-foreground">
-          {userQuestionCount} câu hỏi trong cuộc hội thoại này
+          {userQuestionCount} câu hỏi · lịch sử được lưu trên trình duyệt cho đến khi bạn reset
         </p>
       </div>
     </div>

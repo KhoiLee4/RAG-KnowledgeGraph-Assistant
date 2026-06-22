@@ -156,12 +156,18 @@ export async function getAuthConfig() {
 /**
  * Gửi câu hỏi và nhận câu trả lời từ backend RAG.
  */
-export async function sendChat(question, collectionName = "", history = []) {
+export async function sendChat(
+  question,
+  collectionName = "",
+  history = [],
+  retrievalMode = "auto",
+) {
   const response = await chatApi.post("/chat", {
     question,
     collection_name: collectionName,
     history,
     stream: false,
+    retrieval_mode: retrievalMode,
   });
   return response.data;
 }
@@ -172,6 +178,8 @@ export function getChatStreamUrl() {
 
 export async function sendChatStream(
   question,
+  history = [],
+  retrievalMode = "auto",
   onChunk,
   onCitations,
   onDone,
@@ -182,7 +190,12 @@ export async function sendChatStream(
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify({ question, stream: true }),
+      body: JSON.stringify({
+        question,
+        history,
+        stream: true,
+        retrieval_mode: retrievalMode,
+      }),
     });
 
     if (response.status === 401) {

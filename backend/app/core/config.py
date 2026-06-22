@@ -139,23 +139,15 @@ settings = get_settings()
 SUPPORTED_MIME_TYPES: dict[str, str] = {
     # PDF
     "application/pdf": ".pdf",
-    # # Word
-    # "application/vnd.openxmlformats-officedocument.wordprocessingml.document": ".docx",
-    # "application/msword": ".doc",
-    # # Google Docs → export DOCX
-    # "application/vnd.google-apps.document": ".docx",
-    # # Excel
-    # "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": ".xlsx",
-    # "application/vnd.ms-excel": ".xls",
-    # # PowerPoint
-    # "application/vnd.openxmlformats-officedocument.presentationml.presentation": ".pptx",
-    # # Text thuần
-    # "text/plain": ".txt",
-    # "text/markdown": ".md",
-    # "text/csv": ".csv",
-    # # Google Sheets / Slides
-    # "application/vnd.google-apps.spreadsheet": ".xlsx",
-    # "application/vnd.google-apps.presentation": ".pptx",
+    # Word
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document": ".docx",
+    "application/msword": ".doc",
+    # Excel
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": ".xlsx",
+    "application/vnd.ms-excel": ".xls",
+    # Google Workspace → export qua EXPORT_MAP trong drive_service
+    "application/vnd.google-apps.document": ".docx",
+    "application/vnd.google-apps.spreadsheet": ".xlsx",
 }
 
 # Danh sách MIME type bị bỏ qua hoàn toàn — ảnh, video, audio, binary.

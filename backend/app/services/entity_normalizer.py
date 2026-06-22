@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Any
 
 from app.core.config import settings
+from app.services.graph_schema import normalize_relation_type
 
 logger = logging.getLogger(__name__)
 
@@ -370,7 +371,7 @@ class EntityNormalizer:
             normalized_relations.append({
                 "from": from_canon,
                 "to": to_canon,
-                "relation": rel.get("relation", "RELATED_TO"),
+                "relation": normalize_relation_type(str(rel.get("relation", "RELATED_TO"))),
                 "description": str(rel.get("description", "")),
             })
 

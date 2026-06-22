@@ -25,6 +25,16 @@ FACTUAL_PATTERNS: tuple[str, ...] = (
     r"\bwhich company\b", r"\bwhich organization\b",
 )
 
+RELATIONSHIP_PATTERNS: tuple[str, ...] = (
+    r"\bla gi cua nhau\b", r"\blà gì của nhau\b",
+    r"\bquan he giua\b", r"\bquan hệ giữa\b",
+    r"\bmoi quan he\b", r"\bmối quan hệ\b",
+    r"\blien quan gi\b", r"\bliên quan gì\b",
+    r"\brelationship between\b", r"\bhow are .+ related\b",
+    r"\brelated to each other\b", r"\bconnection between\b",
+    r"\bco lien quan gi\b", r"\bcó liên quan gì\b",
+)
+
 DESCRIPTIVE_PATTERNS: tuple[str, ...] = (
     r"\btóm tắt\b", r"\btom tat\b", r"\bsummarize\b", r"\bsummary\b",
     r"\btổng quan\b", r"\btong quan\b", r"\boverview\b",
@@ -138,6 +148,15 @@ class QueryAnalyzer:
             "descriptive": max(default, 7),
             "combined": default,
         }.get(query_type, default)
+
+
+def is_relationship_query(query: str) -> bool:
+    """Câu hỏi hỏi quan hệ giữa hai entity trở lên."""
+    norm = EntityNormalizer.normalize_name(query)
+    for pat in RELATIONSHIP_PATTERNS:
+        if re.search(pat, norm, re.IGNORECASE):
+            return True
+    return False
 
 
 _default_analyzer: QueryAnalyzer | None = None

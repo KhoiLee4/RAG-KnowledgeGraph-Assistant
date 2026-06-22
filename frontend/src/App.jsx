@@ -71,7 +71,7 @@ export default function App() {
 
         <main className="flex-1 overflow-hidden">
           <Routes>
-            <Route path="/" element={<ChatInterface />} />
+            <Route path="/" element={<ChatInterface userId={authUser?.user_id || 'guest'} />} />
             <Route path="/docs" element={<DocumentList />} />
             <Route path="/graph" element={<GraphStats />} />
             <Route path="/health" element={<HealthPage />} />

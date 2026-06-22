@@ -41,7 +41,7 @@ async def get_supported_types() -> dict[str, Any]:
             "max_bytes": MAX_FILE_SIZE_BYTES,
             "max_mb": MAX_FILE_SIZE_BYTES // 1_000_000,
         },
-        "note": "Hiện chỉ hỗ trợ file PDF (.pdf).",
+        "note": "Hỗ trợ PDF, Word (.docx, .doc), Excel (.xlsx, .xls), Google Docs/Sheets.",
     }
 
 
