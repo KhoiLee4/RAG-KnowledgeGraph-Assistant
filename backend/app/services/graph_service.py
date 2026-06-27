@@ -555,10 +555,10 @@ class GraphService:
 
         if chunk_refs:
             refs = ", ".join(
-                f"{r['file_name']} ({r['chunk_id'].split('__chunk_')[-1] if '__chunk_' in r['chunk_id'] else r['chunk_id']})"
+                r["file_name"] or r["chunk_id"]
                 for r in chunk_refs[:8]
             )
-            lines.append(f"Nguồn chunk liên quan: {refs}")
+            lines.append(f"Nguồn tài liệu liên quan: {refs}")
 
         text = "\n".join(lines).strip()
         return {
@@ -879,6 +879,8 @@ class GraphService:
                     f"https://drive.google.com/file/d/{meta.get('file_id', '')}/view",
                 ),
                 "page_estimate": int(meta.get("page_estimate", 1)),
+                "line_start": int(meta.get("line_start", 0) or 0),
+                "line_end": int(meta.get("line_end", 0) or 0),
                 "entities": path_info.get("entities", []),
                 "source": "graph",
             })

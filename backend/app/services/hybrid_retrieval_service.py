@@ -11,6 +11,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from app.core.config import settings
+from app.services.citation_formatter import format_location_label
 from app.services.community_service import get_community_service
 from app.services.graph_service import GraphService
 from app.services.query_analyzer import QueryAnalysis, get_query_analyzer, is_relationship_query
@@ -176,10 +177,14 @@ class HybridRetrievalService:
         total = 0
 
         for chunk in chunks:
-            header = (
-                f"[{ref}] Nguồn: {chunk.get('file_name', 'Unknown')} "
-                f"(Trang {chunk.get('page_estimate', 1)})"
+            location = format_location_label(
+                chunk.get("page_estimate"),
+                chunk.get("line_start"),
+                chunk.get("line_end"),
             )
+            header = f"[{ref}] Nguồn: {chunk.get('file_name', 'Unknown')}"
+            if location:
+                header += f" ({location})"
             body = str(chunk.get("text", ""))
             entry = f"{header}\n{body}"
             if total + len(entry) > max_chars:
@@ -208,6 +213,8 @@ class HybridRetrievalService:
             "chunk_index": str(chunk.get("chunk_index", 0)),
             "drive_link": chunk.get("drive_link", ""),
             "page_estimate": str(chunk.get("page_estimate", 1)),
+            "line_start": str(chunk.get("line_start", 0) or 0),
+            "line_end": str(chunk.get("line_end", 0) or 0),
             "score": f"{chunk.get('score', chunk.get('combined_score', 0)):.3f}",
             "source": chunk.get("source", "vector"),
             "snippet": str(chunk.get("text", ""))[:200],
@@ -238,7 +245,7 @@ class HybridRetrievalService:
         collection_name: str | None = None,
         owner_id: str | None = None,
         n_results: int | None = None,
-        retrieval_mode: str = "auto",
+        retrieval_mode: str = "rag",
     ) -> RetrievalBundle:
         """Full pipeline: classify → route → retrieve → fuse."""
         col = collection_name or settings.CHROMA_DEFAULT_COLLECTION

@@ -112,7 +112,7 @@ class ChatService:
         collection_name: str,
         top_k: int,
         owner_id: str | None,
-        retrieval_mode: str = "auto",
+        retrieval_mode: str = "rag",
     ):
         """Retrieve context bundle — hybrid hoặc vector-only."""
         if retrieval_mode == "rag" or not settings.GRAPH_ENABLED:
@@ -128,6 +128,8 @@ class ChatService:
                     "chunk_index": str(c.get("chunk_index", 0)),
                     "drive_link": c.get("drive_link", ""),
                     "page_estimate": str(c.get("page_estimate", 1)),
+                    "line_start": str(c.get("line_start", 0) or 0),
+                    "line_end": str(c.get("line_end", 0) or 0),
                     "score": f"{c.get('score', 0):.3f}",
                     "source": "vector",
                     "source_type": "vector",
@@ -311,7 +313,7 @@ class ChatService:
         history: list[dict[str, str]] | None = None,
         n_context: int | None = None,
         owner_id: str | None = None,
-        retrieval_mode: str = "auto",
+        retrieval_mode: str = "rag",
     ) -> dict[str, Any]:
         """
         Xử lý câu hỏi theo pipeline GraphRAG và trả về câu trả lời kèm citations.
@@ -417,7 +419,7 @@ class ChatService:
         collection_name: str | None = None,
         history: list[dict[str, str]] | None = None,
         owner_id: str | None = None,
-        retrieval_mode: str = "auto",
+        retrieval_mode: str = "rag",
     ):
         """
         Streaming version của chat, yield từng đoạn văn bản khi Gemini trả về.

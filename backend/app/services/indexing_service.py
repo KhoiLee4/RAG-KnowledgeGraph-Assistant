@@ -259,6 +259,8 @@ class IndexingService:
                     "chunk_index": c["chunk_index"],
                     "total_chunks": c["total_chunks"],
                     "page_estimate": c["page_estimate"],
+                    "line_start": c.get("line_start", 0),
+                    "line_end": c.get("line_end", 0),
                     "drive_link": c.get("drive_link", link),
                     "source": c.get("source", "drive"),
                     "content_hash": c.get("content_hash", content_hash(c["text"])),

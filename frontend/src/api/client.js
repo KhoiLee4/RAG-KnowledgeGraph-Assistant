@@ -160,7 +160,7 @@ export async function sendChat(
   question,
   collectionName = "",
   history = [],
-  retrievalMode = "auto",
+  retrievalMode = "rag",
 ) {
   const response = await chatApi.post("/chat", {
     question,
@@ -179,7 +179,7 @@ export function getChatStreamUrl() {
 export async function sendChatStream(
   question,
   history = [],
-  retrievalMode = "auto",
+  retrievalMode = "rag",
   onChunk,
   onCitations,
   onDone,

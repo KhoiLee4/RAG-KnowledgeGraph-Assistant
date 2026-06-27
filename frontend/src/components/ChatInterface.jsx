@@ -12,10 +12,14 @@ import { PageHeader } from './layout/PageHeader'
 import { cn } from '../lib/utils'
 
 const RETRIEVAL_MODES = [
-  { id: 'auto', label: 'Tự động', hint: 'Hệ thống chọn RAG hoặc GraphRAG' },
   { id: 'rag', label: 'RAG', hint: 'Chỉ tìm trong nội dung tài liệu' },
   { id: 'graph_rag', label: 'GraphRAG', hint: 'Kết hợp đồ thị tri thức + tài liệu' },
 ]
+
+function normalizeRetrievalMode(mode) {
+  if (mode === 'graph_rag') return 'graph_rag'
+  return 'rag'
+}
 
 const SUGGESTIONS = [
   'Tóm tắt nội dung báo cáo cuối kỳ',
@@ -49,7 +53,7 @@ function loadChatFromStorage(userId) {
     if (!Array.isArray(data.messages) || data.messages.length === 0) return null
     return {
       messages: data.messages,
-      retrievalMode: data.retrievalMode || 'auto',
+      retrievalMode: normalizeRetrievalMode(data.retrievalMode),
     }
   } catch {
     return null
@@ -180,7 +184,7 @@ export default function ChatInterface({ userId = 'guest' }) {
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-  const [retrievalMode, setRetrievalMode] = useState('auto')
+  const [retrievalMode, setRetrievalMode] = useState('rag')
 
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
@@ -192,7 +196,7 @@ export default function ChatInterface({ userId = 'guest' }) {
       setRetrievalMode(saved.retrievalMode)
     } else {
       setMessages([WELCOME_MESSAGE])
-      setRetrievalMode('auto')
+      setRetrievalMode('rag')
     }
   }, [userId])
 

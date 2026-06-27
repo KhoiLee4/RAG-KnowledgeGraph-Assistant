@@ -23,6 +23,33 @@ def _parse_page(value: Any) -> int | None:
     return page if page > 0 else None
 
 
+def _parse_line(value: Any) -> int | None:
+    if value is None:
+        return None
+    try:
+        line = int(str(value).strip())
+    except (TypeError, ValueError):
+        return None
+    return line if line > 0 else None
+
+
+def format_location_label(
+    page: int | None = None,
+    line_start: int | None = None,
+    line_end: int | None = None,
+) -> str:
+    """Tạo chuỗi vị trí thân thiện: Trang X, dòng Y–Z."""
+    parts: list[str] = []
+    if page and page > 0:
+        parts.append(f"Trang {page}")
+    if line_start and line_start > 0:
+        if line_end and line_end > line_start:
+            parts.append(f"dòng {line_start}–{line_end}")
+        else:
+            parts.append(f"dòng {line_start}")
+    return ", ".join(parts)
+
+
 def build_location_link(
     drive_link: str,
     file_id: str = "",
@@ -74,6 +101,8 @@ def format_citation(raw: dict[str, Any], index: int) -> dict[str, str]:
     file_id = str(raw.get("file_id", "")).strip()
     drive_link = str(raw.get("drive_link", "")).strip()
     page = _parse_page(raw.get("page_estimate"))
+    line_start = _parse_line(raw.get("line_start"))
+    line_end = _parse_line(raw.get("line_end"))
     mime_type = str(raw.get("mime_type", ""))
 
     snippet = _truncate(
@@ -101,7 +130,7 @@ def format_citation(raw: dict[str, Any], index: int) -> dict[str, str]:
             location = "Đồ thị tri thức"
     else:
         label = file_name or "Tài liệu"
-        location = f"Trang {page}" if page else ""
+        location = format_location_label(page, line_start, line_end)
 
     location_link = build_location_link(
         drive_link, file_id, page, mime_type, file_name=file_name
@@ -118,6 +147,8 @@ def format_citation(raw: dict[str, Any], index: int) -> dict[str, str]:
         "location_link": location_link or drive_link,
         "file_id": file_id,
         "page": str(page) if page else "",
+        "line_start": str(line_start) if line_start else "",
+        "line_end": str(line_end) if line_end else "",
         # Giữ field cũ để tương thích ngược
         "file_name": label,
         "page_estimate": str(page) if page else "",
@@ -134,10 +165,12 @@ def format_citations(raw_list: list[dict[str, Any]], max_items: int = 10) -> lis
         source = str(raw.get("source", raw.get("source_type", "vector")))
         file_name = str(raw.get("file_name", "")).strip()
         page = str(_parse_page(raw.get("page_estimate")) or "")
+        line_start = str(_parse_line(raw.get("line_start")) or "")
+        line_end = str(_parse_line(raw.get("line_end")) or "")
         relation = str(raw.get("relation", "")).strip()
         snippet_key = _truncate(raw.get("snippet") or raw.get("summary_preview") or "", 40)
 
-        dedupe_key = f"{source}|{file_name}|{page}|{relation}|{snippet_key}"
+        dedupe_key = f"{source}|{file_name}|{page}|{line_start}|{line_end}|{relation}|{snippet_key}"
         if dedupe_key in seen:
             continue
         seen.add(dedupe_key)

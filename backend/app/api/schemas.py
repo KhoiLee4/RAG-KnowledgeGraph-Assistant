@@ -8,7 +8,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 
-RetrievalMode = Literal["auto", "rag", "graph_rag"]
+RetrievalMode = Literal["rag", "graph_rag"]
 
 
 class ChatRequest(BaseModel):
@@ -24,8 +24,8 @@ class ChatRequest(BaseModel):
     )
     stream: bool = Field(default=False, description="True = streaming SSE response")
     retrieval_mode: RetrievalMode = Field(
-        default="auto",
-        description="auto = tự chọn, rag = chỉ tài liệu, graph_rag = GraphRAG đầy đủ",
+        default="rag",
+        description="rag = chỉ tài liệu, graph_rag = GraphRAG đầy đủ",
     )
 
 

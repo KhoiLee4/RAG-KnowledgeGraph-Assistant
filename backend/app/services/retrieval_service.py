@@ -17,6 +17,7 @@ from typing import Any
 from app.core.config import settings
 from app.db.chroma_client import get_chroma_client
 from app.services.embedding_service import EmbeddingService
+from app.services.citation_formatter import format_location_label
 from app.services.hybrid_search import merge_hybrid_scores
 
 logger = logging.getLogger(__name__)
@@ -55,6 +56,8 @@ class RetrievalService:
                 f"https://drive.google.com/file/d/{meta.get('file_id', '')}/view",
             ),
             "page_estimate": int(meta.get("page_estimate", 1)),
+            "line_start": int(meta.get("line_start", 0) or 0),
+            "line_end": int(meta.get("line_end", 0) or 0),
             "distance": round(distance, 4),
             "id": r.get("id", ""),
         }
@@ -155,10 +158,14 @@ class RetrievalService:
         total_chars = 0
 
         for i, r in enumerate(results, 1):
-            header = (
-                f"[{i}] Nguồn: {r['file_name']} "
-                f"(Trang {r['page_estimate']})"
+            location = format_location_label(
+                r.get("page_estimate"),
+                r.get("line_start"),
+                r.get("line_end"),
             )
+            header = f"[{i}] Nguồn: {r['file_name']}"
+            if location:
+                header += f" ({location})"
             entry = f"{header}\n{r['text']}"
 
             if total_chars + len(entry) > max_chars:

@@ -20,6 +20,38 @@ logger = logging.getLogger(__name__)
 CHARS_PER_PAGE = 2500
 
 
+def _char_to_line(text: str, char_pos: int) -> int:
+    """Chuyển vị trí ký tự trong văn bản gốc thành số dòng (1-based)."""
+    return text[: max(0, char_pos)].count("\n") + 1
+
+
+def _locate_chunk_in_text(text: str, chunk_text: str, search_from: int = 0) -> tuple[int, int]:
+    """Tìm vị trí chunk trong văn bản gốc (char_start, char_end)."""
+    idx = text.find(chunk_text, search_from)
+    if idx >= 0:
+        return idx, idx + len(chunk_text)
+
+    anchor_len = min(100, len(chunk_text))
+    if anchor_len > 0:
+        idx = text.find(chunk_text[:anchor_len], search_from)
+        if idx >= 0:
+            return idx, idx + len(chunk_text)
+
+    return search_from, search_from + len(chunk_text)
+
+
+_PAGE_MARKER_RE = re.compile(r"\[Trang (\d+)\]")
+
+
+def _page_from_marker(text: str, char_start: int) -> int | None:
+    """Lấy số trang thực từ marker [Trang N] (PDF) gần nhất trước vị trí chunk."""
+    matches = list(_PAGE_MARKER_RE.finditer(text[: char_start + 1]))
+    if not matches:
+        return None
+    page = int(matches[-1].group(1))
+    return page if page > 0 else None
+
+
 class ChunkingService:
     """
     Service chia văn bản thành list[dict] chuẩn bị cho embedding.
@@ -182,22 +214,30 @@ class ChunkingService:
         file_name = metadata.get("file_name", "unknown")
 
         result: list[dict[str, Any]] = []
-        # Tính vị trí ký tự để ước lượng trang
-        char_pos = 0
+        search_from = 0
 
         for chunk in base_chunks:
-            chunk_len = len(chunk["text"])
-            page_estimate = max(1, (char_pos // CHARS_PER_PAGE) + 1)
+            char_start, char_end = _locate_chunk_in_text(
+                text, chunk["text"], search_from
+            )
+            search_from = char_start + 1
+            marker_page = _page_from_marker(text, char_start)
+            page_estimate = marker_page or max(1, (char_start // CHARS_PER_PAGE) + 1)
+            line_start = _char_to_line(text, char_start)
+            line_end = _char_to_line(text, char_end)
 
             doc_chunk = {
                 **chunk,              # text, chunk_index, total_chunks
                 "file_id": file_id,
                 "file_name": file_name,
                 "page_estimate": page_estimate,
+                "char_start": char_start,
+                "char_end": char_end,
+                "line_start": line_start,
+                "line_end": line_end,
                 **{k: v for k, v in metadata.items() if k not in ("file_id", "file_name")},
             }
             result.append(doc_chunk)
-            char_pos += chunk_len
 
         logger.info(
             "chunk_document '%s': %d chunk.", file_name, len(result)
