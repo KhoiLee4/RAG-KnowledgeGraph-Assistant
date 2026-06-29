@@ -1,0 +1,1294 @@
+{
+  "summary": {
+    "rag": {
+      "questions": 24,
+      "retrieval": {
+        "evaluated": 0,
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null
+      },
+      "answer": {}
+    },
+    "graph_rag": {
+      "questions": 24,
+      "retrieval": {
+        "evaluated": 0,
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null
+      },
+      "answer": {}
+    }
+  },
+  "by_category": {
+    "combined": {
+      "rag": {
+        "count": 5,
+        "hit_at_k": null,
+        "mrr": null,
+        "human_score_total": null,
+        "human_score_max": null,
+        "keyword_overlap_avg": null,
+        "refusal_accuracy": null
+      },
+      "graph_rag": {
+        "count": 5,
+        "hit_at_k": null,
+        "mrr": null,
+        "human_score_total": null,
+        "human_score_max": null,
+        "keyword_overlap_avg": null,
+        "refusal_accuracy": null
+      }
+    },
+    "descriptive": {
+      "rag": {
+        "count": 5,
+        "hit_at_k": null,
+        "mrr": null,
+        "human_score_total": null,
+        "human_score_max": null,
+        "keyword_overlap_avg": null,
+        "refusal_accuracy": null
+      },
+      "graph_rag": {
+        "count": 5,
+        "hit_at_k": null,
+        "mrr": null,
+        "human_score_total": null,
+        "human_score_max": null,
+        "keyword_overlap_avg": null,
+        "refusal_accuracy": null
+      }
+    },
+    "edge_case": {
+      "rag": {
+        "count": 3,
+        "hit_at_k": null,
+        "mrr": null,
+        "human_score_total": null,
+        "human_score_max": null,
+        "keyword_overlap_avg": null,
+        "refusal_accuracy": null
+      },
+      "graph_rag": {
+        "count": 3,
+        "hit_at_k": null,
+        "mrr": null,
+        "human_score_total": null,
+        "human_score_max": null,
+        "keyword_overlap_avg": null,
+        "refusal_accuracy": null
+      }
+    },
+    "factual": {
+      "rag": {
+        "count": 6,
+        "hit_at_k": null,
+        "mrr": null,
+        "human_score_total": null,
+        "human_score_max": null,
+        "keyword_overlap_avg": null,
+        "refusal_accuracy": null
+      },
+      "graph_rag": {
+        "count": 6,
+        "hit_at_k": null,
+        "mrr": null,
+        "human_score_total": null,
+        "human_score_max": null,
+        "keyword_overlap_avg": null,
+        "refusal_accuracy": null
+      }
+    },
+    "relationship": {
+      "rag": {
+        "count": 5,
+        "hit_at_k": null,
+        "mrr": null,
+        "human_score_total": null,
+        "human_score_max": null,
+        "keyword_overlap_avg": null,
+        "refusal_accuracy": null
+      },
+      "graph_rag": {
+        "count": 5,
+        "hit_at_k": null,
+        "mrr": null,
+        "human_score_total": null,
+        "human_score_max": null,
+        "keyword_overlap_avg": null,
+        "refusal_accuracy": null
+      }
+    }
+  },
+  "results": [
+    {
+      "question_id": "F01",
+      "category": "factual",
+      "mode": "rag",
+      "question": "RAG là viết tắt của gì?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 1208.5
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F01",
+      "category": "factual",
+      "mode": "graph_rag",
+      "question": "RAG là viết tắt của gì?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "hybrid_combined_alpha0.6",
+        "sources_count": 10,
+        "context_chars": 509,
+        "latency_ms": 1313.6
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F02",
+      "category": "factual",
+      "mode": "rag",
+      "question": "Hệ thống sử dụng mô hình embedding nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 474.7
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F02",
+      "category": "factual",
+      "mode": "graph_rag",
+      "question": "Hệ thống sử dụng mô hình embedding nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 10,
+        "context_chars": 656,
+        "latency_ms": 1533.4
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F03",
+      "category": "factual",
+      "mode": "rag",
+      "question": "Kích thước chunk mặc định là bao nhiêu?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 485.4
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F03",
+      "category": "factual",
+      "mode": "graph_rag",
+      "question": "Kích thước chunk mặc định là bao nhiêu?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 10,
+        "context_chars": 558,
+        "latency_ms": 1423.4
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F04",
+      "category": "factual",
+      "mode": "rag",
+      "question": "ChromaDB dùng để làm gì trong hệ thống?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 474.2
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F04",
+      "category": "factual",
+      "mode": "graph_rag",
+      "question": "ChromaDB dùng để làm gì trong hệ thống?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 10,
+        "context_chars": 476,
+        "latency_ms": 1358.3
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F05",
+      "category": "factual",
+      "mode": "rag",
+      "question": "Neo4j lưu trữ những loại node nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 495.9
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F05",
+      "category": "factual",
+      "mode": "graph_rag",
+      "question": "Neo4j lưu trữ những loại node nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 10,
+        "context_chars": 436,
+        "latency_ms": 1205.9
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F06",
+      "category": "factual",
+      "mode": "rag",
+      "question": "Gemini được dùng cho những tác vụ gì?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 485.0
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F06",
+      "category": "factual",
+      "mode": "graph_rag",
+      "question": "Gemini được dùng cho những tác vụ gì?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 10,
+        "context_chars": 428,
+        "latency_ms": 1282.3
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "D01",
+      "category": "descriptive",
+      "mode": "rag",
+      "question": "Tóm tắt quy trình index tài liệu trong hệ thống.",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 452.5
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "D01",
+      "category": "descriptive",
+      "mode": "graph_rag",
+      "question": "Tóm tắt quy trình index tài liệu trong hệ thống.",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "hybrid_combined_alpha0.6",
+        "sources_count": 10,
+        "context_chars": 506,
+        "latency_ms": 1238.3
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "D02",
+      "category": "descriptive",
+      "mode": "rag",
+      "question": "Mô tả luồng hỏi đáp RAG từ câu hỏi đến câu trả lời.",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 496.4
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "D02",
+      "category": "descriptive",
+      "mode": "graph_rag",
+      "question": "Mô tả luồng hỏi đáp RAG từ câu hỏi đến câu trả lời.",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "hybrid_combined_alpha0.6",
+        "sources_count": 10,
+        "context_chars": 509,
+        "latency_ms": 1478.3
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "D03",
+      "category": "descriptive",
+      "mode": "rag",
+      "question": "Giải thích GraphRAG khác vector-only RAG như thế nào.",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 518.2
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "D03",
+      "category": "descriptive",
+      "mode": "graph_rag",
+      "question": "Giải thích GraphRAG khác vector-only RAG như thế nào.",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "hybrid_combined_alpha0.6",
+        "sources_count": 10,
+        "context_chars": 548,
+        "latency_ms": 1281.6
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "D04",
+      "category": "descriptive",
+      "mode": "rag",
+      "question": "Tổng quan kiến trúc hệ thống gồm những thành phần chính nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 453.1
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "D04",
+      "category": "descriptive",
+      "mode": "graph_rag",
+      "question": "Tổng quan kiến trúc hệ thống gồm những thành phần chính nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "hybrid_combined_alpha0.6",
+        "sources_count": 0,
+        "context_chars": 0,
+        "latency_ms": 1111.8
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "D05",
+      "category": "descriptive",
+      "mode": "rag",
+      "question": "Community detection trong knowledge graph hoạt động ra sao?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 481.0
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "D05",
+      "category": "descriptive",
+      "mode": "graph_rag",
+      "question": "Community detection trong knowledge graph hoạt động ra sao?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 10,
+        "context_chars": 623,
+        "latency_ms": 1401.3
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "R01",
+      "category": "relationship",
+      "mode": "rag",
+      "question": "Document và Chunk có quan hệ gì trong đồ thị?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 463.7
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "R01",
+      "category": "relationship",
+      "mode": "graph_rag",
+      "question": "Document và Chunk có quan hệ gì trong đồ thị?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 10,
+        "context_chars": 448,
+        "latency_ms": 1271.1
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "R02",
+      "category": "relationship",
+      "mode": "rag",
+      "question": "Chunk liên quan đến Entity qua quan hệ nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 551.6
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "R02",
+      "category": "relationship",
+      "mode": "graph_rag",
+      "question": "Chunk liên quan đến Entity qua quan hệ nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 10,
+        "context_chars": 558,
+        "latency_ms": 1237.1
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "R03",
+      "category": "relationship",
+      "mode": "rag",
+      "question": "Entity và Entity có thể có những quan hệ gì?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 529.2
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "R03",
+      "category": "relationship",
+      "mode": "graph_rag",
+      "question": "Entity và Entity có thể có những quan hệ gì?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 10,
+        "context_chars": 430,
+        "latency_ms": 1379.6
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "R04",
+      "category": "relationship",
+      "mode": "rag",
+      "question": "Google Drive và knowledge base được kết nối như thế nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 475.1
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "R04",
+      "category": "relationship",
+      "mode": "graph_rag",
+      "question": "Google Drive và knowledge base được kết nối như thế nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 8,
+        "context_chars": 456,
+        "latency_ms": 1303.1
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "R05",
+      "category": "relationship",
+      "mode": "rag",
+      "question": "Vector search và graph traversal được kết hợp bằng cách nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 485.3
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "R05",
+      "category": "relationship",
+      "mode": "graph_rag",
+      "question": "Vector search và graph traversal được kết hợp bằng cách nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 10,
+        "context_chars": 528,
+        "latency_ms": 1238.4
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "C01",
+      "category": "combined",
+      "mode": "rag",
+      "question": "Khi người dùng hỏi về quan hệ giữa hai thực thể, hệ thống xử lý qua những bước nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 441.8
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "C01",
+      "category": "combined",
+      "mode": "graph_rag",
+      "question": "Khi người dùng hỏi về quan hệ giữa hai thực thể, hệ thống xử lý qua những bước nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 10,
+        "context_chars": 500,
+        "latency_ms": 1445.5
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "C02",
+      "category": "combined",
+      "mode": "rag",
+      "question": "So sánh chế độ RAG và GraphRAG khi trả lời câu hỏi tổng quan chủ đề.",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 441.9
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "C02",
+      "category": "combined",
+      "mode": "graph_rag",
+      "question": "So sánh chế độ RAG và GraphRAG khi trả lời câu hỏi tổng quan chủ đề.",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "hybrid_combined_alpha0.6",
+        "sources_count": 10,
+        "context_chars": 548,
+        "latency_ms": 1249.1
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "C03",
+      "category": "combined",
+      "mode": "rag",
+      "question": "Từ khi sync Drive đến khi chat được, dữ liệu đi qua những dịch vụ nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 485.4
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "C03",
+      "category": "combined",
+      "mode": "graph_rag",
+      "question": "Từ khi sync Drive đến khi chat được, dữ liệu đi qua những dịch vụ nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 0,
+        "context_chars": 0,
+        "latency_ms": 1142.6
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "C04",
+      "category": "combined",
+      "mode": "rag",
+      "question": "Làm thế nào hệ thống vừa trích dẫn tài liệu vừa dùng thông tin từ đồ thị?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 428.3
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "C04",
+      "category": "combined",
+      "mode": "graph_rag",
+      "question": "Làm thế nào hệ thống vừa trích dẫn tài liệu vừa dùng thông tin từ đồ thị?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 10,
+        "context_chars": 506,
+        "latency_ms": 1261.5
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "C05",
+      "category": "combined",
+      "mode": "rag",
+      "question": "Câu hỏi factual về entity được route retrieval như thế nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 484.3
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "C05",
+      "category": "combined",
+      "mode": "graph_rag",
+      "question": "Câu hỏi factual về entity được route retrieval như thế nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 10,
+        "context_chars": 430,
+        "latency_ms": 1195.8
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "E01",
+      "category": "edge_case",
+      "mode": "rag",
+      "question": "Tổng thống Mỹ hiện tại là ai?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 454.9
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "E01",
+      "category": "edge_case",
+      "mode": "graph_rag",
+      "question": "Tổng thống Mỹ hiện tại là ai?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 0,
+        "context_chars": 0,
+        "latency_ms": 1124.1
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "E02",
+      "category": "edge_case",
+      "mode": "rag",
+      "question": "Giá Bitcoin hôm nay là bao nhiêu?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 426.0
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "E02",
+      "category": "edge_case",
+      "mode": "graph_rag",
+      "question": "Giá Bitcoin hôm nay là bao nhiêu?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 0,
+        "context_chars": 0,
+        "latency_ms": 1111.8
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "E03",
+      "category": "edge_case",
+      "mode": "rag",
+      "question": "Thời tiết Hà Nội ngày mai thế nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 0,
+        "context_chars": 56,
+        "latency_ms": 447.9
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "E03",
+      "category": "edge_case",
+      "mode": "graph_rag",
+      "question": "Thời tiết Hà Nội ngày mai thế nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [],
+        "retrieved_chunks": [],
+        "query_type": "combined",
+        "route": "hybrid_combined_alpha0.6",
+        "sources_count": 0,
+        "context_chars": 0,
+        "latency_ms": 1120.2
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    }
+  ],
+  "meta": {
+    "dataset": "C:\\Users\\ADMIN\\Documents\\DATN\\RAG-KnowledgeGraph-Assistant\\backend\\evaluation\\questions.json",
+    "generated_at": "2026-06-28T06:44:02.963276+00:00",
+    "collection_name": null,
+    "owner_id": null,
+    "modes": [
+      "rag",
+      "graph_rag"
+    ],
+    "retrieval_only": true,
+    "top_k": 5
+  }
+}

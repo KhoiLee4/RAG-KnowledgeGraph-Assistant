@@ -1,0 +1,3244 @@
+{
+  "summary": {
+    "rag": {
+      "questions": 24,
+      "retrieval": {
+        "evaluated": 0,
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null
+      },
+      "answer": {}
+    },
+    "graph_rag": {
+      "questions": 24,
+      "retrieval": {
+        "evaluated": 0,
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null
+      },
+      "answer": {}
+    }
+  },
+  "by_category": {
+    "combined": {
+      "rag": {
+        "count": 5,
+        "hit_at_k": null,
+        "mrr": null,
+        "human_score_total": null,
+        "human_score_max": null,
+        "keyword_overlap_avg": null,
+        "refusal_accuracy": null
+      },
+      "graph_rag": {
+        "count": 5,
+        "hit_at_k": null,
+        "mrr": null,
+        "human_score_total": null,
+        "human_score_max": null,
+        "keyword_overlap_avg": null,
+        "refusal_accuracy": null
+      }
+    },
+    "descriptive": {
+      "rag": {
+        "count": 5,
+        "hit_at_k": null,
+        "mrr": null,
+        "human_score_total": null,
+        "human_score_max": null,
+        "keyword_overlap_avg": null,
+        "refusal_accuracy": null
+      },
+      "graph_rag": {
+        "count": 5,
+        "hit_at_k": null,
+        "mrr": null,
+        "human_score_total": null,
+        "human_score_max": null,
+        "keyword_overlap_avg": null,
+        "refusal_accuracy": null
+      }
+    },
+    "edge_case": {
+      "rag": {
+        "count": 3,
+        "hit_at_k": null,
+        "mrr": null,
+        "human_score_total": null,
+        "human_score_max": null,
+        "keyword_overlap_avg": null,
+        "refusal_accuracy": null
+      },
+      "graph_rag": {
+        "count": 3,
+        "hit_at_k": null,
+        "mrr": null,
+        "human_score_total": null,
+        "human_score_max": null,
+        "keyword_overlap_avg": null,
+        "refusal_accuracy": null
+      }
+    },
+    "factual": {
+      "rag": {
+        "count": 6,
+        "hit_at_k": null,
+        "mrr": null,
+        "human_score_total": null,
+        "human_score_max": null,
+        "keyword_overlap_avg": null,
+        "refusal_accuracy": null
+      },
+      "graph_rag": {
+        "count": 6,
+        "hit_at_k": null,
+        "mrr": null,
+        "human_score_total": null,
+        "human_score_max": null,
+        "keyword_overlap_avg": null,
+        "refusal_accuracy": null
+      }
+    },
+    "relationship": {
+      "rag": {
+        "count": 5,
+        "hit_at_k": null,
+        "mrr": null,
+        "human_score_total": null,
+        "human_score_max": null,
+        "keyword_overlap_avg": null,
+        "refusal_accuracy": null
+      },
+      "graph_rag": {
+        "count": 5,
+        "hit_at_k": null,
+        "mrr": null,
+        "human_score_total": null,
+        "human_score_max": null,
+        "keyword_overlap_avg": null,
+        "refusal_accuracy": null
+      }
+    }
+  },
+  "results": [
+    {
+      "question_id": "F01",
+      "category": "factual",
+      "mode": "rag",
+      "question": "RAG là viết tắt của gì?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "10Tx9z6cA25p4awyu94BqMI61GF_kGloC__chunk_0",
+          "10Tx9z6cA25p4awyu94BqMI61GF_kGloC__chunk_1",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.7524,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.7506,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "10Tx9z6cA25p4awyu94BqMI61GF_kGloC__chunk_0",
+            "file_id": "10Tx9z6cA25p4awyu94BqMI61GF_kGloC",
+            "file_name": "02_Nhan_su_Du_an.docx",
+            "chunk_index": 0,
+            "score": 0.7426,
+            "text_preview": "TÀI LIỆU: NHÂN SỰ DỰ ÁN RAG KNOWLEDGE GRAPH ASSISTANT 1. Lê Đình Khôi là sinh viên thực hiện đồ án tốt nghiệp tại Trường Đại học Giao thông Vận tải Phân hiệu TP"
+          },
+          {
+            "chunk_key": "10Tx9z6cA25p4awyu94BqMI61GF_kGloC__chunk_1",
+            "file_id": "10Tx9z6cA25p4awyu94BqMI61GF_kGloC",
+            "file_name": "02_Nhan_su_Du_an.docx",
+            "chunk_index": 1,
+            "score": 0.7368,
+            "text_preview": "Phong Nhã công tác tại Bộ môn Công nghệ Thông tin. 3. Dự án RAG Knowledge Graph Assistant được phát triển bởi Lê Đình Khôi dưới sự hướng dẫn của ThS. Trần Phong"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 2,
+            "score": 0.726,
+            "text_preview": "ực thể nếu thông tin nằm rải rác ở nhiều tài liệu. 5. Kỹ thuật RAG giúp giảm hiện tượng ảo giác (hallucination) vì câu trả lời phải dựa trên ngữ cảnh được truy "
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 2002,
+        "latency_ms": 1015.6
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F01",
+      "category": "factual",
+      "mode": "graph_rag",
+      "question": "RAG là viết tắt của gì?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_4",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2",
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_8"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 5,
+            "score": 0.8231,
+            "text_preview": "nking.docx\tWord\t3-5\tTest RAG factual + descriptive 02_Nhan_su_Du_an.docx\tWord\t3-5\tTest GraphRAG quan hệ nhân sự 03_Kien_truc_GraphRAG.docx\tWord\t4-6\tTest hybrid "
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_4",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 4,
+            "score": 0.7988,
+            "text_preview": "uật\tPhòng Lab CNTT\tTư vấn Neo4j và Knowledge Graph Phòng Lab CNTT\tĐơn vị nghiên cứu\tGTVT Phân hiệu TP.HCM\tNghiên cứu LLM và đồ thị tri thức [Sheet: Ket_qua_inde"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.6332,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 2,
+            "score": 0.6174,
+            "text_preview": "ực thể nếu thông tin nằm rải rác ở nhiều tài liệu. 5. Kỹ thuật RAG giúp giảm hiện tượng ảo giác (hallucination) vì câu trả lời phải dựa trên ngữ cảnh được truy "
+          },
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_8",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 8,
+            "score": 0.6071,
+            "text_preview": " Hỗ trợ lập kế hoạch: Viết tài liệu kỹ thuật, tham gia xây dựng tài liệu đặc tả yêu cầu (SRS), viết 03 tháng  4,000,000   12,000,000 [Trang 2] Page 2 of 3 code "
+          }
+        ],
+        "query_type": "combined",
+        "route": "hybrid_combined_alpha0.6",
+        "sources_count": 10,
+        "context_chars": 2678,
+        "latency_ms": 2543.5
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F02",
+      "category": "factual",
+      "mode": "rag",
+      "question": "Hệ thống sử dụng mô hình embedding nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_1",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_1",
+          "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_0"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_1",
+            "file_id": "1LBUufzsBzauuRfFltD6loEytxtca6kV6",
+            "file_name": "04_Cau_hinh_He_thong.docx",
+            "chunk_index": 1,
+            "score": 0.7966,
+            "text_preview": "-flash. Mô hình embedding là gemini-embedding-001. 4. RETRIEVAL_TOP_K bằng 5. RETRIEVAL_CONTEXT_MAX_CHARS bằng 8000 ký tự. 5. Mỗi người dùng có collection Chrom"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.7916,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.7763,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_1",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 1,
+            "score": 0.7645,
+            "text_preview": "\t0.7\tTrọng số vector trong fusion hybrid retrieval GRAPH_ENABLED\ttrue\tBật truy xuất lai vector + graph GEMINI_MODEL\tgemini-2.5-flash\tMô hình LLM sinh câu trả lờ"
+          },
+          {
+            "chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_0",
+            "file_id": "1LBUufzsBzauuRfFltD6loEytxtca6kV6",
+            "file_name": "04_Cau_hinh_He_thong.docx",
+            "chunk_index": 0,
+            "score": 0.7605,
+            "text_preview": "TÀI LIỆU: CẤU HÌNH MÔI TRƯỜNG THỰC NGHIỆM 1. Backend FastAPI chạy tại cổng 8081. Frontend React Vite chạy tại cổng 3000. 2. ChromaDB được triển khai bằng Docker"
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 1999,
+        "latency_ms": 477.3
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F02",
+      "category": "factual",
+      "mode": "graph_rag",
+      "question": "Hệ thống sử dụng mô hình embedding nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+          "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_0",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 5,
+            "score": 0.9228,
+            "text_preview": "nking.docx\tWord\t3-5\tTest RAG factual + descriptive 02_Nhan_su_Du_an.docx\tWord\t3-5\tTest GraphRAG quan hệ nhân sự 03_Kien_truc_GraphRAG.docx\tWord\t4-6\tTest hybrid "
+          },
+          {
+            "chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_0",
+            "file_id": "1LBUufzsBzauuRfFltD6loEytxtca6kV6",
+            "file_name": "04_Cau_hinh_He_thong.docx",
+            "chunk_index": 0,
+            "score": 0.7531,
+            "text_preview": "TÀI LIỆU: CẤU HÌNH MÔI TRƯỜNG THỰC NGHIỆM 1. Backend FastAPI chạy tại cổng 8081. Frontend React Vite chạy tại cổng 3000. 2. ChromaDB được triển khai bằng Docker"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.7187,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          }
+        ],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 14,
+        "context_chars": 2849,
+        "latency_ms": 1288.9
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F03",
+      "category": "factual",
+      "mode": "rag",
+      "question": "Kích thước chunk mặc định là bao nhiêu?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_0",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_1",
+          "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_0",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_0",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 0,
+            "score": 0.7414,
+            "text_preview": "[Sheet: Cau_hinh] Tham số\tGiá trị\tMô tả CHUNK_SIZE\t512\tKích thước chunk khi phân đoạn văn bản (token) CHUNK_OVERLAP\t50\tĐộ chồng lấp giữa các chunk (token) RETRI"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.7205,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_1",
+            "file_id": "1LBUufzsBzauuRfFltD6loEytxtca6kV6",
+            "file_name": "04_Cau_hinh_He_thong.docx",
+            "chunk_index": 1,
+            "score": 0.6986,
+            "text_preview": "-flash. Mô hình embedding là gemini-embedding-001. 4. RETRIEVAL_TOP_K bằng 5. RETRIEVAL_CONTEXT_MAX_CHARS bằng 8000 ký tự. 5. Mỗi người dùng có collection Chrom"
+          },
+          {
+            "chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_0",
+            "file_id": "1LBUufzsBzauuRfFltD6loEytxtca6kV6",
+            "file_name": "04_Cau_hinh_He_thong.docx",
+            "chunk_index": 0,
+            "score": 0.6958,
+            "text_preview": "TÀI LIỆU: CẤU HÌNH MÔI TRƯỜNG THỰC NGHIỆM 1. Backend FastAPI chạy tại cổng 8081. Frontend React Vite chạy tại cổng 3000. 2. ChromaDB được triển khai bằng Docker"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.6928,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 1977,
+        "latency_ms": 478.3
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F03",
+      "category": "factual",
+      "mode": "graph_rag",
+      "question": "Kích thước chunk mặc định là bao nhiêu?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_0",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_4"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_0",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 0,
+            "score": 0.9224,
+            "text_preview": "[Sheet: Cau_hinh] Tham số\tGiá trị\tMô tả CHUNK_SIZE\t512\tKích thước chunk khi phân đoạn văn bản (token) CHUNK_OVERLAP\t50\tĐộ chồng lấp giữa các chunk (token) RETRI"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.6161,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_4",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 4,
+            "score": 0.5553,
+            "text_preview": "uật\tPhòng Lab CNTT\tTư vấn Neo4j và Knowledge Graph Phòng Lab CNTT\tĐơn vị nghiên cứu\tGTVT Phân hiệu TP.HCM\tNghiên cứu LLM và đồ thị tri thức [Sheet: Ket_qua_inde"
+          }
+        ],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 7,
+        "context_chars": 1782,
+        "latency_ms": 1354.6
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F04",
+      "category": "factual",
+      "mode": "rag",
+      "question": "ChromaDB dùng để làm gì trong hệ thống?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_1",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.7883,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.7416,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_1",
+            "file_id": "1LBUufzsBzauuRfFltD6loEytxtca6kV6",
+            "file_name": "04_Cau_hinh_He_thong.docx",
+            "chunk_index": 1,
+            "score": 0.7371,
+            "text_preview": "-flash. Mô hình embedding là gemini-embedding-001. 4. RETRIEVAL_TOP_K bằng 5. RETRIEVAL_CONTEXT_MAX_CHARS bằng 8000 ký tự. 5. Mỗi người dùng có collection Chrom"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 0,
+            "score": 0.7136,
+            "text_preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 1,
+            "score": 0.7134,
+            "text_preview": "tity được liên kết với chunk qua quan hệ MENTIONS. 3. Hybrid Retrieval kết hợp ba nguồn: vector chunks từ ChromaDB, graph facts từ Neo4j, và community summary t"
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 2004,
+        "latency_ms": 444.5
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F04",
+      "category": "factual",
+      "mode": "graph_rag",
+      "question": "ChromaDB dùng để làm gì trong hệ thống?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_7",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_3"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.8447,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_7",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 7,
+            "score": 0.7,
+            "text_preview": "hú 1 - Tìm kiếm giải pháp: Khảo sát các công nghệ, thư viện (libraries), hoặc framework phù hợp với yêu cầu của dự án. - Phân tích đối thủ: Nghiên cứu các ứng d"
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_3",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 3,
+            "score": 0.7,
+            "text_preview": "an_su_du_an] Họ tên\tVai trò\tĐơn vị\tLiên quan dự án Lê Đình Khôi\tSinh viên thực hiện\tLớp CNTT khóa 63 - GTVT TP.HCM\tPhát triển RAG Knowledge Graph Assistant ThS."
+          }
+        ],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 14,
+        "context_chars": 2496,
+        "latency_ms": 1387.7
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F05",
+      "category": "factual",
+      "mode": "rag",
+      "question": "Neo4j lưu trữ những loại node nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_4",
+          "10Tx9z6cA25p4awyu94BqMI61GF_kGloC__chunk_2",
+          "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_2"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 0,
+            "score": 0.7451,
+            "text_preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 1,
+            "score": 0.7102,
+            "text_preview": "tity được liên kết với chunk qua quan hệ MENTIONS. 3. Hybrid Retrieval kết hợp ba nguồn: vector chunks từ ChromaDB, graph facts từ Neo4j, và community summary t"
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_4",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 4,
+            "score": 0.7067,
+            "text_preview": "uật\tPhòng Lab CNTT\tTư vấn Neo4j và Knowledge Graph Phòng Lab CNTT\tĐơn vị nghiên cứu\tGTVT Phân hiệu TP.HCM\tNghiên cứu LLM và đồ thị tri thức [Sheet: Ket_qua_inde"
+          },
+          {
+            "chunk_key": "10Tx9z6cA25p4awyu94BqMI61GF_kGloC__chunk_2",
+            "file_id": "10Tx9z6cA25p4awyu94BqMI61GF_kGloC",
+            "file_name": "02_Nhan_su_Du_an.docx",
+            "chunk_index": 2,
+            "score": 0.6977,
+            "text_preview": " Văn An hỗ trợ tư vấn kỹ thuật về Neo4j cho dự án. 5. Phòng Lab CNTT thuộc Trường Đại học Giao thông Vận tải Phân hiệu TP.HCM. Phòng Lab CNTT nghiên cứu các chủ"
+          },
+          {
+            "chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_2",
+            "file_id": "1LBUufzsBzauuRfFltD6loEytxtca6kV6",
+            "file_name": "04_Cau_hinh_He_thong.docx",
+            "chunk_index": 2,
+            "score": 0.6959,
+            "text_preview": "h trên Neo4j được cô lập bằng thuộc tính owner_id. 6. Google Drive API được dùng ở chế độ readonly sau khi người dùng đăng nhập OAuth 2.0."
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 1521,
+        "latency_ms": 477.4
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F05",
+      "category": "factual",
+      "mode": "graph_rag",
+      "question": "Neo4j lưu trữ những loại node nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_2",
+          "10Tx9z6cA25p4awyu94BqMI61GF_kGloC__chunk_2",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_2",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 2,
+            "score": 0.7,
+            "text_preview": "T_MAX_CHARS\t8000\tGiới hạn ký tự context gửi Gemini APP_PORT\t8081\tCổng backend FastAPI CHROMA_PORT\t8000\tCổng ChromaDB NEO4J_BOLT_PORT\t7687\tCổng Bolt Neo4j INDEX_"
+          },
+          {
+            "chunk_key": "10Tx9z6cA25p4awyu94BqMI61GF_kGloC__chunk_2",
+            "file_id": "10Tx9z6cA25p4awyu94BqMI61GF_kGloC",
+            "file_name": "02_Nhan_su_Du_an.docx",
+            "chunk_index": 2,
+            "score": 0.6993,
+            "text_preview": " Văn An hỗ trợ tư vấn kỹ thuật về Neo4j cho dự án. 5. Phòng Lab CNTT thuộc Trường Đại học Giao thông Vận tải Phân hiệu TP.HCM. Phòng Lab CNTT nghiên cứu các chủ"
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 5,
+            "score": 0.56,
+            "text_preview": "nking.docx\tWord\t3-5\tTest RAG factual + descriptive 02_Nhan_su_Du_an.docx\tWord\t3-5\tTest GraphRAG quan hệ nhân sự 03_Kien_truc_GraphRAG.docx\tWord\t4-6\tTest hybrid "
+          }
+        ],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 14,
+        "context_chars": 2749,
+        "latency_ms": 1421.5
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F06",
+      "category": "factual",
+      "mode": "rag",
+      "question": "Gemini được dùng cho những tác vụ gì?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_1",
+          "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_0",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_1",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.7253,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_1",
+            "file_id": "1LBUufzsBzauuRfFltD6loEytxtca6kV6",
+            "file_name": "04_Cau_hinh_He_thong.docx",
+            "chunk_index": 1,
+            "score": 0.7181,
+            "text_preview": "-flash. Mô hình embedding là gemini-embedding-001. 4. RETRIEVAL_TOP_K bằng 5. RETRIEVAL_CONTEXT_MAX_CHARS bằng 8000 ký tự. 5. Mỗi người dùng có collection Chrom"
+          },
+          {
+            "chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_0",
+            "file_id": "1LBUufzsBzauuRfFltD6loEytxtca6kV6",
+            "file_name": "04_Cau_hinh_He_thong.docx",
+            "chunk_index": 0,
+            "score": 0.7094,
+            "text_preview": "TÀI LIỆU: CẤU HÌNH MÔI TRƯỜNG THỰC NGHIỆM 1. Backend FastAPI chạy tại cổng 8081. Frontend React Vite chạy tại cổng 3000. 2. ChromaDB được triển khai bằng Docker"
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_1",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 1,
+            "score": 0.7077,
+            "text_preview": "\t0.7\tTrọng số vector trong fusion hybrid retrieval GRAPH_ENABLED\ttrue\tBật truy xuất lai vector + graph GEMINI_MODEL\tgemini-2.5-flash\tMô hình LLM sinh câu trả lờ"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 0,
+            "score": 0.7043,
+            "text_preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 1906,
+        "latency_ms": 465.9
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "F06",
+      "category": "factual",
+      "mode": "graph_rag",
+      "question": "Gemini được dùng cho những tác vụ gì?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_1",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_2"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_1",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 1,
+            "score": 0.9123,
+            "text_preview": "\t0.7\tTrọng số vector trong fusion hybrid retrieval GRAPH_ENABLED\ttrue\tBật truy xuất lai vector + graph GEMINI_MODEL\tgemini-2.5-flash\tMô hình LLM sinh câu trả lờ"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.6228,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_2",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 2,
+            "score": 0.4789,
+            "text_preview": "T_MAX_CHARS\t8000\tGiới hạn ký tự context gửi Gemini APP_PORT\t8081\tCổng backend FastAPI CHROMA_PORT\t8000\tCổng ChromaDB NEO4J_BOLT_PORT\t7687\tCổng Bolt Neo4j INDEX_"
+          }
+        ],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 11,
+        "context_chars": 2254,
+        "latency_ms": 1301.0
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "D01",
+      "category": "descriptive",
+      "mode": "rag",
+      "question": "Tóm tắt quy trình index tài liệu trong hệ thống.",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_8",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+          "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_0"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 0,
+            "score": 0.7626,
+            "text_preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.7409,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_8",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 8,
+            "score": 0.7123,
+            "text_preview": " Hỗ trợ lập kế hoạch: Viết tài liệu kỹ thuật, tham gia xây dựng tài liệu đặc tả yêu cầu (SRS), viết 03 tháng  4,000,000   12,000,000 [Trang 2] Page 2 of 3 code "
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 5,
+            "score": 0.7109,
+            "text_preview": "nking.docx\tWord\t3-5\tTest RAG factual + descriptive 02_Nhan_su_Du_an.docx\tWord\t3-5\tTest GraphRAG quan hệ nhân sự 03_Kien_truc_GraphRAG.docx\tWord\t4-6\tTest hybrid "
+          },
+          {
+            "chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_0",
+            "file_id": "1LBUufzsBzauuRfFltD6loEytxtca6kV6",
+            "file_name": "04_Cau_hinh_He_thong.docx",
+            "chunk_index": 0,
+            "score": 0.7066,
+            "text_preview": "TÀI LIỆU: CẤU HÌNH MÔI TRƯỜNG THỰC NGHIỆM 1. Backend FastAPI chạy tại cổng 8081. Frontend React Vite chạy tại cổng 3000. 2. ChromaDB được triển khai bằng Docker"
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 2043,
+        "latency_ms": 465.9
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "D01",
+      "category": "descriptive",
+      "mode": "graph_rag",
+      "question": "Tóm tắt quy trình index tài liệu trong hệ thống.",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2",
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_8",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 2,
+            "score": 0.8197,
+            "text_preview": "ực thể nếu thông tin nằm rải rác ở nhiều tài liệu. 5. Kỹ thuật RAG giúp giảm hiện tượng ảo giác (hallucination) vì câu trả lời phải dựa trên ngữ cảnh được truy "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.7269,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 2,
+            "score": 0.7079,
+            "text_preview": " câu hỏi thành factual, descriptive hoặc combined. 4. Tham số GRAPH_ALPHA bằng 0.7 được dùng để cân bằng trọng số giữa điểm vector và điểm graph trong quá trình"
+          },
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_8",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 8,
+            "score": 0.6862,
+            "text_preview": " Hỗ trợ lập kế hoạch: Viết tài liệu kỹ thuật, tham gia xây dựng tài liệu đặc tả yêu cầu (SRS), viết 03 tháng  4,000,000   12,000,000 [Trang 2] Page 2 of 3 code "
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 5,
+            "score": 0.6618,
+            "text_preview": "nking.docx\tWord\t3-5\tTest RAG factual + descriptive 02_Nhan_su_Du_an.docx\tWord\t3-5\tTest GraphRAG quan hệ nhân sự 03_Kien_truc_GraphRAG.docx\tWord\t4-6\tTest hybrid "
+          }
+        ],
+        "query_type": "combined",
+        "route": "hybrid_combined_alpha0.6",
+        "sources_count": 16,
+        "context_chars": 3076,
+        "latency_ms": 1225.1
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "D02",
+      "category": "descriptive",
+      "mode": "rag",
+      "question": "Mô tả luồng hỏi đáp RAG từ câu hỏi đến câu trả lời.",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_0",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.8038,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 2,
+            "score": 0.7715,
+            "text_preview": "ực thể nếu thông tin nằm rải rác ở nhiều tài liệu. 5. Kỹ thuật RAG giúp giảm hiện tượng ảo giác (hallucination) vì câu trả lời phải dựa trên ngữ cảnh được truy "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.7683,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_0",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 0,
+            "score": 0.7238,
+            "text_preview": "[Sheet: Cau_hinh] Tham số\tGiá trị\tMô tả CHUNK_SIZE\t512\tKích thước chunk khi phân đoạn văn bản (token) CHUNK_OVERLAP\t50\tĐộ chồng lấp giữa các chunk (token) RETRI"
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 5,
+            "score": 0.7207,
+            "text_preview": "nking.docx\tWord\t3-5\tTest RAG factual + descriptive 02_Nhan_su_Du_an.docx\tWord\t3-5\tTest GraphRAG quan hệ nhân sự 03_Kien_truc_GraphRAG.docx\tWord\t4-6\tTest hybrid "
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 1864,
+        "latency_ms": 434.4
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "D02",
+      "category": "descriptive",
+      "mode": "graph_rag",
+      "question": "Mô tả luồng hỏi đáp RAG từ câu hỏi đến câu trả lời.",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_8",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_8",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 8,
+            "score": 0.8259,
+            "text_preview": " Hỗ trợ lập kế hoạch: Viết tài liệu kỹ thuật, tham gia xây dựng tài liệu đặc tả yêu cầu (SRS), viết 03 tháng  4,000,000   12,000,000 [Trang 2] Page 2 of 3 code "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.6371,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 2,
+            "score": 0.6048,
+            "text_preview": "ực thể nếu thông tin nằm rải rác ở nhiều tài liệu. 5. Kỹ thuật RAG giúp giảm hiện tượng ảo giác (hallucination) vì câu trả lời phải dựa trên ngữ cảnh được truy "
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 5,
+            "score": 0.5743,
+            "text_preview": "nking.docx\tWord\t3-5\tTest RAG factual + descriptive 02_Nhan_su_Du_an.docx\tWord\t3-5\tTest GraphRAG quan hệ nhân sự 03_Kien_truc_GraphRAG.docx\tWord\t4-6\tTest hybrid "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.5642,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          }
+        ],
+        "query_type": "combined",
+        "route": "hybrid_combined_alpha0.6",
+        "sources_count": 16,
+        "context_chars": 3389,
+        "latency_ms": 1278.3
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "D03",
+      "category": "descriptive",
+      "mode": "rag",
+      "question": "Giải thích GraphRAG khác vector-only RAG như thế nào.",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 0,
+            "score": 0.7721,
+            "text_preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.7511,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 2,
+            "score": 0.7272,
+            "text_preview": "ực thể nếu thông tin nằm rải rác ở nhiều tài liệu. 5. Kỹ thuật RAG giúp giảm hiện tượng ảo giác (hallucination) vì câu trả lời phải dựa trên ngữ cảnh được truy "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.7198,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 5,
+            "score": 0.7081,
+            "text_preview": "nking.docx\tWord\t3-5\tTest RAG factual + descriptive 02_Nhan_su_Du_an.docx\tWord\t3-5\tTest GraphRAG quan hệ nhân sự 03_Kien_truc_GraphRAG.docx\tWord\t4-6\tTest hybrid "
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 1961,
+        "latency_ms": 477.7
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "D03",
+      "category": "descriptive",
+      "mode": "graph_rag",
+      "question": "Giải thích GraphRAG khác vector-only RAG như thế nào.",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_4"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.8507,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.8159,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 2,
+            "score": 0.8043,
+            "text_preview": "ực thể nếu thông tin nằm rải rác ở nhiều tài liệu. 5. Kỹ thuật RAG giúp giảm hiện tượng ảo giác (hallucination) vì câu trả lời phải dựa trên ngữ cảnh được truy "
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 5,
+            "score": 0.7769,
+            "text_preview": "nking.docx\tWord\t3-5\tTest RAG factual + descriptive 02_Nhan_su_Du_an.docx\tWord\t3-5\tTest GraphRAG quan hệ nhân sự 03_Kien_truc_GraphRAG.docx\tWord\t4-6\tTest hybrid "
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_4",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 4,
+            "score": 0.75,
+            "text_preview": "uật\tPhòng Lab CNTT\tTư vấn Neo4j và Knowledge Graph Phòng Lab CNTT\tĐơn vị nghiên cứu\tGTVT Phân hiệu TP.HCM\tNghiên cứu LLM và đồ thị tri thức [Sheet: Ket_qua_inde"
+          }
+        ],
+        "query_type": "combined",
+        "route": "hybrid_combined_alpha0.6",
+        "sources_count": 16,
+        "context_chars": 3137,
+        "latency_ms": 1223.5
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "D04",
+      "category": "descriptive",
+      "mode": "rag",
+      "question": "Tổng quan kiến trúc hệ thống gồm những thành phần chính nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_3",
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_9",
+          "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_0"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 0,
+            "score": 0.7304,
+            "text_preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 1,
+            "score": 0.7149,
+            "text_preview": "tity được liên kết với chunk qua quan hệ MENTIONS. 3. Hybrid Retrieval kết hợp ba nguồn: vector chunks từ ChromaDB, graph facts từ Neo4j, và community summary t"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_3",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 3,
+            "score": 0.7087,
+            "text_preview": "i liệu + Đồ thị), và community (Tổng quan chủ đề). 6. Lê Đình Khôi triển khai HybridRetrievalService và GraphService trong backend FastAPI. ThS. Trần Phong Nhã "
+          },
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_9",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 9,
+            "score": 0.6945,
+            "text_preview": "phục các lỗi phát sinh trong quá trình phát triển. Tổng cộng:  12,000,000 Điều 2: Chế độ làm việc Article 2: Work regime -  Thời giờ làm việc   : Để thuận tiện "
+          },
+          {
+            "chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_0",
+            "file_id": "1LBUufzsBzauuRfFltD6loEytxtca6kV6",
+            "file_name": "04_Cau_hinh_He_thong.docx",
+            "chunk_index": 0,
+            "score": 0.6775,
+            "text_preview": "TÀI LIỆU: CẤU HÌNH MÔI TRƯỜNG THỰC NGHIỆM 1. Backend FastAPI chạy tại cổng 8081. Frontend React Vite chạy tại cổng 3000. 2. ChromaDB được triển khai bằng Docker"
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 1738,
+        "latency_ms": 467.0
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "D04",
+      "category": "descriptive",
+      "mode": "graph_rag",
+      "question": "Tổng quan kiến trúc hệ thống gồm những thành phần chính nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_3",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_3"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 5,
+            "score": 0.8223,
+            "text_preview": "nking.docx\tWord\t3-5\tTest RAG factual + descriptive 02_Nhan_su_Du_an.docx\tWord\t3-5\tTest GraphRAG quan hệ nhân sự 03_Kien_truc_GraphRAG.docx\tWord\t4-6\tTest hybrid "
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_3",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 3,
+            "score": 0.5343,
+            "text_preview": "an_su_du_an] Họ tên\tVai trò\tĐơn vị\tLiên quan dự án Lê Đình Khôi\tSinh viên thực hiện\tLớp CNTT khóa 63 - GTVT TP.HCM\tPhát triển RAG Knowledge Graph Assistant ThS."
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 0,
+            "score": 0.4382,
+            "text_preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 1,
+            "score": 0.4289,
+            "text_preview": "tity được liên kết với chunk qua quan hệ MENTIONS. 3. Hybrid Retrieval kết hợp ba nguồn: vector chunks từ ChromaDB, graph facts từ Neo4j, và community summary t"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_3",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 3,
+            "score": 0.4252,
+            "text_preview": "i liệu + Đồ thị), và community (Tổng quan chủ đề). 6. Lê Đình Khôi triển khai HybridRetrievalService và GraphService trong backend FastAPI. ThS. Trần Phong Nhã "
+          }
+        ],
+        "query_type": "combined",
+        "route": "hybrid_combined_alpha0.6",
+        "sources_count": 16,
+        "context_chars": 2917,
+        "latency_ms": 1289.5
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "D05",
+      "category": "descriptive",
+      "mode": "rag",
+      "question": "Community detection trong knowledge graph hoạt động ra sao?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_3"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 0,
+            "score": 0.7473,
+            "text_preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 2,
+            "score": 0.7113,
+            "text_preview": " câu hỏi thành factual, descriptive hoặc combined. 4. Tham số GRAPH_ALPHA bằng 0.7 được dùng để cân bằng trọng số giữa điểm vector và điểm graph trong quá trình"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 1,
+            "score": 0.7098,
+            "text_preview": "tity được liên kết với chunk qua quan hệ MENTIONS. 3. Hybrid Retrieval kết hợp ba nguồn: vector chunks từ ChromaDB, graph facts từ Neo4j, và community summary t"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.7097,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_3",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 3,
+            "score": 0.7022,
+            "text_preview": "i liệu + Đồ thị), và community (Tổng quan chủ đề). 6. Lê Đình Khôi triển khai HybridRetrievalService và GraphService trong backend FastAPI. ThS. Trần Phong Nhã "
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 1887,
+        "latency_ms": 444.0
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "D05",
+      "category": "descriptive",
+      "mode": "graph_rag",
+      "question": "Community detection trong knowledge graph hoạt động ra sao?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 2,
+            "score": 0.7384,
+            "text_preview": " câu hỏi thành factual, descriptive hoặc combined. 4. Tham số GRAPH_ALPHA bằng 0.7 được dùng để cân bằng trọng số giữa điểm vector và điểm graph trong quá trình"
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 5,
+            "score": 0.7,
+            "text_preview": "nking.docx\tWord\t3-5\tTest RAG factual + descriptive 02_Nhan_su_Du_an.docx\tWord\t3-5\tTest GraphRAG quan hệ nhân sự 03_Kien_truc_GraphRAG.docx\tWord\t4-6\tTest hybrid "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.6504,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          }
+        ],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 11,
+        "context_chars": 2410,
+        "latency_ms": 1355.9
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "R01",
+      "category": "relationship",
+      "mode": "rag",
+      "question": "Document và Chunk có quan hệ gì trong đồ thị?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_4",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 0,
+            "score": 0.8079,
+            "text_preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.7633,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_4",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 4,
+            "score": 0.7598,
+            "text_preview": "uật\tPhòng Lab CNTT\tTư vấn Neo4j và Knowledge Graph Phòng Lab CNTT\tĐơn vị nghiên cứu\tGTVT Phân hiệu TP.HCM\tNghiên cứu LLM và đồ thị tri thức [Sheet: Ket_qua_inde"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 1,
+            "score": 0.7412,
+            "text_preview": "tity được liên kết với chunk qua quan hệ MENTIONS. 3. Hybrid Retrieval kết hợp ba nguồn: vector chunks từ ChromaDB, graph facts từ Neo4j, và community summary t"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.7406,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 2014,
+        "latency_ms": 454.9
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "R01",
+      "category": "relationship",
+      "mode": "graph_rag",
+      "question": "Document và Chunk có quan hệ gì trong đồ thị?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_4",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_0"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_4",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 4,
+            "score": 0.9279,
+            "text_preview": "uật\tPhòng Lab CNTT\tTư vấn Neo4j và Knowledge Graph Phòng Lab CNTT\tĐơn vị nghiên cứu\tGTVT Phân hiệu TP.HCM\tNghiên cứu LLM và đồ thị tri thức [Sheet: Ket_qua_inde"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.7472,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_0",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 0,
+            "score": 0.7,
+            "text_preview": "[Sheet: Cau_hinh] Tham số\tGiá trị\tMô tả CHUNK_SIZE\t512\tKích thước chunk khi phân đoạn văn bản (token) CHUNK_OVERLAP\t50\tĐộ chồng lấp giữa các chunk (token) RETRI"
+          }
+        ],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 14,
+        "context_chars": 2324,
+        "latency_ms": 1301.7
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "R02",
+      "category": "relationship",
+      "mode": "rag",
+      "question": "Chunk liên quan đến Entity qua quan hệ nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_4"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 0,
+            "score": 0.7837,
+            "text_preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 1,
+            "score": 0.7596,
+            "text_preview": "tity được liên kết với chunk qua quan hệ MENTIONS. 3. Hybrid Retrieval kết hợp ba nguồn: vector chunks từ ChromaDB, graph facts từ Neo4j, và community summary t"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.7212,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.7076,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_4",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 4,
+            "score": 0.7011,
+            "text_preview": "uật\tPhòng Lab CNTT\tTư vấn Neo4j và Knowledge Graph Phòng Lab CNTT\tĐơn vị nghiên cứu\tGTVT Phân hiệu TP.HCM\tNghiên cứu LLM và đồ thị tri thức [Sheet: Ket_qua_inde"
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 2014,
+        "latency_ms": 477.6
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "R02",
+      "category": "relationship",
+      "mode": "graph_rag",
+      "question": "Chunk liên quan đến Entity qua quan hệ nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_0",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_0",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 0,
+            "score": 0.7,
+            "text_preview": "[Sheet: Cau_hinh] Tham số\tGiá trị\tMô tả CHUNK_SIZE\t512\tKích thước chunk khi phân đoạn văn bản (token) CHUNK_OVERLAP\t50\tĐộ chồng lấp giữa các chunk (token) RETRI"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.679,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 0,
+            "score": 0.5851,
+            "text_preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+          }
+        ],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 14,
+        "context_chars": 2709,
+        "latency_ms": 1234.8
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "R03",
+      "category": "relationship",
+      "mode": "rag",
+      "question": "Entity và Entity có thể có những quan hệ gì?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_3",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 0,
+            "score": 0.7458,
+            "text_preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.7259,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 1,
+            "score": 0.7216,
+            "text_preview": "tity được liên kết với chunk qua quan hệ MENTIONS. 3. Hybrid Retrieval kết hợp ba nguồn: vector chunks từ ChromaDB, graph facts từ Neo4j, và community summary t"
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_3",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 3,
+            "score": 0.7192,
+            "text_preview": "an_su_du_an] Họ tên\tVai trò\tĐơn vị\tLiên quan dự án Lê Đình Khôi\tSinh viên thực hiện\tLớp CNTT khóa 63 - GTVT TP.HCM\tPhát triển RAG Knowledge Graph Assistant ThS."
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 5,
+            "score": 0.7102,
+            "text_preview": "nking.docx\tWord\t3-5\tTest RAG factual + descriptive 02_Nhan_su_Du_an.docx\tWord\t3-5\tTest GraphRAG quan hệ nhân sự 03_Kien_truc_GraphRAG.docx\tWord\t4-6\tTest hybrid "
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 1895,
+        "latency_ms": 456.1
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "R03",
+      "category": "relationship",
+      "mode": "graph_rag",
+      "question": "Entity và Entity có thể có những quan hệ gì?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.9178,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 5,
+            "score": 0.9131,
+            "text_preview": "nking.docx\tWord\t3-5\tTest RAG factual + descriptive 02_Nhan_su_Du_an.docx\tWord\t3-5\tTest GraphRAG quan hệ nhân sự 03_Kien_truc_GraphRAG.docx\tWord\t4-6\tTest hybrid "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 2,
+            "score": 0.7,
+            "text_preview": "ực thể nếu thông tin nằm rải rác ở nhiều tài liệu. 5. Kỹ thuật RAG giúp giảm hiện tượng ảo giác (hallucination) vì câu trả lời phải dựa trên ngữ cảnh được truy "
+          }
+        ],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 14,
+        "context_chars": 2542,
+        "latency_ms": 1256.9
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "R04",
+      "category": "relationship",
+      "mode": "rag",
+      "question": "Google Drive và knowledge base được kết nối như thế nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+          "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_2",
+          "10Tx9z6cA25p4awyu94BqMI61GF_kGloC__chunk_1",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_4"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 0,
+            "score": 0.7363,
+            "text_preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+          },
+          {
+            "chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_2",
+            "file_id": "1LBUufzsBzauuRfFltD6loEytxtca6kV6",
+            "file_name": "04_Cau_hinh_He_thong.docx",
+            "chunk_index": 2,
+            "score": 0.7133,
+            "text_preview": "h trên Neo4j được cô lập bằng thuộc tính owner_id. 6. Google Drive API được dùng ở chế độ readonly sau khi người dùng đăng nhập OAuth 2.0."
+          },
+          {
+            "chunk_key": "10Tx9z6cA25p4awyu94BqMI61GF_kGloC__chunk_1",
+            "file_id": "10Tx9z6cA25p4awyu94BqMI61GF_kGloC",
+            "file_name": "02_Nhan_su_Du_an.docx",
+            "chunk_index": 1,
+            "score": 0.7034,
+            "text_preview": "Phong Nhã công tác tại Bộ môn Công nghệ Thông tin. 3. Dự án RAG Knowledge Graph Assistant được phát triển bởi Lê Đình Khôi dưới sự hướng dẫn của ThS. Trần Phong"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.7021,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_4",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 4,
+            "score": 0.6948,
+            "text_preview": "uật\tPhòng Lab CNTT\tTư vấn Neo4j và Knowledge Graph Phòng Lab CNTT\tĐơn vị nghiên cứu\tGTVT Phân hiệu TP.HCM\tNghiên cứu LLM và đồ thị tri thức [Sheet: Ket_qua_inde"
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 1904,
+        "latency_ms": 433.4
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "R04",
+      "category": "relationship",
+      "mode": "graph_rag",
+      "question": "Google Drive và knowledge base được kết nối như thế nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_3"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 0,
+            "score": 0.7055,
+            "text_preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.7,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_3",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 3,
+            "score": 0.6462,
+            "text_preview": "an_su_du_an] Họ tên\tVai trò\tĐơn vị\tLiên quan dự án Lê Đình Khôi\tSinh viên thực hiện\tLớp CNTT khóa 63 - GTVT TP.HCM\tPhát triển RAG Knowledge Graph Assistant ThS."
+          }
+        ],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 14,
+        "context_chars": 2414,
+        "latency_ms": 1267.7
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "R05",
+      "category": "relationship",
+      "mode": "rag",
+      "question": "Vector search và graph traversal được kết hợp bằng cách nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 0,
+            "score": 0.7834,
+            "text_preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 1,
+            "score": 0.7556,
+            "text_preview": "tity được liên kết với chunk qua quan hệ MENTIONS. 3. Hybrid Retrieval kết hợp ba nguồn: vector chunks từ ChromaDB, graph facts từ Neo4j, và community summary t"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.7462,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 2,
+            "score": 0.7423,
+            "text_preview": " câu hỏi thành factual, descriptive hoặc combined. 4. Tham số GRAPH_ALPHA bằng 0.7 được dùng để cân bằng trọng số giữa điểm vector và điểm graph trong quá trình"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.7288,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 2049,
+        "latency_ms": 467.6
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "R05",
+      "category": "relationship",
+      "mode": "graph_rag",
+      "question": "Vector search và graph traversal được kết hợp bằng cách nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 5,
+            "score": 0.7,
+            "text_preview": "nking.docx\tWord\t3-5\tTest RAG factual + descriptive 02_Nhan_su_Du_an.docx\tWord\t3-5\tTest GraphRAG quan hệ nhân sự 03_Kien_truc_GraphRAG.docx\tWord\t4-6\tTest hybrid "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.503,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 2,
+            "score": 0.4414,
+            "text_preview": " câu hỏi thành factual, descriptive hoặc combined. 4. Tham số GRAPH_ALPHA bằng 0.7 được dùng để cân bằng trọng số giữa điểm vector và điểm graph trong quá trình"
+          }
+        ],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 11,
+        "context_chars": 2287,
+        "latency_ms": 1234.6
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "C01",
+      "category": "combined",
+      "mode": "rag",
+      "question": "Khi người dùng hỏi về quan hệ giữa hai thực thể, hệ thống xử lý qua những bước nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.7535,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 0,
+            "score": 0.7314,
+            "text_preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 1,
+            "score": 0.7182,
+            "text_preview": "tity được liên kết với chunk qua quan hệ MENTIONS. 3. Hybrid Retrieval kết hợp ba nguồn: vector chunks từ ChromaDB, graph facts từ Neo4j, và community summary t"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.7083,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 2,
+            "score": 0.7022,
+            "text_preview": " câu hỏi thành factual, descriptive hoặc combined. 4. Tham số GRAPH_ALPHA bằng 0.7 được dùng để cân bằng trọng số giữa điểm vector và điểm graph trong quá trình"
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 2049,
+        "latency_ms": 444.6
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "C01",
+      "category": "combined",
+      "mode": "graph_rag",
+      "question": "Khi người dùng hỏi về quan hệ giữa hai thực thể, hệ thống xử lý qua những bước nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_8"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 5,
+            "score": 0.7,
+            "text_preview": "nking.docx\tWord\t3-5\tTest RAG factual + descriptive 02_Nhan_su_Du_an.docx\tWord\t3-5\tTest GraphRAG quan hệ nhân sự 03_Kien_truc_GraphRAG.docx\tWord\t4-6\tTest hybrid "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.6198,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_8",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 8,
+            "score": 0.35,
+            "text_preview": " Hỗ trợ lập kế hoạch: Viết tài liệu kỹ thuật, tham gia xây dựng tài liệu đặc tả yêu cầu (SRS), viết 03 tháng  4,000,000   12,000,000 [Trang 2] Page 2 of 3 code "
+          }
+        ],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 14,
+        "context_chars": 2454,
+        "latency_ms": 1301.4
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "C02",
+      "category": "combined",
+      "mode": "rag",
+      "question": "So sánh chế độ RAG và GraphRAG khi trả lời câu hỏi tổng quan chủ đề.",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.7862,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.7766,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 0,
+            "score": 0.7598,
+            "text_preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 2,
+            "score": 0.7519,
+            "text_preview": " câu hỏi thành factual, descriptive hoặc combined. 4. Tham số GRAPH_ALPHA bằng 0.7 được dùng để cân bằng trọng số giữa điểm vector và điểm graph trong quá trình"
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 5,
+            "score": 0.7493,
+            "text_preview": "nking.docx\tWord\t3-5\tTest RAG factual + descriptive 02_Nhan_su_Du_an.docx\tWord\t3-5\tTest GraphRAG quan hệ nhân sự 03_Kien_truc_GraphRAG.docx\tWord\t4-6\tTest hybrid "
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 2094,
+        "latency_ms": 465.8
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "C02",
+      "category": "combined",
+      "mode": "graph_rag",
+      "question": "So sánh chế độ RAG và GraphRAG khi trả lời câu hỏi tổng quan chủ đề.",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_4",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_3",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 5,
+            "score": 0.8496,
+            "text_preview": "nking.docx\tWord\t3-5\tTest RAG factual + descriptive 02_Nhan_su_Du_an.docx\tWord\t3-5\tTest GraphRAG quan hệ nhân sự 03_Kien_truc_GraphRAG.docx\tWord\t4-6\tTest hybrid "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.7136,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_4",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 4,
+            "score": 0.6833,
+            "text_preview": "uật\tPhòng Lab CNTT\tTư vấn Neo4j và Knowledge Graph Phòng Lab CNTT\tĐơn vị nghiên cứu\tGTVT Phân hiệu TP.HCM\tNghiên cứu LLM và đồ thị tri thức [Sheet: Ket_qua_inde"
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_3",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 3,
+            "score": 0.683,
+            "text_preview": "an_su_du_an] Họ tên\tVai trò\tĐơn vị\tLiên quan dự án Lê Đình Khôi\tSinh viên thực hiện\tLớp CNTT khóa 63 - GTVT TP.HCM\tPhát triển RAG Knowledge Graph Assistant ThS."
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 2,
+            "score": 0.655,
+            "text_preview": "ực thể nếu thông tin nằm rải rác ở nhiều tài liệu. 5. Kỹ thuật RAG giúp giảm hiện tượng ảo giác (hallucination) vì câu trả lời phải dựa trên ngữ cảnh được truy "
+          }
+        ],
+        "query_type": "combined",
+        "route": "hybrid_combined_alpha0.6",
+        "sources_count": 16,
+        "context_chars": 3334,
+        "latency_ms": 1301.6
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "C03",
+      "category": "combined",
+      "mode": "rag",
+      "question": "Từ khi sync Drive đến khi chat được, dữ liệu đi qua những dịch vụ nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_2",
+          "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_1",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_2",
+          "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_0"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_2",
+            "file_id": "1LBUufzsBzauuRfFltD6loEytxtca6kV6",
+            "file_name": "04_Cau_hinh_He_thong.docx",
+            "chunk_index": 2,
+            "score": 0.6966,
+            "text_preview": "h trên Neo4j được cô lập bằng thuộc tính owner_id. 6. Google Drive API được dùng ở chế độ readonly sau khi người dùng đăng nhập OAuth 2.0."
+          },
+          {
+            "chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_1",
+            "file_id": "1LBUufzsBzauuRfFltD6loEytxtca6kV6",
+            "file_name": "04_Cau_hinh_He_thong.docx",
+            "chunk_index": 1,
+            "score": 0.6937,
+            "text_preview": "-flash. Mô hình embedding là gemini-embedding-001. 4. RETRIEVAL_TOP_K bằng 5. RETRIEVAL_CONTEXT_MAX_CHARS bằng 8000 ký tự. 5. Mỗi người dùng có collection Chrom"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 0,
+            "score": 0.6885,
+            "text_preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_2",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 2,
+            "score": 0.687,
+            "text_preview": "T_MAX_CHARS\t8000\tGiới hạn ký tự context gửi Gemini APP_PORT\t8081\tCổng backend FastAPI CHROMA_PORT\t8000\tCổng ChromaDB NEO4J_BOLT_PORT\t7687\tCổng Bolt Neo4j INDEX_"
+          },
+          {
+            "chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_0",
+            "file_id": "1LBUufzsBzauuRfFltD6loEytxtca6kV6",
+            "file_name": "04_Cau_hinh_He_thong.docx",
+            "chunk_index": 0,
+            "score": 0.6867,
+            "text_preview": "TÀI LIỆU: CẤU HÌNH MÔI TRƯỜNG THỰC NGHIỆM 1. Backend FastAPI chạy tại cổng 8081. Frontend React Vite chạy tại cổng 3000. 2. ChromaDB được triển khai bằng Docker"
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 1654,
+        "latency_ms": 476.7
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "C03",
+      "category": "combined",
+      "mode": "graph_rag",
+      "question": "Từ khi sync Drive đến khi chat được, dữ liệu đi qua những dịch vụ nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_8",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 5,
+            "score": 0.7,
+            "text_preview": "nking.docx\tWord\t3-5\tTest RAG factual + descriptive 02_Nhan_su_Du_an.docx\tWord\t3-5\tTest GraphRAG quan hệ nhân sự 03_Kien_truc_GraphRAG.docx\tWord\t4-6\tTest hybrid "
+          },
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_8",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 8,
+            "score": 0.6125,
+            "text_preview": " Hỗ trợ lập kế hoạch: Viết tài liệu kỹ thuật, tham gia xây dựng tài liệu đặc tả yêu cầu (SRS), viết 03 tháng  4,000,000   12,000,000 [Trang 2] Page 2 of 3 code "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 2,
+            "score": 0.6125,
+            "text_preview": "ực thể nếu thông tin nằm rải rác ở nhiều tài liệu. 5. Kỹ thuật RAG giúp giảm hiện tượng ảo giác (hallucination) vì câu trả lời phải dựa trên ngữ cảnh được truy "
+          }
+        ],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 14,
+        "context_chars": 2587,
+        "latency_ms": 1301.5
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "C04",
+      "category": "combined",
+      "mode": "rag",
+      "question": "Làm thế nào hệ thống vừa trích dẫn tài liệu vừa dùng thông tin từ đồ thị?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 0,
+            "score": 0.7477,
+            "text_preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 2,
+            "score": 0.7434,
+            "text_preview": " câu hỏi thành factual, descriptive hoặc combined. 4. Tham số GRAPH_ALPHA bằng 0.7 được dùng để cân bằng trọng số giữa điểm vector và điểm graph trong quá trình"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.7249,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 2,
+            "score": 0.7231,
+            "text_preview": "ực thể nếu thông tin nằm rải rác ở nhiều tài liệu. 5. Kỹ thuật RAG giúp giảm hiện tượng ảo giác (hallucination) vì câu trả lời phải dựa trên ngữ cảnh được truy "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.7145,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 1978,
+        "latency_ms": 477.8
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "C04",
+      "category": "combined",
+      "mode": "graph_rag",
+      "question": "Làm thế nào hệ thống vừa trích dẫn tài liệu vừa dùng thông tin từ đồ thị?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_7",
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_8",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_7",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 7,
+            "score": 0.7,
+            "text_preview": "hú 1 - Tìm kiếm giải pháp: Khảo sát các công nghệ, thư viện (libraries), hoặc framework phù hợp với yêu cầu của dự án. - Phân tích đối thủ: Nghiên cứu các ứng d"
+          },
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_8",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 8,
+            "score": 0.7,
+            "text_preview": " Hỗ trợ lập kế hoạch: Viết tài liệu kỹ thuật, tham gia xây dựng tài liệu đặc tả yêu cầu (SRS), viết 03 tháng  4,000,000   12,000,000 [Trang 2] Page 2 of 3 code "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.6675,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          }
+        ],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 14,
+        "context_chars": 2486,
+        "latency_ms": 1320.9
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "C05",
+      "category": "combined",
+      "mode": "rag",
+      "question": "Câu hỏi factual về entity được route retrieval như thế nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+          "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 1,
+            "score": 0.7652,
+            "text_preview": "tity được liên kết với chunk qua quan hệ MENTIONS. 3. Hybrid Retrieval kết hợp ba nguồn: vector chunks từ ChromaDB, graph facts từ Neo4j, và community summary t"
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.7348,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.7317,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 0,
+            "score": 0.7311,
+            "text_preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+          },
+          {
+            "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2",
+            "file_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB",
+            "file_name": "03_Kien_truc_GraphRAG.docx",
+            "chunk_index": 2,
+            "score": 0.7286,
+            "text_preview": " câu hỏi thành factual, descriptive hoặc combined. 4. Tham số GRAPH_ALPHA bằng 0.7 được dùng để cân bằng trọng số giữa điểm vector và điểm graph trong quá trình"
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 2049,
+        "latency_ms": 445.2
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "C05",
+      "category": "combined",
+      "mode": "graph_rag",
+      "question": "Câu hỏi factual về entity được route retrieval như thế nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+          "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 1,
+            "score": 0.7008,
+            "text_preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 5,
+            "score": 0.7,
+            "text_preview": "nking.docx\tWord\t3-5\tTest RAG factual + descriptive 02_Nhan_su_Du_an.docx\tWord\t3-5\tTest GraphRAG quan hệ nhân sự 03_Kien_truc_GraphRAG.docx\tWord\t4-6\tTest hybrid "
+          },
+          {
+            "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+            "file_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4",
+            "file_name": "01_RAG_va_Chunking.docx",
+            "chunk_index": 0,
+            "score": 0.6579,
+            "text_preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+          }
+        ],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 14,
+        "context_chars": 2743,
+        "latency_ms": 1268.3
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "E01",
+      "category": "edge_case",
+      "mode": "rag",
+      "question": "Tổng thống Mỹ hiện tại là ai?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "10Tx9z6cA25p4awyu94BqMI61GF_kGloC__chunk_0",
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_2",
+          "13j7HllgNVWF2wH8beLFHcxML1kmQ9HsK__chunk_2",
+          "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF__chunk_2",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_3"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "10Tx9z6cA25p4awyu94BqMI61GF_kGloC__chunk_0",
+            "file_id": "10Tx9z6cA25p4awyu94BqMI61GF_kGloC",
+            "file_name": "02_Nhan_su_Du_an.docx",
+            "chunk_index": 0,
+            "score": 0.7113,
+            "text_preview": "TÀI LIỆU: NHÂN SỰ DỰ ÁN RAG KNOWLEDGE GRAPH ASSISTANT 1. Lê Đình Khôi là sinh viên thực hiện đồ án tốt nghiệp tại Trường Đại học Giao thông Vận tải Phân hiệu TP"
+          },
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_2",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 2,
+            "score": 0.695,
+            "text_preview": " Số 647 Lý Thường Kiệt, P.Bảy Hiền, Tp.Hồ Chí Minh Mã số thuế/Tax code: 0318431738 Điện thoại/Tel: 0934 941 103 Và một bên là Ông/Bà: LÊ ĐÌNH KHÔI And, for the "
+          },
+          {
+            "chunk_key": "13j7HllgNVWF2wH8beLFHcxML1kmQ9HsK__chunk_2",
+            "file_id": "13j7HllgNVWF2wH8beLFHcxML1kmQ9HsK",
+            "file_name": "LeDinhKhoi_InternShip_Aug2025.pdf",
+            "chunk_index": 2,
+            "score": 0.6753,
+            "text_preview": ": Tầng 3, Tòa nhà QCoop, Số 647 Lý Thường Kiệt, P. Bảy Hiền, Tp.Hồ Chí Minh Mã số thuế/Tax code: 0318431738 Điện thoại/Tel: 0934 941 103 Và một bên là Ông/Bà: L"
+          },
+          {
+            "chunk_key": "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF__chunk_2",
+            "file_id": "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF",
+            "file_name": "LeDinhKhoi_InternShip_Nov2025.pdf",
+            "chunk_index": 2,
+            "score": 0.6753,
+            "text_preview": ": Tầng 3, Tòa nhà QCoop, Số 647 Lý Thường Kiệt, P. Bảy Hiền, Tp.Hồ Chí Minh Mã số thuế/Tax code: 0318431738 Điện thoại/Tel: 0934 941 103 Và một bên là Ông/Bà: L"
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_3",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 3,
+            "score": 0.6694,
+            "text_preview": "an_su_du_an] Họ tên\tVai trò\tĐơn vị\tLiên quan dự án Lê Đình Khôi\tSinh viên thực hiện\tLớp CNTT khóa 63 - GTVT TP.HCM\tPhát triển RAG Knowledge Graph Assistant ThS."
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 1796,
+        "latency_ms": 478.0
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "E01",
+      "category": "edge_case",
+      "mode": "graph_rag",
+      "question": "Tổng thống Mỹ hiện tại là ai?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_7",
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_8",
+          "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_3"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_7",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 7,
+            "score": 0.7,
+            "text_preview": "hú 1 - Tìm kiếm giải pháp: Khảo sát các công nghệ, thư viện (libraries), hoặc framework phù hợp với yêu cầu của dự án. - Phân tích đối thủ: Nghiên cứu các ứng d"
+          },
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_8",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 8,
+            "score": 0.6125,
+            "text_preview": " Hỗ trợ lập kế hoạch: Viết tài liệu kỹ thuật, tham gia xây dựng tài liệu đặc tả yêu cầu (SRS), viết 03 tháng  4,000,000   12,000,000 [Trang 2] Page 2 of 3 code "
+          },
+          {
+            "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_3",
+            "file_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD",
+            "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+            "chunk_index": 3,
+            "score": 0.5508,
+            "text_preview": "an_su_du_an] Họ tên\tVai trò\tĐơn vị\tLiên quan dự án Lê Đình Khôi\tSinh viên thực hiện\tLớp CNTT khóa 63 - GTVT TP.HCM\tPhát triển RAG Knowledge Graph Assistant ThS."
+          }
+        ],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 14,
+        "context_chars": 2818,
+        "latency_ms": 1256.2
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "E02",
+      "category": "edge_case",
+      "mode": "rag",
+      "question": "Giá Bitcoin hôm nay là bao nhiêu?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_6",
+          "13j7HllgNVWF2wH8beLFHcxML1kmQ9HsK__chunk_2",
+          "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF__chunk_2",
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_8",
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_2"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_6",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 6,
+            "score": 0.6659,
+            "text_preview": "ime   : -  Địa điểm làm việc  : tại nhà hoặc tự do Place of work Qualification  : -  Chức vụ (nếu có)   : Cộng tác viên lập trình CNTT Position    : -  Nội dung"
+          },
+          {
+            "chunk_key": "13j7HllgNVWF2wH8beLFHcxML1kmQ9HsK__chunk_2",
+            "file_id": "13j7HllgNVWF2wH8beLFHcxML1kmQ9HsK",
+            "file_name": "LeDinhKhoi_InternShip_Aug2025.pdf",
+            "chunk_index": 2,
+            "score": 0.6624,
+            "text_preview": ": Tầng 3, Tòa nhà QCoop, Số 647 Lý Thường Kiệt, P. Bảy Hiền, Tp.Hồ Chí Minh Mã số thuế/Tax code: 0318431738 Điện thoại/Tel: 0934 941 103 Và một bên là Ông/Bà: L"
+          },
+          {
+            "chunk_key": "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF__chunk_2",
+            "file_id": "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF",
+            "file_name": "LeDinhKhoi_InternShip_Nov2025.pdf",
+            "chunk_index": 2,
+            "score": 0.6624,
+            "text_preview": ": Tầng 3, Tòa nhà QCoop, Số 647 Lý Thường Kiệt, P. Bảy Hiền, Tp.Hồ Chí Minh Mã số thuế/Tax code: 0318431738 Điện thoại/Tel: 0934 941 103 Và một bên là Ông/Bà: L"
+          },
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_8",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 8,
+            "score": 0.6623,
+            "text_preview": " Hỗ trợ lập kế hoạch: Viết tài liệu kỹ thuật, tham gia xây dựng tài liệu đặc tả yêu cầu (SRS), viết 03 tháng  4,000,000   12,000,000 [Trang 2] Page 2 of 3 code "
+          },
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_2",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 2,
+            "score": 0.6616,
+            "text_preview": " Số 647 Lý Thường Kiệt, P.Bảy Hiền, Tp.Hồ Chí Minh Mã số thuế/Tax code: 0318431738 Điện thoại/Tel: 0934 941 103 Và một bên là Ông/Bà: LÊ ĐÌNH KHÔI And, for the "
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 1734,
+        "latency_ms": 433.6
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "E02",
+      "category": "edge_case",
+      "mode": "graph_rag",
+      "question": "Giá Bitcoin hôm nay là bao nhiêu?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_13",
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_7",
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_12"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_13",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 13,
+            "score": 0.7,
+            "text_preview": " : -   Thuế TNCN  : Theo chế độ quy định hiện hành Personal Income Tax : -   Bảo hiểm xã hội, y tế và thất nghiệp : đã bao gồm trong thù lao. Social, Health and"
+          },
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_7",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 7,
+            "score": 0.6,
+            "text_preview": "hú 1 - Tìm kiếm giải pháp: Khảo sát các công nghệ, thư viện (libraries), hoặc framework phù hợp với yêu cầu của dự án. - Phân tích đối thủ: Nghiên cứu các ứng d"
+          },
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_12",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 12,
+            "score": 0.6,
+            "text_preview": " -   Hình thức thanh toán : Tiền mặt/ Chuyển khoản Form of paying wage : -   Phụ cấp gồm : Không. Allowance : -   Thời gian thanh toán : Thanh toán theo tháng, "
+          }
+        ],
+        "query_type": "factual",
+        "route": "hybrid_factual_alpha0.3",
+        "sources_count": 14,
+        "context_chars": 2157,
+        "latency_ms": 1202.7
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "E03",
+      "category": "edge_case",
+      "mode": "rag",
+      "question": "Thời tiết Hà Nội ngày mai thế nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_9",
+          "13j7HllgNVWF2wH8beLFHcxML1kmQ9HsK__chunk_7",
+          "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF__chunk_7",
+          "13j7HllgNVWF2wH8beLFHcxML1kmQ9HsK__chunk_12",
+          "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF__chunk_12"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_9",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 9,
+            "score": 0.6882,
+            "text_preview": "phục các lỗi phát sinh trong quá trình phát triển. Tổng cộng:  12,000,000 Điều 2: Chế độ làm việc Article 2: Work regime -  Thời giờ làm việc   : Để thuận tiện "
+          },
+          {
+            "chunk_key": "13j7HllgNVWF2wH8beLFHcxML1kmQ9HsK__chunk_7",
+            "file_id": "13j7HllgNVWF2wH8beLFHcxML1kmQ9HsK",
+            "file_name": "LeDinhKhoi_InternShip_Aug2025.pdf",
+            "chunk_index": 7,
+            "score": 0.6814,
+            "text_preview": "tập/Position: Thực tập sinh CNTT- Team Development - Giờ làm việc/Working Hours: Thời gian học việc sẽ tùy thuộc vào lịch học của Thực tập sinh. Tuy nhiên, để t"
+          },
+          {
+            "chunk_key": "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF__chunk_7",
+            "file_id": "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF",
+            "file_name": "LeDinhKhoi_InternShip_Nov2025.pdf",
+            "chunk_index": 7,
+            "score": 0.6814,
+            "text_preview": "tập/Position: Thực tập sinh CNTT- Team Development - Giờ làm việc/Working Hours: Thời gian học việc sẽ tùy thuộc vào lịch học của Thực tập sinh. Tuy nhiên, để t"
+          },
+          {
+            "chunk_key": "13j7HllgNVWF2wH8beLFHcxML1kmQ9HsK__chunk_12",
+            "file_id": "13j7HllgNVWF2wH8beLFHcxML1kmQ9HsK",
+            "file_name": "LeDinhKhoi_InternShip_Aug2025.pdf",
+            "chunk_index": 12,
+            "score": 0.6725,
+            "text_preview": "nd Tet holidays in accordance with the regulations of the Socialist Republic of Vietnam. - Học viên được trả phụ cấp như sau/ The apprentice are paid the follow"
+          },
+          {
+            "chunk_key": "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF__chunk_12",
+            "file_id": "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF",
+            "file_name": "LeDinhKhoi_InternShip_Nov2025.pdf",
+            "chunk_index": 12,
+            "score": 0.6725,
+            "text_preview": "nd Tet holidays in accordance with the regulations of the Socialist Republic of Vietnam. - Học viên được trả hỗ trợ như sau/ The apprentice are paid the followi"
+          }
+        ],
+        "query_type": "combined",
+        "route": "rag_only",
+        "sources_count": 5,
+        "context_chars": 1976,
+        "latency_ms": 619.6
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    },
+    {
+      "question_id": "E03",
+      "category": "edge_case",
+      "mode": "graph_rag",
+      "question": "Thời tiết Hà Nội ngày mai thế nào?",
+      "retrieval": {
+        "retrieved_chunk_keys": [
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_12",
+          "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_9",
+          "13j7HllgNVWF2wH8beLFHcxML1kmQ9HsK__chunk_7",
+          "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF__chunk_7",
+          "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF__chunk_6"
+        ],
+        "retrieved_chunks": [
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_12",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 12,
+            "score": 0.7995,
+            "text_preview": " -   Hình thức thanh toán : Tiền mặt/ Chuyển khoản Form of paying wage : -   Phụ cấp gồm : Không. Allowance : -   Thời gian thanh toán : Thanh toán theo tháng, "
+          },
+          {
+            "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_9",
+            "file_id": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib",
+            "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+            "chunk_index": 9,
+            "score": 0.4796,
+            "text_preview": "phục các lỗi phát sinh trong quá trình phát triển. Tổng cộng:  12,000,000 Điều 2: Chế độ làm việc Article 2: Work regime -  Thời giờ làm việc   : Để thuận tiện "
+          },
+          {
+            "chunk_key": "13j7HllgNVWF2wH8beLFHcxML1kmQ9HsK__chunk_7",
+            "file_id": "13j7HllgNVWF2wH8beLFHcxML1kmQ9HsK",
+            "file_name": "LeDinhKhoi_InternShip_Aug2025.pdf",
+            "chunk_index": 7,
+            "score": 0.4088,
+            "text_preview": "tập/Position: Thực tập sinh CNTT- Team Development - Giờ làm việc/Working Hours: Thời gian học việc sẽ tùy thuộc vào lịch học của Thực tập sinh. Tuy nhiên, để t"
+          },
+          {
+            "chunk_key": "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF__chunk_7",
+            "file_id": "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF",
+            "file_name": "LeDinhKhoi_InternShip_Nov2025.pdf",
+            "chunk_index": 7,
+            "score": 0.4088,
+            "text_preview": "tập/Position: Thực tập sinh CNTT- Team Development - Giờ làm việc/Working Hours: Thời gian học việc sẽ tùy thuộc vào lịch học của Thực tập sinh. Tuy nhiên, để t"
+          },
+          {
+            "chunk_key": "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF__chunk_6",
+            "file_id": "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF",
+            "file_name": "LeDinhKhoi_InternShip_Nov2025.pdf",
+            "chunk_index": 6,
+            "score": 0.4075,
+            "text_preview": "H KHÔI học việc theo Thỏa thuận trong thời hạn từ: ngày 03-11-2025 đến ngày 30-01-2026. - The company facilitates Mr/Msr:……apprenticeship, according to the Agre"
+          }
+        ],
+        "query_type": "combined",
+        "route": "hybrid_combined_alpha0.6",
+        "sources_count": 16,
+        "context_chars": 3139,
+        "latency_ms": 1453.9
+      },
+      "retrieval_metrics": {
+        "hit_at_k": null,
+        "recall_at_k": null,
+        "precision_at_k": null,
+        "mrr": null,
+        "relevant_in_top_k": 0,
+        "expected_count": 0,
+        "skipped": true
+      }
+    }
+  ],
+  "meta": {
+    "dataset": "C:\\Users\\ADMIN\\Documents\\DATN\\RAG-KnowledgeGraph-Assistant\\backend\\evaluation\\questions.json",
+    "generated_at": "2026-06-28T07:39:36.379983+00:00",
+    "collection_name": "kb_116945382034191751356",
+    "owner_id": "116945382034191751356",
+    "modes": [
+      "rag",
+      "graph_rag"
+    ],
+    "retrieval_only": true,
+    "top_k": 5
+  }
+}

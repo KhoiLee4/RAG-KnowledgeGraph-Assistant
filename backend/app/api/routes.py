@@ -16,6 +16,7 @@ from app.api import (
     chat_routes,
     document_routes,
     drive_routes,
+    evaluation_routes,
     graph_routes,
     health_routes,
 )
@@ -27,3 +28,4 @@ router.include_router(chat_routes.router)
 router.include_router(drive_routes.router)
 router.include_router(document_routes.router)
 router.include_router(graph_routes.router)
+router.include_router(evaluation_routes.router)

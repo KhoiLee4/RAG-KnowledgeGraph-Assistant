@@ -1,0 +1,230 @@
+{
+  "version": "1",
+  "description": "Bộ 24 câu hỏi benchmark RAG vs GraphRAG. Điền expected_chunks sau khi chạy: python scripts/evaluate.py discover -q \"...\"",
+  "collection_name": "kb_116945382034191751356",
+  "owner_id": "116945382034191751356",
+  "questions": [
+    {
+      "id": "F01",
+      "category": "factual",
+      "question": "RAG là viết tắt của gì?",
+      "expected_chunks": [
+        {"chunk_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0"}
+      ],
+      "ground_truth_keywords": ["Retrieval", "Augmented", "Generation"],
+      "should_refuse": false,
+      "human_score": null,
+      "notes": "Câu hỏi thông tin trực tiếp"
+    },
+    {
+      "id": "F02",
+      "category": "factual",
+      "question": "Hệ thống sử dụng mô hình embedding nào?",
+      "expected_chunks": [],
+      "ground_truth_keywords": ["gemini", "embedding"],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "F03",
+      "category": "factual",
+      "question": "Kích thước chunk mặc định là bao nhiêu?",
+      "expected_chunks": [
+        {"chunk_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_0"}
+      ],
+      "ground_truth_keywords": ["512"],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "F04",
+      "category": "factual",
+      "question": "ChromaDB dùng để làm gì trong hệ thống?",
+      "expected_chunks": [],
+      "ground_truth_keywords": ["vector", "embedding"],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "F05",
+      "category": "factual",
+      "question": "Neo4j lưu trữ những loại node nào?",
+      "expected_chunks": [],
+      "ground_truth_keywords": ["Document", "Chunk", "Entity"],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "F06",
+      "category": "factual",
+      "question": "Gemini được dùng cho những tác vụ gì?",
+      "expected_chunks": [],
+      "ground_truth_keywords": ["embedding", "LLM"],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "D01",
+      "category": "descriptive",
+      "question": "Tóm tắt quy trình index tài liệu trong hệ thống.",
+      "expected_chunks": [],
+      "ground_truth_keywords": ["parse", "chunk", "embed", "ChromaDB", "Neo4j"],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "D02",
+      "category": "descriptive",
+      "question": "Mô tả luồng hỏi đáp RAG từ câu hỏi đến câu trả lời.",
+      "expected_chunks": [],
+      "ground_truth_keywords": ["retrieval", "context", "Gemini"],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "D03",
+      "category": "descriptive",
+      "question": "Giải thích GraphRAG khác vector-only RAG như thế nào.",
+      "expected_chunks": [],
+      "ground_truth_keywords": ["graph", "entity", "hybrid"],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "D04",
+      "category": "descriptive",
+      "question": "Tổng quan kiến trúc hệ thống gồm những thành phần chính nào?",
+      "expected_chunks": [],
+      "ground_truth_keywords": ["FastAPI", "React", "ChromaDB", "Neo4j"],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "D05",
+      "category": "descriptive",
+      "question": "Community detection trong knowledge graph hoạt động ra sao?",
+      "expected_chunks": [],
+      "ground_truth_keywords": ["Louvain", "community", "summary"],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "R01",
+      "category": "relationship",
+      "question": "Document và Chunk có quan hệ gì trong đồ thị?",
+      "expected_chunks": [],
+      "ground_truth_keywords": ["HAS_CHUNK"],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "R02",
+      "category": "relationship",
+      "question": "Chunk liên quan đến Entity qua quan hệ nào?",
+      "expected_chunks": [],
+      "ground_truth_keywords": ["MENTIONS"],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "R03",
+      "category": "relationship",
+      "question": "Entity và Entity có thể có những quan hệ gì?",
+      "expected_chunks": [],
+      "ground_truth_keywords": ["RELATED_TO", "COOCCURS_WITH"],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "R04",
+      "category": "relationship",
+      "question": "Google Drive và knowledge base được kết nối như thế nào?",
+      "expected_chunks": [],
+      "ground_truth_keywords": ["sync", "Drive", "index"],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "R05",
+      "category": "relationship",
+      "question": "Vector search và graph traversal được kết hợp bằng cách nào?",
+      "expected_chunks": [],
+      "ground_truth_keywords": ["alpha", "hybrid", "score"],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "C01",
+      "category": "combined",
+      "question": "Khi người dùng hỏi về quan hệ giữa hai thực thể, hệ thống xử lý qua những bước nào?",
+      "expected_chunks": [],
+      "ground_truth_keywords": ["entity", "path", "graph", "vector"],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "C02",
+      "category": "combined",
+      "question": "So sánh chế độ RAG và GraphRAG khi trả lời câu hỏi tổng quan chủ đề.",
+      "expected_chunks": [],
+      "ground_truth_keywords": ["community", "vector", "graph"],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "C03",
+      "category": "combined",
+      "question": "Từ khi sync Drive đến khi chat được, dữ liệu đi qua những dịch vụ nào?",
+      "expected_chunks": [],
+      "ground_truth_keywords": ["Drive", "ChromaDB", "Neo4j", "Gemini"],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "C04",
+      "category": "combined",
+      "question": "Làm thế nào hệ thống vừa trích dẫn tài liệu vừa dùng thông tin từ đồ thị?",
+      "expected_chunks": [],
+      "ground_truth_keywords": ["citation", "hybrid", "graph"],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "C05",
+      "category": "combined",
+      "question": "Câu hỏi factual về entity được route retrieval như thế nào?",
+      "expected_chunks": [],
+      "ground_truth_keywords": ["factual", "alpha", "graph facts"],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "E01",
+      "category": "edge_case",
+      "question": "Tổng thống Mỹ hiện tại là ai?",
+      "expected_chunks": [],
+      "ground_truth_keywords": [],
+      "should_refuse": true,
+      "human_score": null,
+      "notes": "Không có trong tài liệu — kiểm tra refusal"
+    },
+    {
+      "id": "E02",
+      "category": "edge_case",
+      "question": "Giá Bitcoin hôm nay là bao nhiêu?",
+      "expected_chunks": [],
+      "ground_truth_keywords": [],
+      "should_refuse": true,
+      "human_score": null
+    },
+    {
+      "id": "E03",
+      "category": "edge_case",
+      "question": "Thời tiết Hà Nội ngày mai thế nào?",
+      "expected_chunks": [],
+      "ground_truth_keywords": [],
+      "should_refuse": true,
+      "human_score": null
+    }
+  ]
+}
