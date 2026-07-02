@@ -36,6 +36,7 @@ QUY TẮC BẮT BUỘC:
 5. Trích dẫn nguồn bằng [1], [2]… đặt CUỐI câu hoặc cuối đoạn liên quan.
 6. KHÔNG viết "Knowledge Graph", "Community", "Vector", "chunk", "context" hay thuật ngữ kỹ thuật trong câu trả lời.
 7. Nếu CONTEXT thiếu thông tin, trả lời: "Tôi không tìm thấy thông tin này trong tài liệu của bạn." và gợi ý hỏi cụ thể hơn nếu có thể.
+8. KHÔNG suy luận qua nhiều quan hệ gián tiếp (ví dụ A liên quan B và B liên quan C không đủ để kết luận thuộc tính của A). Chỉ nêu địa điểm, số liệu, ngày tháng khi CONTEXT ghi rõ trực tiếp.
 """
 
 
@@ -174,14 +175,14 @@ class ChatService:
         """Trả lời câu hỏi về lĩnh vực/chủ đề có thể hỏi — không cần Gemini."""
         q = question.lower().strip()
         patterns = (
-            r"lĩnh vực",
-            r"linh vuc",
-            r"chủ đề",
-            r"chu de",
-            r"bạn (có thể )?trả lời",
-            r"ban co the tra loi",
-            r"hỏi (về )?gì",
-            r"hoi (ve )?gi",
+            r"(những )?lĩnh vực nào",
+            r"(nhung )?linh vuc nao",
+            r"(những )?chủ đề nào",
+            r"(nhung )?chu de nao",
+            r"bạn (có thể )?trả lời (được )?(những )?(gì|câu hỏi|chủ đề|nội dung)",
+            r"ban co the tra loi (duoc )?(nhung )?gi",
+            r"(tôi|mình) (có thể )?hỏi (về )?(những )?gì",
+            r"(toi|minh) (co the )?hoi (ve )?(nhung )?gi",
             r"what (topics|subjects|areas)",
             r"what can you (answer|help)",
         )

@@ -1,0 +1,914 @@
+[
+  {
+    "id": "F01",
+    "category": "factual",
+    "question": "Kích thước chunk và độ chồng lấp (overlap) mặc định của hệ thống là bao nhiêu?",
+    "top_chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_0",
+    "top_file": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+    "top_score": 0.2302,
+    "all_chunks": [
+      {
+        "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_0",
+        "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+        "score": 0.2302,
+        "preview": "[Sheet: Cau_hinh] Tham số\tGiá trị\tMô tả CHUNK_SIZE\t512\tKích thước chunk khi phân đoạn văn bản (token) CHUNK_OVERLAP\t50\tĐộ chồng lấp giữa các chunk (token) RETRI"
+      },
+      {
+        "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+        "file_name": "01_RAG_va_Chunking.docx",
+        "score": 0.2216,
+        "preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+      },
+      {
+        "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+        "file_name": "01_RAG_va_Chunking.docx",
+        "score": 0.9142,
+        "preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+      }
+    ]
+  },
+  {
+    "id": "F02",
+    "category": "factual",
+    "question": "Hệ thống dùng mô hình nào để sinh câu trả lời và mô hình nào để tạo embedding?",
+    "top_chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+    "top_file": "01_RAG_va_Chunking.docx",
+    "top_score": 0.4396,
+    "all_chunks": [
+      {
+        "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+        "file_name": "01_RAG_va_Chunking.docx",
+        "score": 0.4396,
+        "preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+      },
+      {
+        "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_1",
+        "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+        "score": 0.235,
+        "preview": "\t0.7\tTrọng số vector trong fusion hybrid retrieval GRAPH_ENABLED\ttrue\tBật truy xuất lai vector + graph GEMINI_MODEL\tgemini-2.5-flash\tMô hình LLM sinh câu trả lờ"
+      },
+      {
+        "chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_0",
+        "file_name": "04_Cau_hinh_He_thong.docx",
+        "score": 0.2349,
+        "preview": "TÀI LIỆU: CẤU HÌNH MÔI TRƯỜNG THỰC NGHIỆM 1. Backend FastAPI chạy tại cổng 8081. Frontend React Vite chạy tại cổng 3000. 2. ChromaDB được triển khai bằng Docker"
+      }
+    ]
+  },
+  {
+    "id": "F03",
+    "category": "factual",
+    "question": "Tham số GRAPH_ALPHA dùng để cân bằng vector và graph có giá trị bao nhiêu?",
+    "top_chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2",
+    "top_file": "03_Kien_truc_GraphRAG.docx",
+    "top_score": 0.9405,
+    "all_chunks": [
+      {
+        "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2",
+        "file_name": "03_Kien_truc_GraphRAG.docx",
+        "score": 0.9405,
+        "preview": " câu hỏi thành factual, descriptive hoặc combined. 4. Tham số GRAPH_ALPHA bằng 0.7 được dùng để cân bằng trọng số giữa điểm vector và điểm graph trong quá trình"
+      },
+      {
+        "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_0",
+        "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+        "score": 0.6806,
+        "preview": "[Sheet: Cau_hinh] Tham số\tGiá trị\tMô tả CHUNK_SIZE\t512\tKích thước chunk khi phân đoạn văn bản (token) CHUNK_OVERLAP\t50\tĐộ chồng lấp giữa các chunk (token) RETRI"
+      },
+      {
+        "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_1",
+        "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+        "score": 0.2149,
+        "preview": "\t0.7\tTrọng số vector trong fusion hybrid retrieval GRAPH_ENABLED\ttrue\tBật truy xuất lai vector + graph GEMINI_MODEL\tgemini-2.5-flash\tMô hình LLM sinh câu trả lờ"
+      }
+    ]
+  },
+  {
+    "id": "F04",
+    "category": "factual",
+    "question": "Công ty Cổ phần Công nghệ Thiên Minh được thành lập năm nào và ai là người sáng lập?",
+    "top_chunk_key": "17esO5F1Th9-g7k6tDd_1NVbwVYwosYKP__chunk_0",
+    "top_file": "TMT_GioiThieu_CongTy.docx",
+    "top_score": 0.9515,
+    "all_chunks": [
+      {
+        "chunk_key": "17esO5F1Th9-g7k6tDd_1NVbwVYwosYKP__chunk_0",
+        "file_name": "TMT_GioiThieu_CongTy.docx",
+        "score": 0.9515,
+        "preview": "Giới thiệu Công ty Cổ phần Công nghệ Thiên Minh 1. Thông tin chung Công ty Cổ phần Công nghệ Thiên Minh (tên viết tắt: TMT, tên tiếng Anh: Thien Minh Technology"
+      },
+      {
+        "chunk_key": "11AsYHuh-U-g4w3QwmV-VZQbZxEMC1SDk__chunk_0",
+        "file_name": "TMT_CoCau_NhanSu.docx",
+        "score": 0.9399,
+        "preview": "Cơ cấu nhân sự Công ty Thiên Minh 1. Ban lãnh đạo Ông Nguyễn Văn An là Tổng giám đốc và người sáng lập công ty. Bà Trần Thị Bình là Giám đốc Công nghệ, tốt nghi"
+      },
+      {
+        "chunk_key": "17esO5F1Th9-g7k6tDd_1NVbwVYwosYKP__chunk_2",
+        "file_name": "TMT_GioiThieu_CongTy.docx",
+        "score": 0.2347,
+        "preview": ". Tính đến năm 2026, công ty có khoảng 45 nhân sự. 2. Tầm nhìn và sứ mệnh Tầm nhìn của Thiên Minh là trở thành công ty công nghệ hàng đầu Việt Nam trong lĩnh vự"
+      }
+    ]
+  },
+  {
+    "id": "F05",
+    "category": "factual",
+    "question": "Dự án MedBot hợp tác triển khai với đối tác nào?",
+    "top_chunk_key": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_0",
+    "top_file": "TMT_DuAn_MedBot.docx",
+    "top_score": 0.2475,
+    "all_chunks": [
+      {
+        "chunk_key": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_0",
+        "file_name": "TMT_DuAn_MedBot.docx",
+        "score": 0.2475,
+        "preview": "Dự án MedBot — Trợ lý ảo y tế 1. Tổng quan MedBot là dự án phát triển trợ lý ảo tư vấn y tế của Công ty Thiên Minh, khởi động vào tháng 3 năm 2023. Dự án nhằm h"
+      },
+      {
+        "chunk_key": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_1",
+        "file_name": "TMT_DuAn_MedBot.docx",
+        "score": 0.2399,
+        "preview": " Đối tác triển khai là Bệnh viện Đa khoa Hồng Đức. 2. Nhân sự dự án Giám đốc Dự án Đặng Thu Hà chịu trách nhiệm quản lý chung. Ông Lê Hoàng Cường, Trưởng nhóm A"
+      },
+      {
+        "chunk_key": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_2",
+        "file_name": "TMT_DuAn_MedBot.docx",
+        "score": 0.2368,
+        "preview": " dữ liệu y tế. Bà Ngô Thị Giang đảm nhận kiểm thử. 3. Công nghệ sử dụng Ngôn ngữ: Python. Backend: FastAPI. Học máy: TensorFlow. Cơ sở dữ liệu: PostgreSQL. Triể"
+      }
+    ]
+  },
+  {
+    "id": "F06",
+    "category": "factual",
+    "question": "Mức thù lao trong hợp đồng cộng tác viên của Lê Đình Khôi là bao nhiêu?",
+    "top_chunk_key": "10Tx9z6cA25p4awyu94BqMI61GF_kGloC__chunk_0",
+    "top_file": "02_Nhan_su_Du_an.docx",
+    "top_score": 0.2215,
+    "all_chunks": [
+      {
+        "chunk_key": "10Tx9z6cA25p4awyu94BqMI61GF_kGloC__chunk_0",
+        "file_name": "02_Nhan_su_Du_an.docx",
+        "score": 0.2215,
+        "preview": "TÀI LIỆU: NHÂN SỰ DỰ ÁN RAG KNOWLEDGE GRAPH ASSISTANT 1. Lê Đình Khôi là sinh viên thực hiện đồ án tốt nghiệp tại Trường Đại học Giao thông Vận tải Phân hiệu TP"
+      },
+      {
+        "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_21",
+        "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+        "score": 0.2197,
+        "preview": " for the freelancer during the performance of work in the above contract. - Có quyền đòi bồi thường, khiếu nại với cơ quan có thẩm quyền để bảo vệ quyền lợi của"
+      },
+      {
+        "chunk_key": "13j7HllgNVWF2wH8beLFHcxML1kmQ9HsK__chunk_5",
+        "file_name": "LeDinhKhoi_InternShip_Aug2025.pdf",
+        "score": 0.2172,
+        "preview": "c và cam kết làm đúng những điều khoản sau đây/The parties agreed to sign Apprenticeship Agreement and committed to do the following terms: Điều 1: Thời gian họ"
+      }
+    ]
+  },
+  {
+    "id": "F07",
+    "category": "factual",
+    "question": "Mức phụ cấp học việc mỗi ngày của thực tập sinh Lê Đình Khôi là bao nhiêu?",
+    "top_chunk_key": "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF__chunk_6",
+    "top_file": "LeDinhKhoi_InternShip_Nov2025.pdf",
+    "top_score": 0.7491,
+    "all_chunks": [
+      {
+        "chunk_key": "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF__chunk_6",
+        "file_name": "LeDinhKhoi_InternShip_Nov2025.pdf",
+        "score": 0.7491,
+        "preview": "H KHÔI học việc theo Thỏa thuận trong thời hạn từ: ngày 03-11-2025 đến ngày 30-01-2026. - The company facilitates Mr/Msr:……apprenticeship, according to the Agre"
+      },
+      {
+        "chunk_key": "13j7HllgNVWF2wH8beLFHcxML1kmQ9HsK__chunk_6",
+        "file_name": "LeDinhKhoi_InternShip_Aug2025.pdf",
+        "score": 0.2237,
+        "preview": "H KHÔI học việc theo Thỏa thuận trong thời hạn từ: ngày 01-08-2025 đến ngày 31-10-2025. - The company facilitates Mr/Msr:……apprenticeship, according to the Agre"
+      },
+      {
+        "chunk_key": "13j7HllgNVWF2wH8beLFHcxML1kmQ9HsK__chunk_7",
+        "file_name": "LeDinhKhoi_InternShip_Aug2025.pdf",
+        "score": 0.2198,
+        "preview": "tập/Position: Thực tập sinh CNTT- Team Development - Giờ làm việc/Working Hours: Thời gian học việc sẽ tùy thuộc vào lịch học của Thực tập sinh. Tuy nhiên, để t"
+      }
+    ]
+  },
+  {
+    "id": "F08",
+    "category": "factual",
+    "question": "Kim tự tháp Giza được xây dựng cho pharaoh nào?",
+    "top_chunk_key": "1pfnRiMMwewesulm1OajA9kuOUTm5MjXk__chunk_1",
+    "top_file": "LichSu_VanMinhAiCap.docx",
+    "top_score": 0.949,
+    "all_chunks": [
+      {
+        "chunk_key": "1pfnRiMMwewesulm1OajA9kuOUTm5MjXk__chunk_1",
+        "file_name": "LichSu_VanMinhAiCap.docx",
+        "score": 0.949,
+        "preview": "g còn khi cung cấp nước và phù sa cho nông nghiệp. 2. Kim tự tháp Kim tự tháp là công trình lăng mộ dành cho các pharaoh. Kim tự tháp Giza nổi tiếng nhất, được "
+      },
+      {
+        "chunk_key": "10Tx9z6cA25p4awyu94BqMI61GF_kGloC__chunk_1",
+        "file_name": "02_Nhan_su_Du_an.docx",
+        "score": 0.2067,
+        "preview": "Phong Nhã công tác tại Bộ môn Công nghệ Thông tin. 3. Dự án RAG Knowledge Graph Assistant được phát triển bởi Lê Đình Khôi dưới sự hướng dẫn của ThS. Trần Phong"
+      },
+      {
+        "chunk_key": "1pfnRiMMwewesulm1OajA9kuOUTm5MjXk__chunk_0",
+        "file_name": "LichSu_VanMinhAiCap.docx",
+        "score": 0.2991,
+        "preview": "Văn minh Ai Cập cổ đại 1. Tổng quan Văn minh Ai Cập cổ đại hình thành dọc theo sông Nile ở đông bắc châu Phi, kéo dài hơn ba nghìn năm, từ khoảng năm 3100 trước"
+      }
+    ]
+  },
+  {
+    "id": "F09",
+    "category": "factual",
+    "question": "Hiệu suất của tấm pin quang điện thương mại phổ biến hiện nay là bao nhiêu?",
+    "top_chunk_key": "1S4jdmv5BwEfsYBbVO4WXPP2ezP3EyccK__chunk_1",
+    "top_file": "KhoaHoc_NangLuongTaiTao.docx",
+    "top_score": 0.5427,
+    "all_chunks": [
+      {
+        "chunk_key": "1S4jdmv5BwEfsYBbVO4WXPP2ezP3EyccK__chunk_1",
+        "file_name": "KhoaHoc_NangLuongTaiTao.docx",
+        "score": 0.5427,
+        "preview": "ư không cạn kiệt và phát thải ít khí nhà kính hơn. 2. Điện mặt trời Điện mặt trời được tạo ra bằng cách chuyển đổi ánh sáng mặt trời thành điện năng thông qua c"
+      },
+      {
+        "chunk_key": "1S4jdmv5BwEfsYBbVO4WXPP2ezP3EyccK__chunk_4",
+        "file_name": "KhoaHoc_NangLuongTaiTao.docx",
+        "score": 0.2028,
+        "preview": "g đến hệ sinh thái và đời sống dân cư vùng hạ lưu. 5. Lợi ích và thách thức Năng lượng tái tạo giúp giảm phát thải carbon và tăng an ninh năng lượng. Thách thức"
+      },
+      {
+        "chunk_key": "1S4jdmv5BwEfsYBbVO4WXPP2ezP3EyccK__chunk_3",
+        "file_name": "KhoaHoc_NangLuongTaiTao.docx",
+        "score": 0.2024,
+        "preview": "tốc độ gió ổn định, nhưng chi phí lắp đặt lớn hơn. 4. Thủy điện Thủy điện tạo ra điện từ dòng chảy của nước, thường qua các đập lớn. Đây là nguồn năng lượng tái"
+      }
+    ]
+  },
+  {
+    "id": "F10",
+    "category": "factual",
+    "question": "ChromaDB và Neo4j (Bolt) chạy ở cổng nào?",
+    "top_chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_0",
+    "top_file": "04_Cau_hinh_He_thong.docx",
+    "top_score": 0.9474,
+    "all_chunks": [
+      {
+        "chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_0",
+        "file_name": "04_Cau_hinh_He_thong.docx",
+        "score": 0.9474,
+        "preview": "TÀI LIỆU: CẤU HÌNH MÔI TRƯỜNG THỰC NGHIỆM 1. Backend FastAPI chạy tại cổng 8081. Frontend React Vite chạy tại cổng 3000. 2. ChromaDB được triển khai bằng Docker"
+      },
+      {
+        "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_2",
+        "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+        "score": 0.2338,
+        "preview": "T_MAX_CHARS\t8000\tGiới hạn ký tự context gửi Gemini APP_PORT\t8081\tCổng backend FastAPI CHROMA_PORT\t8000\tCổng ChromaDB NEO4J_BOLT_PORT\t7687\tCổng Bolt Neo4j INDEX_"
+      },
+      {
+        "chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_1",
+        "file_name": "04_Cau_hinh_He_thong.docx",
+        "score": 0.2178,
+        "preview": "-flash. Mô hình embedding là gemini-embedding-001. 4. RETRIEVAL_TOP_K bằng 5. RETRIEVAL_CONTEXT_MAX_CHARS bằng 8000 ký tự. 5. Mỗi người dùng có collection Chrom"
+      }
+    ]
+  },
+  {
+    "id": "D01",
+    "category": "descriptive",
+    "question": "Tóm tắt kỹ thuật RAG và vai trò của nó trong hỏi đáp tài liệu.",
+    "top_chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+    "top_file": "01_RAG_va_Chunking.docx",
+    "top_score": 0.4984,
+    "all_chunks": [
+      {
+        "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+        "file_name": "01_RAG_va_Chunking.docx",
+        "score": 0.4984,
+        "preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+      },
+      {
+        "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_2",
+        "file_name": "01_RAG_va_Chunking.docx",
+        "score": 0.7785,
+        "preview": "ực thể nếu thông tin nằm rải rác ở nhiều tài liệu. 5. Kỹ thuật RAG giúp giảm hiện tượng ảo giác (hallucination) vì câu trả lời phải dựa trên ngữ cảnh được truy "
+      },
+      {
+        "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_1",
+        "file_name": "01_RAG_va_Chunking.docx",
+        "score": 0.7752,
+        "preview": "ô hình gemini-embedding-001 và lưu trong ChromaDB. 3. Vector database hỗ trợ tìm kiếm theo ngữ nghĩa thay vì chỉ khớp từ khóa. Khi người dùng đặt câu hỏi, câu h"
+      },
+      {
+        "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+        "file_name": "03_Kien_truc_GraphRAG.docx",
+        "score": 0.85,
+        "preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+      },
+      {
+        "chunk_key": "10Tx9z6cA25p4awyu94BqMI61GF_kGloC__chunk_1",
+        "file_name": "02_Nhan_su_Du_an.docx",
+        "score": 0.4426,
+        "preview": "Phong Nhã công tác tại Bộ môn Công nghệ Thông tin. 3. Dự án RAG Knowledge Graph Assistant được phát triển bởi Lê Đình Khôi dưới sự hướng dẫn của ThS. Trần Phong"
+      }
+    ]
+  },
+  {
+    "id": "D02",
+    "category": "descriptive",
+    "question": "Mô tả cơ chế Hybrid Retrieval trong kiến trúc GraphRAG của hệ thống.",
+    "top_chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+    "top_file": "03_Kien_truc_GraphRAG.docx",
+    "top_score": 0.4785,
+    "all_chunks": [
+      {
+        "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0",
+        "file_name": "03_Kien_truc_GraphRAG.docx",
+        "score": 0.4785,
+        "preview": "TÀI LIỆU: KIẾN TRÚC GRAPHRAG TRONG HỆ THỐNG 1. GraphRAG mở rộng RAG bằng cách kết hợp truy xuất vector với đồ thị tri thức (Knowledge Graph). Trong hệ thống, Ne"
+      },
+      {
+        "chunk_key": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0",
+        "file_name": "01_RAG_va_Chunking.docx",
+        "score": 0.4607,
+        "preview": "TÀI LIỆU: KỸ THUẬT RAG TRONG HỎI ĐÁP TÀI LIỆU 1. Retrieval-Augmented Generation (RAG) là kỹ thuật kết hợp truy xuất thông tin và sinh văn bản bằng mô hình ngôn "
+      },
+      {
+        "chunk_key": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_1",
+        "file_name": "03_Kien_truc_GraphRAG.docx",
+        "score": 0.8544,
+        "preview": "tity được liên kết với chunk qua quan hệ MENTIONS. 3. Hybrid Retrieval kết hợp ba nguồn: vector chunks từ ChromaDB, graph facts từ Neo4j, và community summary t"
+      },
+      {
+        "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_0",
+        "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+        "score": 0.4487,
+        "preview": "[Sheet: Cau_hinh] Tham số\tGiá trị\tMô tả CHUNK_SIZE\t512\tKích thước chunk khi phân đoạn văn bản (token) CHUNK_OVERLAP\t50\tĐộ chồng lấp giữa các chunk (token) RETRI"
+      },
+      {
+        "chunk_key": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_5",
+        "file_name": "05_Bang_cau_hinh_va_nhan_su.xlsx",
+        "score": 0.446,
+        "preview": "nking.docx\tWord\t3-5\tTest RAG factual + descriptive 02_Nhan_su_Du_an.docx\tWord\t3-5\tTest GraphRAG quan hệ nhân sự 03_Kien_truc_GraphRAG.docx\tWord\t4-6\tTest hybrid "
+      }
+    ]
+  },
+  {
+    "id": "D03",
+    "category": "descriptive",
+    "question": "Trình bày chính sách nghỉ phép năm của Công ty Thiên Minh.",
+    "top_chunk_key": "1-_m9Oy9DMlU_ETpIQ0ACB8WeImYXCYcB__chunk_0",
+    "top_file": "TMT_ChinhSach_CongTy.docx",
+    "top_score": 0.2519,
+    "all_chunks": [
+      {
+        "chunk_key": "1-_m9Oy9DMlU_ETpIQ0ACB8WeImYXCYcB__chunk_0",
+        "file_name": "TMT_ChinhSach_CongTy.docx",
+        "score": 0.2519,
+        "preview": "Chính sách nhân sự Công ty Thiên Minh 1. Thời gian làm việc Nhân viên làm việc từ thứ Hai đến thứ Sáu, 8 giờ mỗi ngày. Công ty áp dụng chính sách làm việc linh "
+      },
+      {
+        "chunk_key": "17esO5F1Th9-g7k6tDd_1NVbwVYwosYKP__chunk_1",
+        "file_name": "TMT_GioiThieu_CongTy.docx",
+        "score": 0.2265,
+        "preview": "phòng chi nhánh tại Thành phố Đà Nẵng mở năm 2022. Lĩnh vực hoạt động chính của Thiên Minh là phát triển phần mềm trí tuệ nhân tạo, hệ thống dữ liệu lớn và các "
+      },
+      {
+        "chunk_key": "17esO5F1Th9-g7k6tDd_1NVbwVYwosYKP__chunk_0",
+        "file_name": "TMT_GioiThieu_CongTy.docx",
+        "score": 0.9249,
+        "preview": "Giới thiệu Công ty Cổ phần Công nghệ Thiên Minh 1. Thông tin chung Công ty Cổ phần Công nghệ Thiên Minh (tên viết tắt: TMT, tên tiếng Anh: Thien Minh Technology"
+      }
+    ]
+  },
+  {
+    "id": "D04",
+    "category": "descriptive",
+    "question": "Nêu các lợi ích và thách thức chính của năng lượng tái tạo.",
+    "top_chunk_key": "1S4jdmv5BwEfsYBbVO4WXPP2ezP3EyccK__chunk_4",
+    "top_file": "KhoaHoc_NangLuongTaiTao.docx",
+    "top_score": 0.9554,
+    "all_chunks": [
+      {
+        "chunk_key": "1S4jdmv5BwEfsYBbVO4WXPP2ezP3EyccK__chunk_4",
+        "file_name": "KhoaHoc_NangLuongTaiTao.docx",
+        "score": 0.9554,
+        "preview": "g đến hệ sinh thái và đời sống dân cư vùng hạ lưu. 5. Lợi ích và thách thức Năng lượng tái tạo giúp giảm phát thải carbon và tăng an ninh năng lượng. Thách thức"
+      },
+      {
+        "chunk_key": "1S4jdmv5BwEfsYBbVO4WXPP2ezP3EyccK__chunk_3",
+        "file_name": "KhoaHoc_NangLuongTaiTao.docx",
+        "score": 0.2257,
+        "preview": "tốc độ gió ổn định, nhưng chi phí lắp đặt lớn hơn. 4. Thủy điện Thủy điện tạo ra điện từ dòng chảy của nước, thường qua các đập lớn. Đây là nguồn năng lượng tái"
+      },
+      {
+        "chunk_key": "1S4jdmv5BwEfsYBbVO4WXPP2ezP3EyccK__chunk_0",
+        "file_name": "KhoaHoc_NangLuongTaiTao.docx",
+        "score": 0.2237,
+        "preview": "Năng lượng tái tạo 1. Khái niệm Năng lượng tái tạo là nguồn năng lượng được lấy từ các quá trình tự nhiên liên tục được bổ sung, chẳng hạn ánh sáng mặt trời, gi"
+      }
+    ]
+  },
+  {
+    "id": "D05",
+    "category": "descriptive",
+    "question": "Mô tả cách nấu nước dùng phở bò cơ bản.",
+    "top_chunk_key": "1gWT8mit3gu0tYwd1MfZgoJEG7VyFogMM__chunk_1",
+    "top_file": "AmThuc_PhoVietNam.docx",
+    "top_score": 0.7779,
+    "all_chunks": [
+      {
+        "chunk_key": "1gWT8mit3gu0tYwd1MfZgoJEG7VyFogMM__chunk_1",
+        "file_name": "AmThuc_PhoVietNam.docx",
+        "score": 0.7779,
+        "preview": "ở thành biểu tượng ẩm thực Việt Nam trên thế giới. 2. Nguyên liệu nước dùng bò Xương bò để ninh nước dùng. Gừng và hành tây nướng. Gia vị: quế, hồi, thảo quả, đ"
+      },
+      {
+        "chunk_key": "1gWT8mit3gu0tYwd1MfZgoJEG7VyFogMM__chunk_2",
+        "file_name": "AmThuc_PhoVietNam.docx",
+        "score": 0.7926,
+        "preview": "ng, xếp thịt lên trên rồi chan nước dùng đang sôi. 4. Các biến thể Phở có nhiều biến thể theo vùng miền. Phở Hà Nội có nước dùng thanh, ít gia vị phụ. Phở Sài G"
+      },
+      {
+        "chunk_key": "1gWT8mit3gu0tYwd1MfZgoJEG7VyFogMM__chunk_0",
+        "file_name": "AmThuc_PhoVietNam.docx",
+        "score": 0.7154,
+        "preview": "Phở — Món ăn truyền thống Việt Nam 1. Giới thiệu Phở là món ăn truyền thống nổi tiếng của Việt Nam, có nguồn gốc từ miền Bắc vào đầu thế kỷ 20. Món ăn gồm bánh "
+      },
+      {
+        "chunk_key": "1D8X2Fa3UBB2272-6G-0StcPoRPsNs_AA__chunk_0",
+        "file_name": "SucKhoe_DinhDuong.docx",
+        "score": 0.5936,
+        "preview": "Kiến thức cơ bản về dinh dưỡng 1. Các nhóm chất dinh dưỡng Dinh dưỡng con người dựa trên các chất chính gồm carbohydrate, protein, chất béo, vitamin và khoáng c"
+      },
+      {
+        "chunk_key": "1D8X2Fa3UBB2272-6G-0StcPoRPsNs_AA__chunk_2",
+        "file_name": "SucKhoe_DinhDuong.docx",
+        "score": 0.5628,
+        "preview": " trong sữa. Sắt tham gia vận chuyển oxy trong máu. 3. Chế độ ăn cân bằng Một chế độ ăn cân bằng nên đa dạng thực phẩm, hạn chế đường và chất béo bão hòa, tăng c"
+      }
+    ]
+  },
+  {
+    "id": "D06",
+    "category": "descriptive",
+    "question": "Các nhóm chất dinh dưỡng cơ bản gồm những gì và vai trò của chúng?",
+    "top_chunk_key": "1D8X2Fa3UBB2272-6G-0StcPoRPsNs_AA__chunk_0",
+    "top_file": "SucKhoe_DinhDuong.docx",
+    "top_score": 0.2415,
+    "all_chunks": [
+      {
+        "chunk_key": "1D8X2Fa3UBB2272-6G-0StcPoRPsNs_AA__chunk_0",
+        "file_name": "SucKhoe_DinhDuong.docx",
+        "score": 0.2415,
+        "preview": "Kiến thức cơ bản về dinh dưỡng 1. Các nhóm chất dinh dưỡng Dinh dưỡng con người dựa trên các chất chính gồm carbohydrate, protein, chất béo, vitamin và khoáng c"
+      },
+      {
+        "chunk_key": "1D8X2Fa3UBB2272-6G-0StcPoRPsNs_AA__chunk_1",
+        "file_name": "SucKhoe_DinhDuong.docx",
+        "score": 0.2228,
+        "preview": "ăng lượng dự trữ và hỗ trợ hấp thu một số vitamin. 2. Vitamin và khoáng chất Vitamin và khoáng chất cần thiết với lượng nhỏ nhưng đóng vai trò quan trọng. Vitam"
+      },
+      {
+        "chunk_key": "1D8X2Fa3UBB2272-6G-0StcPoRPsNs_AA__chunk_2",
+        "file_name": "SucKhoe_DinhDuong.docx",
+        "score": 0.2084,
+        "preview": " trong sữa. Sắt tham gia vận chuyển oxy trong máu. 3. Chế độ ăn cân bằng Một chế độ ăn cân bằng nên đa dạng thực phẩm, hạn chế đường và chất béo bão hòa, tăng c"
+      }
+    ]
+  },
+  {
+    "id": "D07",
+    "category": "descriptive",
+    "question": "Giới thiệu tổng quan về Công ty Thiên Minh: lĩnh vực hoạt động, tầm nhìn và sứ mệnh.",
+    "top_chunk_key": "17esO5F1Th9-g7k6tDd_1NVbwVYwosYKP__chunk_2",
+    "top_file": "TMT_GioiThieu_CongTy.docx",
+    "top_score": 0.4797,
+    "all_chunks": [
+      {
+        "chunk_key": "17esO5F1Th9-g7k6tDd_1NVbwVYwosYKP__chunk_2",
+        "file_name": "TMT_GioiThieu_CongTy.docx",
+        "score": 0.4797,
+        "preview": ". Tính đến năm 2026, công ty có khoảng 45 nhân sự. 2. Tầm nhìn và sứ mệnh Tầm nhìn của Thiên Minh là trở thành công ty công nghệ hàng đầu Việt Nam trong lĩnh vự"
+      },
+      {
+        "chunk_key": "17esO5F1Th9-g7k6tDd_1NVbwVYwosYKP__chunk_1",
+        "file_name": "TMT_GioiThieu_CongTy.docx",
+        "score": 0.4678,
+        "preview": "phòng chi nhánh tại Thành phố Đà Nẵng mở năm 2022. Lĩnh vực hoạt động chính của Thiên Minh là phát triển phần mềm trí tuệ nhân tạo, hệ thống dữ liệu lớn và các "
+      },
+      {
+        "chunk_key": "17esO5F1Th9-g7k6tDd_1NVbwVYwosYKP__chunk_0",
+        "file_name": "TMT_GioiThieu_CongTy.docx",
+        "score": 0.8156,
+        "preview": "Giới thiệu Công ty Cổ phần Công nghệ Thiên Minh 1. Thông tin chung Công ty Cổ phần Công nghệ Thiên Minh (tên viết tắt: TMT, tên tiếng Anh: Thien Minh Technology"
+      },
+      {
+        "chunk_key": "11AsYHuh-U-g4w3QwmV-VZQbZxEMC1SDk__chunk_0",
+        "file_name": "TMT_CoCau_NhanSu.docx",
+        "score": 0.7732,
+        "preview": "Cơ cấu nhân sự Công ty Thiên Minh 1. Ban lãnh đạo Ông Nguyễn Văn An là Tổng giám đốc và người sáng lập công ty. Bà Trần Thị Bình là Giám đốc Công nghệ, tốt nghi"
+      },
+      {
+        "chunk_key": "1R8-nQ_k0cG73qgijc7a1SO1bVM3rjeYR__chunk_0",
+        "file_name": "TMT_DuAn_SmartRoute.docx",
+        "score": 0.4505,
+        "preview": "Dự án SmartRoute — Tối ưu logistics 1. Tổng quan SmartRoute là hệ thống tối ưu tuyến đường vận tải do Công ty Thiên Minh phát triển từ tháng 6 năm 2024. Đối tác"
+      }
+    ]
+  },
+  {
+    "id": "D08",
+    "category": "descriptive",
+    "question": "Trình bày tổng quan dự án MedBot và kết quả đạt được.",
+    "top_chunk_key": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_0",
+    "top_file": "TMT_DuAn_MedBot.docx",
+    "top_score": 0.5634,
+    "all_chunks": [
+      {
+        "chunk_key": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_0",
+        "file_name": "TMT_DuAn_MedBot.docx",
+        "score": 0.5634,
+        "preview": "Dự án MedBot — Trợ lý ảo y tế 1. Tổng quan MedBot là dự án phát triển trợ lý ảo tư vấn y tế của Công ty Thiên Minh, khởi động vào tháng 3 năm 2023. Dự án nhằm h"
+      },
+      {
+        "chunk_key": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_2",
+        "file_name": "TMT_DuAn_MedBot.docx",
+        "score": 0.5597,
+        "preview": " dữ liệu y tế. Bà Ngô Thị Giang đảm nhận kiểm thử. 3. Công nghệ sử dụng Ngôn ngữ: Python. Backend: FastAPI. Học máy: TensorFlow. Cơ sở dữ liệu: PostgreSQL. Triể"
+      },
+      {
+        "chunk_key": "1_V_Tk-PlnUW9elS_L1jrik0wNIPF3Y6S__chunk_1",
+        "file_name": "TMT_BienBanHop_Quy1_2026.docx",
+        "score": 0.4601,
+        "preview": "ưởng nhóm AI Lê Hoàng Cường và các trưởng bộ phận. 2. Nội dung dự án MedBot Ông Lê Hoàng Cường báo cáo MedBot đã hoàn thành giai đoạn hai và được Bệnh viện Đa k"
+      },
+      {
+        "chunk_key": "1_V_Tk-PlnUW9elS_L1jrik0wNIPF3Y6S__chunk_3",
+        "file_name": "TMT_BienBanHop_Quy1_2026.docx",
+        "score": 0.4549,
+        "preview": "o sát kỹ thuật tích hợp. 4. Nội dung dự án EduPath Bà Hoàng Thị Em trình bày phản hồi tích cực từ Trường Đại học Sài Gòn và đề xuất bổ sung tính năng học nhóm. "
+      },
+      {
+        "chunk_key": "11AsYHuh-U-g4w3QwmV-VZQbZxEMC1SDk__chunk_1",
+        "file_name": "TMT_CoCau_NhanSu.docx",
+        "score": 0.5803,
+        "preview": "Dự án, quản lý đồng thời ba dự án lớn của công ty. 2. Phòng Trí tuệ nhân tạo Ông Lê Hoàng Cường là Trưởng nhóm AI, báo cáo trực tiếp cho Giám đốc Công nghệ Trần"
+      }
+    ]
+  },
+  {
+    "id": "D09",
+    "category": "descriptive",
+    "question": "Tóm tắt những đặc điểm chính của văn minh Ai Cập cổ đại.",
+    "top_chunk_key": "1pfnRiMMwewesulm1OajA9kuOUTm5MjXk__chunk_0",
+    "top_file": "LichSu_VanMinhAiCap.docx",
+    "top_score": 0.4505,
+    "all_chunks": [
+      {
+        "chunk_key": "1pfnRiMMwewesulm1OajA9kuOUTm5MjXk__chunk_0",
+        "file_name": "LichSu_VanMinhAiCap.docx",
+        "score": 0.4505,
+        "preview": "Văn minh Ai Cập cổ đại 1. Tổng quan Văn minh Ai Cập cổ đại hình thành dọc theo sông Nile ở đông bắc châu Phi, kéo dài hơn ba nghìn năm, từ khoảng năm 3100 trước"
+      },
+      {
+        "chunk_key": "1pfnRiMMwewesulm1OajA9kuOUTm5MjXk__chunk_2",
+        "file_name": "LichSu_VanMinhAiCap.docx",
+        "score": 0.4393,
+        "preview": "quan của thế giới cổ đại còn tồn tại đến ngày nay. 3. Chữ viết Người Ai Cập cổ sử dụng chữ tượng hình, một hệ thống chữ viết dùng hình ảnh để biểu thị âm và ý n"
+      },
+      {
+        "chunk_key": "1pfnRiMMwewesulm1OajA9kuOUTm5MjXk__chunk_1",
+        "file_name": "LichSu_VanMinhAiCap.docx",
+        "score": 0.4276,
+        "preview": "g còn khi cung cấp nước và phù sa cho nông nghiệp. 2. Kim tự tháp Kim tự tháp là công trình lăng mộ dành cho các pharaoh. Kim tự tháp Giza nổi tiếng nhất, được "
+      },
+      {
+        "chunk_key": "1pfnRiMMwewesulm1OajA9kuOUTm5MjXk__chunk_3",
+        "file_name": "LichSu_VanMinhAiCap.docx",
+        "score": 0.6532,
+        "preview": "thi nhờ Phiến đá Rosetta, được phát hiện năm 1799. 4. Tôn giáo Người Ai Cập theo tín ngưỡng đa thần, thờ nhiều vị thần như thần mặt trời Ra, thần Osiris cai quả"
+      },
+      {
+        "chunk_key": "17esO5F1Th9-g7k6tDd_1NVbwVYwosYKP__chunk_0",
+        "file_name": "TMT_GioiThieu_CongTy.docx",
+        "score": 0.6458,
+        "preview": "Giới thiệu Công ty Cổ phần Công nghệ Thiên Minh 1. Thông tin chung Công ty Cổ phần Công nghệ Thiên Minh (tên viết tắt: TMT, tên tiếng Anh: Thien Minh Technology"
+      }
+    ]
+  },
+  {
+    "id": "D10",
+    "category": "descriptive",
+    "question": "Hệ thống cô lập dữ liệu giữa các người dùng khác nhau như thế nào?",
+    "top_chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_2",
+    "top_file": "04_Cau_hinh_He_thong.docx",
+    "top_score": 0.2174,
+    "all_chunks": [
+      {
+        "chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_2",
+        "file_name": "04_Cau_hinh_He_thong.docx",
+        "score": 0.2174,
+        "preview": "h trên Neo4j được cô lập bằng thuộc tính owner_id. 6. Google Drive API được dùng ở chế độ readonly sau khi người dùng đăng nhập OAuth 2.0."
+      },
+      {
+        "chunk_key": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_1",
+        "file_name": "04_Cau_hinh_He_thong.docx",
+        "score": 0.2174,
+        "preview": "-flash. Mô hình embedding là gemini-embedding-001. 4. RETRIEVAL_TOP_K bằng 5. RETRIEVAL_CONTEXT_MAX_CHARS bằng 8000 ký tự. 5. Mỗi người dùng có collection Chrom"
+      },
+      {
+        "chunk_key": "1mNcdVpPIAh-ONOtTRZyAdKpo0RAhqIib__chunk_15",
+        "file_name": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+        "score": 0.2113,
+        "preview": "thay công việc nếu không có sự đồng ý của Công ty. Do not assign work to others without the Company's consent. [Trang 3] Page 3 of 3 -  Trong suốt thời hạn hợp "
+      }
+    ]
+  },
+  {
+    "id": "R01",
+    "category": "relationship",
+    "question": "Kỹ sư backend chính của dự án SmartRoute làm việc với đối tác đặt tại tỉnh, thành phố nào?",
+    "top_chunk_key": "17bsUxeqeaBI8J6sBP0aStLzor25rYXna__chunk_1",
+    "top_file": "TMT_DoiTac_DaiPhat.docx",
+    "top_score": 0.2262,
+    "all_chunks": [
+      {
+        "chunk_key": "17bsUxeqeaBI8J6sBP0aStLzor25rYXna__chunk_1",
+        "file_name": "TMT_DoiTac_DaiPhat.docx",
+        "score": 0.2262,
+        "preview": "ía Nam, sở hữu đội xe hơn 200 đầu xe tải các loại. Công ty tập trung vào các tuyến đường dài giữa Thành phố Hồ Chí Minh và các tỉnh miền Tây. 3. Hợp tác với Thi"
+      },
+      {
+        "chunk_key": "1R8-nQ_k0cG73qgijc7a1SO1bVM3rjeYR__chunk_0",
+        "file_name": "TMT_DuAn_SmartRoute.docx",
+        "score": 0.2257,
+        "preview": "Dự án SmartRoute — Tối ưu logistics 1. Tổng quan SmartRoute là hệ thống tối ưu tuyến đường vận tải do Công ty Thiên Minh phát triển từ tháng 6 năm 2024. Đối tác"
+      },
+      {
+        "chunk_key": "11AsYHuh-U-g4w3QwmV-VZQbZxEMC1SDk__chunk_3",
+        "file_name": "TMT_CoCau_NhanSu.docx",
+        "score": 0.2237,
+        "preview": "ồng thời phụ trách mảng dữ liệu cho dự án EduPath. 4. Phòng Kỹ thuật Ông Võ Minh Đức là Kỹ sư backend, thành viên nòng cốt của dự án SmartRoute. Bà Hoàng Thị Em"
+      }
+    ]
+  },
+  {
+    "id": "R02",
+    "category": "relationship",
+    "question": "Đối tác trong dự án mà ông Lê Hoàng Cường làm kỹ sư trưởng do ai làm giám đốc?",
+    "top_chunk_key": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_1",
+    "top_file": "TMT_DuAn_MedBot.docx",
+    "top_score": 0.2422,
+    "all_chunks": [
+      {
+        "chunk_key": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_1",
+        "file_name": "TMT_DuAn_MedBot.docx",
+        "score": 0.2422,
+        "preview": " Đối tác triển khai là Bệnh viện Đa khoa Hồng Đức. 2. Nhân sự dự án Giám đốc Dự án Đặng Thu Hà chịu trách nhiệm quản lý chung. Ông Lê Hoàng Cường, Trưởng nhóm A"
+      },
+      {
+        "chunk_key": "11AsYHuh-U-g4w3QwmV-VZQbZxEMC1SDk__chunk_1",
+        "file_name": "TMT_CoCau_NhanSu.docx",
+        "score": 0.7357,
+        "preview": "Dự án, quản lý đồng thời ba dự án lớn của công ty. 2. Phòng Trí tuệ nhân tạo Ông Lê Hoàng Cường là Trưởng nhóm AI, báo cáo trực tiếp cho Giám đốc Công nghệ Trần"
+      },
+      {
+        "chunk_key": "1_V_Tk-PlnUW9elS_L1jrik0wNIPF3Y6S__chunk_1",
+        "file_name": "TMT_BienBanHop_Quy1_2026.docx",
+        "score": 0.2281,
+        "preview": "ưởng nhóm AI Lê Hoàng Cường và các trưởng bộ phận. 2. Nội dung dự án MedBot Ông Lê Hoàng Cường báo cáo MedBot đã hoàn thành giai đoạn hai và được Bệnh viện Đa k"
+      }
+    ]
+  },
+  {
+    "id": "R03",
+    "category": "relationship",
+    "question": "Dự án nào của Thiên Minh hợp tác với đối tác có trụ sở tại tỉnh Bình Dương?",
+    "top_chunk_key": "1qGSw5N7fd-7DJdzhkPhIqUNhUJ7ZkP6q__chunk_0",
+    "top_file": "TMT_DuAn_EduPath.docx",
+    "top_score": 0.2249,
+    "all_chunks": [
+      {
+        "chunk_key": "1qGSw5N7fd-7DJdzhkPhIqUNhUJ7ZkP6q__chunk_0",
+        "file_name": "TMT_DuAn_EduPath.docx",
+        "score": 0.2249,
+        "preview": "Dự án EduPath — Nền tảng giáo dục cá nhân hóa 1. Tổng quan EduPath là nền tảng học tập trực tuyến cá nhân hóa của Công ty Thiên Minh, bắt đầu từ tháng 1 năm 202"
+      },
+      {
+        "chunk_key": "17bsUxeqeaBI8J6sBP0aStLzor25rYXna__chunk_0",
+        "file_name": "TMT_DoiTac_DaiPhat.docx",
+        "score": 0.8467,
+        "preview": "Hồ sơ đối tác — Công ty Vận tải Đại Phát 1. Thông tin chung Công ty Vận tải Đại Phát được thành lập năm 2010, có trụ sở chính đặt tại Thành phố Thủ Dầu Một, tỉn"
+      },
+      {
+        "chunk_key": "17bsUxeqeaBI8J6sBP0aStLzor25rYXna__chunk_1",
+        "file_name": "TMT_DoiTac_DaiPhat.docx",
+        "score": 0.2238,
+        "preview": "ía Nam, sở hữu đội xe hơn 200 đầu xe tải các loại. Công ty tập trung vào các tuyến đường dài giữa Thành phố Hồ Chí Minh và các tỉnh miền Tây. 3. Hợp tác với Thi"
+      }
+    ]
+  },
+  {
+    "id": "R04",
+    "category": "relationship",
+    "question": "Bệnh viện đối tác của dự án MedBot đặt tại thành phố nào?",
+    "top_chunk_key": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_0",
+    "top_file": "TMT_DuAn_MedBot.docx",
+    "top_score": 0.2384,
+    "all_chunks": [
+      {
+        "chunk_key": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_0",
+        "file_name": "TMT_DuAn_MedBot.docx",
+        "score": 0.2384,
+        "preview": "Dự án MedBot — Trợ lý ảo y tế 1. Tổng quan MedBot là dự án phát triển trợ lý ảo tư vấn y tế của Công ty Thiên Minh, khởi động vào tháng 3 năm 2023. Dự án nhằm h"
+      },
+      {
+        "chunk_key": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_2",
+        "file_name": "TMT_DuAn_MedBot.docx",
+        "score": 0.2365,
+        "preview": " dữ liệu y tế. Bà Ngô Thị Giang đảm nhận kiểm thử. 3. Công nghệ sử dụng Ngôn ngữ: Python. Backend: FastAPI. Học máy: TensorFlow. Cơ sở dữ liệu: PostgreSQL. Triể"
+      },
+      {
+        "chunk_key": "1gyn-9OrOycpK5ePdBYcfPSkur4HKGuu___chunk_2",
+        "file_name": "TMT_NhanSu_DuAn.xlsx",
+        "score": 0.2301,
+        "preview": "n viên DevOps\tPhòng Kỹ thuật\tMedBot, SmartRoute\tL4 Ngô Thị Giang\tChuyên viên QA\tPhòng Vận hành\tMedBot\tL3 [Sheet: DuAn] Dự án\tNăm bắt đầu\tĐối tác\tCông nghệ chính"
+      }
+    ]
+  },
+  {
+    "id": "R05",
+    "category": "relationship",
+    "question": "Giảng viên điều phối hợp tác phía trường đối tác của dự án EduPath là ai?",
+    "top_chunk_key": "1Vo0qB2D59Y8kFvr04rMA9Ck-LbXxgtsS__chunk_1",
+    "top_file": "TMT_DoiTac_DaiHocSaiGon.docx",
+    "top_score": 0.2441,
+    "all_chunks": [
+      {
+        "chunk_key": "1Vo0qB2D59Y8kFvr04rMA9Ck-LbXxgtsS__chunk_1",
+        "file_name": "TMT_DoiTac_DaiHocSaiGon.docx",
+        "score": 0.2441,
+        "preview": "g đó có nhóm ngành công nghệ thông tin và sư phạm. 3. Hợp tác với Thiên Minh Trường Đại học Sài Gòn là đối tác thử nghiệm nền tảng học tập cá nhân hóa EduPath c"
+      },
+      {
+        "chunk_key": "1qGSw5N7fd-7DJdzhkPhIqUNhUJ7ZkP6q__chunk_0",
+        "file_name": "TMT_DuAn_EduPath.docx",
+        "score": 0.2339,
+        "preview": "Dự án EduPath — Nền tảng giáo dục cá nhân hóa 1. Tổng quan EduPath là nền tảng học tập trực tuyến cá nhân hóa của Công ty Thiên Minh, bắt đầu từ tháng 1 năm 202"
+      },
+      {
+        "chunk_key": "1qGSw5N7fd-7DJdzhkPhIqUNhUJ7ZkP6q__chunk_1",
+        "file_name": "TMT_DuAn_EduPath.docx",
+        "score": 0.226,
+        "preview": "iên. Đối tác thử nghiệm là Trường Đại học Sài Gòn. 2. Nhân sự dự án Giám đốc Dự án Đặng Thu Hà điều phối chung. Bà Hoàng Thị Em phụ trách phát triển giao diện n"
+      }
+    ]
+  },
+  {
+    "id": "R06",
+    "category": "relationship",
+    "question": "Người điều hành công ty vận tải là đối tác của Thiên Minh tên là gì?",
+    "top_chunk_key": "17bsUxeqeaBI8J6sBP0aStLzor25rYXna__chunk_0",
+    "top_file": "TMT_DoiTac_DaiPhat.docx",
+    "top_score": 0.2332,
+    "all_chunks": [
+      {
+        "chunk_key": "17bsUxeqeaBI8J6sBP0aStLzor25rYXna__chunk_0",
+        "file_name": "TMT_DoiTac_DaiPhat.docx",
+        "score": 0.2332,
+        "preview": "Hồ sơ đối tác — Công ty Vận tải Đại Phát 1. Thông tin chung Công ty Vận tải Đại Phát được thành lập năm 2010, có trụ sở chính đặt tại Thành phố Thủ Dầu Một, tỉn"
+      },
+      {
+        "chunk_key": "1R8-nQ_k0cG73qgijc7a1SO1bVM3rjeYR__chunk_0",
+        "file_name": "TMT_DuAn_SmartRoute.docx",
+        "score": 0.2332,
+        "preview": "Dự án SmartRoute — Tối ưu logistics 1. Tổng quan SmartRoute là hệ thống tối ưu tuyến đường vận tải do Công ty Thiên Minh phát triển từ tháng 6 năm 2024. Đối tác"
+      },
+      {
+        "chunk_key": "17bsUxeqeaBI8J6sBP0aStLzor25rYXna__chunk_1",
+        "file_name": "TMT_DoiTac_DaiPhat.docx",
+        "score": 0.2324,
+        "preview": "ía Nam, sở hữu đội xe hơn 200 đầu xe tải các loại. Công ty tập trung vào các tuyến đường dài giữa Thành phố Hồ Chí Minh và các tỉnh miền Tây. 3. Hợp tác với Thi"
+      }
+    ]
+  },
+  {
+    "id": "R07",
+    "category": "relationship",
+    "question": "Giám đốc Dự án Đặng Thu Hà quản lý dự án có đối tác đặt tại Cần Thơ; kỹ sư trưởng của dự án đó là ai?",
+    "top_chunk_key": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_1",
+    "top_file": "TMT_DuAn_MedBot.docx",
+    "top_score": 0.2387,
+    "all_chunks": [
+      {
+        "chunk_key": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_1",
+        "file_name": "TMT_DuAn_MedBot.docx",
+        "score": 0.2387,
+        "preview": " Đối tác triển khai là Bệnh viện Đa khoa Hồng Đức. 2. Nhân sự dự án Giám đốc Dự án Đặng Thu Hà chịu trách nhiệm quản lý chung. Ông Lê Hoàng Cường, Trưởng nhóm A"
+      },
+      {
+        "chunk_key": "1qGSw5N7fd-7DJdzhkPhIqUNhUJ7ZkP6q__chunk_1",
+        "file_name": "TMT_DuAn_EduPath.docx",
+        "score": 0.2271,
+        "preview": "iên. Đối tác thử nghiệm là Trường Đại học Sài Gòn. 2. Nhân sự dự án Giám đốc Dự án Đặng Thu Hà điều phối chung. Bà Hoàng Thị Em phụ trách phát triển giao diện n"
+      },
+      {
+        "chunk_key": "11AsYHuh-U-g4w3QwmV-VZQbZxEMC1SDk__chunk_0",
+        "file_name": "TMT_CoCau_NhanSu.docx",
+        "score": 0.2236,
+        "preview": "Cơ cấu nhân sự Công ty Thiên Minh 1. Ban lãnh đạo Ông Nguyễn Văn An là Tổng giám đốc và người sáng lập công ty. Bà Trần Thị Bình là Giám đốc Công nghệ, tốt nghi"
+      }
+    ]
+  },
+  {
+    "id": "R08",
+    "category": "relationship",
+    "question": "Ông Bùi Văn Phong phụ trách hạ tầng cho những dự án nào, và các dự án đó hợp tác với những đối tác nào?",
+    "top_chunk_key": "11AsYHuh-U-g4w3QwmV-VZQbZxEMC1SDk__chunk_3",
+    "top_file": "TMT_CoCau_NhanSu.docx",
+    "top_score": 0.6929,
+    "all_chunks": [
+      {
+        "chunk_key": "11AsYHuh-U-g4w3QwmV-VZQbZxEMC1SDk__chunk_3",
+        "file_name": "TMT_CoCau_NhanSu.docx",
+        "score": 0.6929,
+        "preview": "ồng thời phụ trách mảng dữ liệu cho dự án EduPath. 4. Phòng Kỹ thuật Ông Võ Minh Đức là Kỹ sư backend, thành viên nòng cốt của dự án SmartRoute. Bà Hoàng Thị Em"
+      },
+      {
+        "chunk_key": "1R8-nQ_k0cG73qgijc7a1SO1bVM3rjeYR__chunk_1",
+        "file_name": "TMT_DuAn_SmartRoute.docx",
+        "score": 0.2224,
+        "preview": "o hàng thông qua thuật toán tìm đường trên đồ thị. 2. Nhân sự dự án Bà Đặng Thu Hà quản lý dự án. Ông Võ Minh Đức là kỹ sư backend chính, xây dựng dịch vụ tính "
+      },
+      {
+        "chunk_key": "11AsYHuh-U-g4w3QwmV-VZQbZxEMC1SDk__chunk_4",
+        "file_name": "TMT_CoCau_NhanSu.docx",
+        "score": 0.6888,
+        "preview": "ịu trách nhiệm hạ tầng triển khai cho cả ba dự án. 5. Phòng Vận hành Bà Ngô Thị Giang là chuyên viên Kiểm thử chất lượng (QA), tham gia kiểm thử sản phẩm của cá"
+      }
+    ]
+  },
+  {
+    "id": "R09",
+    "category": "relationship",
+    "question": "Đầu mối phối hợp phía bệnh viện đối tác của dự án MedBot là ai?",
+    "top_chunk_key": "1gQlwqKb6pIRTKdG7aZpFiTAXcx1QmHgC__chunk_1",
+    "top_file": "TMT_DoiTac_HongDuc.docx",
+    "top_score": 0.8358,
+    "all_chunks": [
+      {
+        "chunk_key": "1gQlwqKb6pIRTKdG7aZpFiTAXcx1QmHgC__chunk_1",
+        "file_name": "TMT_DoiTac_HongDuc.docx",
+        "score": 0.8358,
+        "preview": ", với các chuyên khoa chính gồm nội, ngoại và sản. Hồng Đức phục vụ người dân khu vực Đồng bằng sông Cửu Long. 3. Hợp tác với Thiên Minh Bệnh viện Đa khoa Hồng "
+      },
+      {
+        "chunk_key": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_0",
+        "file_name": "TMT_DuAn_MedBot.docx",
+        "score": 0.635,
+        "preview": "Dự án MedBot — Trợ lý ảo y tế 1. Tổng quan MedBot là dự án phát triển trợ lý ảo tư vấn y tế của Công ty Thiên Minh, khởi động vào tháng 3 năm 2023. Dự án nhằm h"
+      },
+      {
+        "chunk_key": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_1",
+        "file_name": "TMT_DuAn_MedBot.docx",
+        "score": 0.2342,
+        "preview": " Đối tác triển khai là Bệnh viện Đa khoa Hồng Đức. 2. Nhân sự dự án Giám đốc Dự án Đặng Thu Hà chịu trách nhiệm quản lý chung. Ông Lê Hoàng Cường, Trưởng nhóm A"
+      }
+    ]
+  },
+  {
+    "id": "R10",
+    "category": "relationship",
+    "question": "Những nhân sự nào báo cáo trực tiếp cho Giám đốc Công nghệ Trần Thị Bình?",
+    "top_chunk_key": "11AsYHuh-U-g4w3QwmV-VZQbZxEMC1SDk__chunk_1",
+    "top_file": "TMT_CoCau_NhanSu.docx",
+    "top_score": 0.2458,
+    "all_chunks": [
+      {
+        "chunk_key": "11AsYHuh-U-g4w3QwmV-VZQbZxEMC1SDk__chunk_1",
+        "file_name": "TMT_CoCau_NhanSu.docx",
+        "score": 0.2458,
+        "preview": "Dự án, quản lý đồng thời ba dự án lớn của công ty. 2. Phòng Trí tuệ nhân tạo Ông Lê Hoàng Cường là Trưởng nhóm AI, báo cáo trực tiếp cho Giám đốc Công nghệ Trần"
+      },
+      {
+        "chunk_key": "17esO5F1Th9-g7k6tDd_1NVbwVYwosYKP__chunk_4",
+        "file_name": "TMT_GioiThieu_CongTy.docx",
+        "score": 0.245,
+        "preview": " chịu trách nhiệm điều phối các dự án của công ty. Công ty được chia thành bốn phòng ban: Phòng Trí tuệ nhân tạo (Phòng AI), Phòng Kỹ thuật, Phòng Dữ liệu và Ph"
+      },
+      {
+        "chunk_key": "11AsYHuh-U-g4w3QwmV-VZQbZxEMC1SDk__chunk_5",
+        "file_name": "TMT_CoCau_NhanSu.docx",
+        "score": 0.2386,
+        "preview": " và Phạm Thị Dung báo cáo cho Trần Thị Bình (CTO). Võ Minh Đức, Hoàng Thị Em, Bùi Văn Phong thuộc quản lý kỹ thuật của Trần Thị Bình. Về mặt dự án, Cường, Dung,"
+      }
+    ]
+  }
+]

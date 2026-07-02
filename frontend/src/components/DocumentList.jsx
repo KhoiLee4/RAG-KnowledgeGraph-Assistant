@@ -25,7 +25,6 @@ import {
   logoutAuth,
   getAuthConfig,
   syncAllDrive,
-  previewDriveFiles,
   isBackendUnreachable,
   BACKEND_UNREACHABLE_MSG,
   summarizeSyncErrors,
@@ -124,6 +123,7 @@ function DriveAuthPanel({ onSynced }) {
   const [syncingAll, setSyncingAll] = useState(false)
   const [syncProgress, setSyncProgress] = useState('')
   const [preview, setPreview] = useState(null)
+  const [forceReindex, setForceReindex] = useState(false)
   const [error, setError] = useState('')
   const [backendDown, setBackendDown] = useState(false)
 
@@ -194,31 +194,22 @@ function DriveAuthPanel({ onSynced }) {
     }
   }
 
-  const handlePreview = async () => {
-    setError('')
-    try {
-      const data = await previewDriveFiles()
-      setPreview(data)
-    } catch (err) {
-      setError(err.response?.data?.detail || 'Không lấy được danh sách file.')
-    }
-  }
-
   const handleSyncAll = async () => {
-    if (
-      !confirm(
-        'Đồng bộ TOÀN BỘ tài liệu được hỗ trợ trên Google Drive?\n\n' +
-          'Hỗ trợ: PDF, Word (.docx, .doc), Excel (.xlsx, .xls), Google Docs/Sheets\n' +
-        'Quá trình có thể mất 15–30+ phút tùy số file (chạy nền, không bị timeout).',
-      )
-    ) {
+    const baseMsg =
+      'Đồng bộ TOÀN BỘ tài liệu được hỗ trợ trên Google Drive?\n\n' +
+      'Hỗ trợ: PDF, Word (.docx, .doc), Excel (.xlsx, .xls), Google Docs/Sheets\n' +
+      'Quá trình có thể mất 15–30+ phút tùy số file (chạy nền, không bị timeout).'
+    const reindexMsg =
+      '\n\n⚠️ Index lại từ đầu đang BẬT: mọi file đã index sẽ bị XÓA và xây dựng lại ' +
+      '(cập nhật knowledge graph theo schema mới). Tốn thời gian và quota hơn.'
+    if (!confirm(baseMsg + (forceReindex ? reindexMsg : ''))) {
       return
     }
     setSyncingAll(true)
     setSyncProgress('Đang bắt đầu...')
     setError('')
     try {
-      const result = await syncAllDrive(false, null, {
+      const result = await syncAllDrive(forceReindex, null, {
         onProgress: (job) => {
           if (job?.total > 0) {
             setSyncProgress(`${job.processed}/${job.total} — ${job.message || ''}`)
@@ -328,14 +319,19 @@ function DriveAuthPanel({ onSynced }) {
               </button>
             </>
           )}
-          <button
-            onClick={handlePreview}
-            disabled={!status?.authenticated}
-            className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
+          <label
+            title="Xóa index cũ và xây dựng lại toàn bộ (cập nhật knowledge graph theo schema mới)"
+            className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50"
           >
-            <ExternalLink className="h-4 w-4" />
-            Xem file trên Drive
-          </button>
+            <input
+              type="checkbox"
+              checked={forceReindex}
+              onChange={(e) => setForceReindex(e.target.checked)}
+              disabled={syncingAll || !status?.authenticated}
+              className="h-4 w-4 rounded border-border accent-primary"
+            />
+            Index lại từ đầu
+          </label>
           <button
             onClick={handleSyncAll}
             disabled={syncingAll || !status?.authenticated}

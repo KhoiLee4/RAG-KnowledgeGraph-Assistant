@@ -169,6 +169,7 @@ class Neo4jClient:
               n.name = $props.name,
               n.name_norm = $props.name_norm,
               n.type = $props.type,
+              n.subtype = CASE WHEN coalesce($props.subtype, '') <> '' THEN $props.subtype ELSE n.subtype END,
               n.description = $props.description,
               n.aliases = $props.aliases,
               n.owner_id = coalesce($props.owner_id, n.owner_id)

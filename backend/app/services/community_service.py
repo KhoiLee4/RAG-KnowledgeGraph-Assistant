@@ -19,7 +19,7 @@ import networkx as nx
 
 from app.core.config import settings
 from app.db.neo4j_client import get_neo4j_client
-from app.services.graph_schema import ENTITY_REL_CYPHER_PATTERN, community_edge_weight
+from app.services.graph_schema import community_edge_weight
 
 logger = logging.getLogger(__name__)
 
@@ -86,7 +86,7 @@ class CommunityService:
 
         edge_records = self._neo4j.run_cypher(
             f"""
-            MATCH (a:Entity {{owner_id: $owner_id}})-[r:{ENTITY_REL_CYPHER_PATTERN}]-(b:Entity {{owner_id: $owner_id}})
+            MATCH (a:Entity {{owner_id: $owner_id}})-[r]-(b:Entity {{owner_id: $owner_id}})
             WHERE elementId(a) < elementId(b)
             RETURN a.id AS source_id, b.id AS target_id,
                    type(r) AS rel_type,

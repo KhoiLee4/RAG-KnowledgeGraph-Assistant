@@ -1,0 +1,182 @@
+{
+  "source_report": "evaluation\\results\\report_20260703_030443.json",
+  "scale": "2=đúng đủ, 1=một phần, 0=sai/từ chối sai",
+  "totals": {
+    "rag": {
+      "score": 58,
+      "max": 60,
+      "avg": 1.93
+    },
+    "graph_rag": {
+      "score": 54,
+      "max": 60,
+      "avg": 1.8
+    }
+  },
+  "by_category": {
+    "factual": {
+      "rag": 18,
+      "graph_rag": 16
+    },
+    "descriptive": {
+      "rag": 20,
+      "graph_rag": 20
+    },
+    "relationship": {
+      "rag": 20,
+      "graph_rag": 18
+    }
+  },
+  "scores": {
+    "F01": {
+      "category": "factual",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "F02": {
+      "category": "factual",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "F03": {
+      "category": "factual",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "F04": {
+      "category": "factual",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "F05": {
+      "category": "factual",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "F06": {
+      "category": "factual",
+      "rag": 2,
+      "graph_rag": 0
+    },
+    "F07": {
+      "category": "factual",
+      "rag": 0,
+      "graph_rag": 0
+    },
+    "F08": {
+      "category": "factual",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "F09": {
+      "category": "factual",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "F10": {
+      "category": "factual",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "D01": {
+      "category": "descriptive",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "D02": {
+      "category": "descriptive",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "D03": {
+      "category": "descriptive",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "D04": {
+      "category": "descriptive",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "D05": {
+      "category": "descriptive",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "D06": {
+      "category": "descriptive",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "D07": {
+      "category": "descriptive",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "D08": {
+      "category": "descriptive",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "D09": {
+      "category": "descriptive",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "D10": {
+      "category": "descriptive",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "R01": {
+      "category": "relationship",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "R02": {
+      "category": "relationship",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "R03": {
+      "category": "relationship",
+      "rag": 2,
+      "graph_rag": 1
+    },
+    "R04": {
+      "category": "relationship",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "R05": {
+      "category": "relationship",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "R06": {
+      "category": "relationship",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "R07": {
+      "category": "relationship",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "R08": {
+      "category": "relationship",
+      "rag": 2,
+      "graph_rag": 2
+    },
+    "R09": {
+      "category": "relationship",
+      "rag": 2,
+      "graph_rag": 1
+    },
+    "R10": {
+      "category": "relationship",
+      "rag": 2,
+      "graph_rag": 2
+    }
+  }
+}

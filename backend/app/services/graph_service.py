@@ -28,12 +28,20 @@ from app.services.entity_normalizer import (
 from app.services.graph_schema import (
     BATCH_ENTITY_EXTRACTION_PROMPT,
     ENTITY_EXTRACTION_PROMPT,
-    ENTITY_REL_CYPHER_PATTERN,
-    PATH_REL_CYPHER_PATTERN,
-    normalize_relation_type,
 )
 
 logger = logging.getLogger(__name__)
+
+# Stopword tiếng Việt (đã bỏ dấu) — loại khỏi token khi dò entity trong query,
+# tránh sinh ra norm rác kiểu 'va', 'quan he', 'the nao'...
+_QUERY_ENTITY_STOPWORDS: frozenset[str] = frozenset({
+    "va", "voi", "gi", "co", "la", "ai", "khong", "quan", "he", "nhau", "moi",
+    "giua", "the", "nao", "mot", "cac", "cua", "trong", "nhu", "thi", "hay",
+    "hoac", "neu", "khi", "da", "se", "duoc", "cho", "tu", "den", "biet",
+    "ve", "ban", "toi", "nay", "do", "kia", "lam", "viec", "dau", "bao",
+    "nhieu", "ra", "sao", "vay", "day", "them", "cung", "chi", "con", "chua",
+    "lien", "he", "ket", "noi",
+})
 
 
 class GraphService:
@@ -45,6 +53,9 @@ class GraphService:
         self._neo4j = get_neo4j_client()
         self._gemini_client = None
         self._normalizer: EntityNormalizer = get_entity_normalizer()
+        from app.services.relation_normalizer import get_relation_normalizer
+
+        self._relation_normalizer = get_relation_normalizer()
 
     def _get_gemini(self):
         if self._gemini_client is None:
@@ -190,6 +201,7 @@ class GraphService:
                 "name": canonical_name,
                 "name_norm": name_norm,
                 "type": str(ent.get("type", "OTHER")),
+                "subtype": str(ent.get("subtype", "")),
                 "description": str(ent.get("description", "")),
                 "aliases": aliases,
             }
@@ -237,7 +249,9 @@ class GraphService:
             if not from_id or not to_id or from_id == to_id:
                 continue
 
-            rel_type = normalize_relation_type(str(rel.get("relation", "RELATED_TO")))
+            rel_type = self._relation_normalizer.to_canonical(
+                str(rel.get("relation", "RELATED_TO"))
+            )
             try:
                 self._neo4j.create_relationship(
                     from_id=from_id,
@@ -388,33 +402,47 @@ class GraphService:
         seen: set[str] = set()
 
         def _add(norm: str) -> None:
-            if norm and norm not in seen and len(norm) >= 2:
+            if norm and norm not in seen and len(norm) >= 3:
                 seen.add(norm)
                 norms.append(norm)
 
-        tokens = [t for t in query_norm.split() if len(t) >= 2]
-        for i, tok in enumerate(tokens):
-            resolved = self._normalizer.resolve_canonical(tok, "OTHER")
-            if resolved:
-                _add(resolved[1])
-            if i + 1 < len(tokens):
-                bigram = f"{tok} {tokens[i + 1]}"
-                resolved2 = self._normalizer.resolve_canonical(bigram, "OTHER")
-                if resolved2:
-                    _add(resolved2[1])
+        # Token có nghĩa: bỏ stopword + token quá ngắn. Không sinh bigram/normalize rác;
+        # chỉ dùng token để match vào entity thật trong graph.
+        tokens = [
+            t for t in query_norm.split()
+            if len(t) >= 3 and t not in _QUERY_ENTITY_STOPWORDS
+        ]
 
-        if owner_id:
+        if owner_id and (query_norm or tokens):
             try:
+                # Chỉ trả về name_norm của entity THẬT có trong graph:
+                #  (1) tên entity xuất hiện nguyên cụm trong query (word-boundary), hoặc
+                #  (2) với PERSON/ORGANIZATION: 1 token trùng nguyên tên, hoặc là tên
+                #      gọi (tên riêng đứng cuối trong tiếng Việt) / đầu cụm tên.
                 records = self._neo4j.run_cypher(
                     """
                     MATCH (e:Entity {owner_id: $owner_id})
                     WHERE size(e.name_norm) >= 3
-                      AND ($query_norm CONTAINS e.name_norm
-                           OR e.name_norm IN $tokens
-                           OR any(t IN $tokens WHERE size(t) >= 3 AND e.name_norm CONTAINS t))
+                      AND (
+                        (
+                          $query_norm = e.name_norm
+                          OR $query_norm STARTS WITH e.name_norm + ' '
+                          OR $query_norm ENDS WITH ' ' + e.name_norm
+                          OR $query_norm CONTAINS ' ' + e.name_norm + ' '
+                        )
+                        OR (
+                          e.type IN ['PERSON', 'ORGANIZATION']
+                          AND any(t IN $tokens WHERE
+                            e.name_norm = t
+                            OR e.name_norm ENDS WITH (' ' + t)
+                            OR e.name_norm STARTS WITH (t + ' ')
+                            OR e.name_norm CONTAINS (' ' + t + ' ')
+                          )
+                        )
+                      )
                     RETURN DISTINCT e.name_norm AS name_norm
                     ORDER BY size(e.name_norm) DESC
-                    LIMIT 15
+                    LIMIT 20
                     """,
                     {
                         "owner_id": owner_id,
@@ -457,7 +485,7 @@ class GraphService:
             cypher = f"""
             MATCH (e:Entity {{owner_id: $owner_id}})
             WHERE e.name_norm IN $entity_norms
-            OPTIONAL MATCH (e)-[r:{ENTITY_REL_CYPHER_PATTERN}]-(e2:Entity {{owner_id: $owner_id}})
+            OPTIONAL MATCH (e)-[r]-(e2:Entity {{owner_id: $owner_id}})
             OPTIONAL MATCH (c:Chunk)-[:MENTIONS]->(e)
             OPTIONAL MATCH (d:Document {{owner_id: $owner_id}})-[:CONTAINS]->(c)
             RETURN e.name AS name, e.type AS type,
@@ -477,7 +505,7 @@ class GraphService:
             cypher = f"""
             MATCH (e:Entity)
             WHERE e.name_norm IN $entity_norms
-            OPTIONAL MATCH (e)-[r:{ENTITY_REL_CYPHER_PATTERN}]-(e2:Entity)
+            OPTIONAL MATCH (e)-[r]-(e2:Entity)
             OPTIONAL MATCH (c:Chunk)-[:MENTIONS]->(e)
             OPTIONAL MATCH (d:Document)-[:CONTAINS]->(c)
             RETURN e.name AS name, e.type AS type,
@@ -580,7 +608,11 @@ class GraphService:
         """
         from itertools import combinations
 
-        norms = list(dict.fromkeys(n for n in entity_norms if n))[:4]
+        norms = sorted(
+            dict.fromkeys(n for n in entity_norms if n and len(n) >= 3),
+            key=len,
+            reverse=True,
+        )[:6]
         if len(norms) < 2:
             return {"text": "", "paths": [], "relations": []}
 
@@ -588,15 +620,23 @@ class GraphService:
         relations: list[dict[str, str]] = []
         rel_seen: set[str] = set()
 
-        def _run_path_query(norm_a: str, norm_b: str, rel_pattern: str) -> list[dict[str, Any]]:
+        def _run_path_query(norm_a: str, norm_b: str, semantic_only: bool) -> list[dict[str, Any]]:
+            # Open schema: đường đi chỉ đi qua node Entity (không lạc sang Chunk/Document/
+            # Community). ``semantic_only`` loại trừ cạnh COOCCURS_WITH để ưu tiên quan hệ
+            # ngữ nghĩa; fallback cho phép cả COOCCURS_WITH.
+            path_filter = "all(n IN nodes(path) WHERE n:Entity)"
+            if semantic_only:
+                path_filter += (
+                    " AND none(rr IN relationships(path)"
+                    " WHERE type(rr) = 'COOCCURS_WITH')"
+                )
             if owner_id:
                 cypher = f"""
                 MATCH (a:Entity {{owner_id: $oid, name_norm: $norm_a}})
                 MATCH (b:Entity {{owner_id: $oid, name_norm: $norm_b}})
                 WHERE a <> b
-                MATCH path = shortestPath(
-                  (a)-[:{rel_pattern}*..{max_hops}]-(b)
-                )
+                MATCH path = shortestPath((a)-[*..{max_hops}]-(b))
+                WHERE {path_filter}
                 RETURN [n IN nodes(path) | {{name: n.name, type: n.type}}] AS nodes,
                        [r IN relationships(path) | {{
                          type: type(r), desc: coalesce(r.description, '')
@@ -610,9 +650,8 @@ class GraphService:
                 MATCH (a:Entity {{name_norm: $norm_a}})
                 MATCH (b:Entity {{name_norm: $norm_b}})
                 WHERE a <> b
-                MATCH path = shortestPath(
-                  (a)-[:{rel_pattern}*..{max_hops}]-(b)
-                )
+                MATCH path = shortestPath((a)-[*..{max_hops}]-(b))
+                WHERE {path_filter}
                 RETURN [n IN nodes(path) | {{name: n.name, type: n.type}}] AS nodes,
                        [r IN relationships(path) | {{
                          type: type(r), desc: coalesce(r.description, '')
@@ -631,9 +670,9 @@ class GraphService:
             if len(paths) >= max_paths:
                 break
 
-            records = _run_path_query(norm_a, norm_b, PATH_REL_CYPHER_PATTERN)
+            records = _run_path_query(norm_a, norm_b, semantic_only=True)
             if not records:
-                records = _run_path_query(norm_a, norm_b, ENTITY_REL_CYPHER_PATTERN)
+                records = _run_path_query(norm_a, norm_b, semantic_only=False)
             if not records:
                 continue
 
@@ -794,7 +833,7 @@ class GraphService:
             if owner_id:
                 cypher_2hop = f"""
                 MATCH (e1:Entity {{owner_id: $owner_id, name_norm: $name_norm}})
-                      -[:{ENTITY_REL_CYPHER_PATTERN}]-(e2:Entity)
+                      -[]-(e2:Entity)
                 MATCH (c:Chunk)-[:MENTIONS]->(e2)
                 MATCH (d:Document)-[:CONTAINS]->(c)
                 RETURN c.id AS chunk_id, d.file_name AS file_name, d.id AS file_id,
@@ -808,7 +847,7 @@ class GraphService:
                 }
             else:
                 cypher_2hop = f"""
-                MATCH (e1:Entity {{name_norm: $name_norm}})-[:{ENTITY_REL_CYPHER_PATTERN}]-(e2:Entity)
+                MATCH (e1:Entity {{name_norm: $name_norm}})-[]-(e2:Entity)
                 MATCH (c:Chunk)-[:MENTIONS]->(e2)
                 MATCH (d:Document)-[:CONTAINS]->(c)
                 RETURN c.id AS chunk_id, d.file_name AS file_name, d.id AS file_id,
@@ -1002,7 +1041,30 @@ class GraphService:
             item["combined_score"] = round(alpha * vs + (1.0 - alpha) * gs, 4)
             item["score"] = item["combined_score"]
 
-        final = sorted(merged.values(), key=lambda x: -x["combined_score"])
+        ranked = sorted(merged.values(), key=lambda x: -x["combined_score"])
+
+        # Bảo toàn recall của vector: các chunk vector tốt nhất luôn được giữ lại,
+        # tránh việc graph rerank (alpha thấp cho câu factual) đẩy đoạn văn chứa
+        # câu trả lời ra khỏi top-k. Graph facts vẫn được bổ sung riêng ở graph
+        # section, nên đây chỉ đảm bảo vector không bị thay thế.
+        vector_top_ids = [
+            r.get("id", "") for r in vector_results[:n_results] if r.get("id")
+        ]
+        final: list[dict[str, Any]] = []
+        seen: set[str] = set()
+        for cid in vector_top_ids:
+            item = merged.get(cid)
+            if item and cid not in seen:
+                final.append(item)
+                seen.add(cid)
+        for item in ranked:
+            if len(final) >= n_results:
+                break
+            cid = item.get("id", "")
+            if cid and cid not in seen:
+                final.append(item)
+                seen.add(cid)
+
         logger.info(
             "hybrid_retrieve '%s...': vector=%d, graph=%d, merged=%d (alpha=%.2f).",
             query[:60],
@@ -1140,6 +1202,41 @@ class GraphService:
 
     # ── Helpers ───────────────────────────────────────────────
 
+    @staticmethod
+    def _std_entities(items: Any) -> list[dict[str, Any]]:
+        """Chuẩn hóa key entity: hỗ trợ 'label' (đồng nghĩa 'type') + 'subtype'."""
+        out: list[dict[str, Any]] = []
+        if not isinstance(items, list):
+            return out
+        for e in items:
+            if not isinstance(e, dict):
+                continue
+            label = e.get("type") or e.get("label") or "OTHER"
+            out.append({
+                "name": str(e.get("name", "")).strip(),
+                "type": str(label).strip(),
+                "subtype": str(e.get("subtype", "")).strip(),
+                "description": str(e.get("description", "")).strip(),
+            })
+        return out
+
+    @staticmethod
+    def _std_relations(items: Any) -> list[dict[str, Any]]:
+        """Chuẩn hóa key relation: hỗ trợ 'source'/'target' và 'type' (đồng nghĩa 'relation')."""
+        out: list[dict[str, Any]] = []
+        if not isinstance(items, list):
+            return out
+        for r in items:
+            if not isinstance(r, dict):
+                continue
+            out.append({
+                "from": str(r.get("from") or r.get("source") or "").strip(),
+                "to": str(r.get("to") or r.get("target") or "").strip(),
+                "relation": str(r.get("relation") or r.get("type") or "RELATED_TO").strip(),
+                "description": str(r.get("description", "")).strip(),
+            })
+        return out
+
     def _parse_batch_entity_json(
         self,
         raw_json: str,
@@ -1167,11 +1264,9 @@ class GraphService:
                 idx = entry.get("chunk_index")
                 if idx not in expected_indices:
                     continue
-                entities = entry.get("entities", [])
-                relations = entry.get("relations", [])
                 result[idx] = {
-                    "entities": entities if isinstance(entities, list) else [],
-                    "relations": relations if isinstance(relations, list) else [],
+                    "entities": self._std_entities(entry.get("entities", [])),
+                    "relations": self._std_relations(entry.get("relations", [])),
                 }
             return result
         except json.JSONDecodeError as e:
@@ -1189,14 +1284,10 @@ class GraphService:
             result = json.loads(cleaned)
             if not isinstance(result, dict):
                 return {"entities": [], "relations": []}
-            result.setdefault("entities", [])
-            result.setdefault("relations", [])
-            # Đảm bảo entities và relations là list
-            if not isinstance(result["entities"], list):
-                result["entities"] = []
-            if not isinstance(result["relations"], list):
-                result["relations"] = []
-            return result
+            return {
+                "entities": self._std_entities(result.get("entities", [])),
+                "relations": self._std_relations(result.get("relations", [])),
+            }
         except json.JSONDecodeError as e:
             logger.warning("Parse entity JSON thất bại: %s | Raw: %.120s", e, cleaned)
             return {"entities": [], "relations": []}

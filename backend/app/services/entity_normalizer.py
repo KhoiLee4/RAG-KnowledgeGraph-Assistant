@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Any
 
 from app.core.config import settings
-from app.services.graph_schema import normalize_relation_type
+from app.services.graph_schema import canonical_entity_label, normalize_relation_type
 
 logger = logging.getLogger(__name__)
 
@@ -75,6 +75,44 @@ GENERIC_OTHER_BLOCKLIST: frozenset[str] = frozenset({
     "nguoi", "cong ty", "to chuc", "he thong",
 })
 
+# Kính ngữ / chức danh đứng trước tên người — cần loại bỏ để gộp entity trùng
+# (vd "Ông/Bà: LÊ ĐÌNH KHÔI" == "LÊ ĐÌNH KHÔI"). Chỉ áp dụng cho type PERSON.
+_PERSON_TITLE_RE = re.compile(
+    r"^(?:(?:ông|ong|bà|ba|anh|chị|chi|cô|co|chú|chu|bác|bac|mr|mrs|ms|dr|ts|ths|gs|pgs|ku|ngài|ngai)"
+    r"\.?\s*/?\s*)+:?\s*",
+    re.IGNORECASE,
+)
+
+# Ưu tiên type khi cùng một entity bị gán nhiều nhãn khác nhau giữa các chunk
+# (vd "KIẾN ĐỨC THỊNH" lúc PERSON, lúc ORGANIZATION → chọn PERSON).
+TYPE_PRIORITY: dict[str, int] = {
+    "PERSON": 5,
+    "ORGANIZATION": 4,
+    "LOCATION": 4,
+    "PRODUCT": 3,
+    "WORK_OF_ART": 3,
+    "EVENT": 3,
+    "DOCUMENT": 3,
+    "CONCEPT": 2,
+    "DATE": 2,
+    "OTHER": 1,
+}
+
+
+def preferred_entity_type(type_a: str, type_b: str) -> str:
+    """Chọn type ưu tiên cao hơn giữa hai nhãn của cùng một entity."""
+    a = str(type_a or "OTHER").upper()
+    b = str(type_b or "OTHER").upper()
+    if TYPE_PRIORITY.get(a, 1) >= TYPE_PRIORITY.get(b, 1):
+        return a
+    return b
+
+
+def strip_person_title(name: str) -> str:
+    """Bỏ kính ngữ đứng đầu tên người (vd 'Ông/Bà: Lê Đình Khôi' → 'Lê Đình Khôi')."""
+    cleaned = _PERSON_TITLE_RE.sub("", name.strip())
+    return cleaned.strip() or name.strip()
+
 
 @dataclass
 class CanonicalEntry:
@@ -111,9 +149,18 @@ class CanonicalRegistry:
             self._by_norm[canonical_norm] = entry
             return entry
 
+        # Cùng một entity (norm trùng) nhưng nhãn khác → giữ type ưu tiên cao hơn.
+        entry.entity_type = preferred_entity_type(entry.entity_type, entity_type)
         if raw_name and raw_name not in entry.aliases and raw_name != entry.canonical_name:
             entry.aliases.append(raw_name)
         return entry
+
+    def stable_type(self, canonical_norm: str, entity_type: str) -> str:
+        """Type nhất quán cho một norm xuyên chunk (ưu tiên PERSON > ORGANIZATION...)."""
+        entry = self._by_norm.get(canonical_norm)
+        if entry is None:
+            return str(entity_type or "OTHER").upper()
+        return preferred_entity_type(entry.entity_type, entity_type)
 
     def entries_for_type(self, entity_type: str) -> list[CanonicalEntry]:
         return [e for e in self._by_norm.values() if e.entity_type == entity_type]
@@ -149,9 +196,12 @@ class EntityNormalizer:
 
     @staticmethod
     def normalize_name(name: str) -> str:
-        """Lowercase, bỏ dấu, chuẩn hóa dấu câu → khoảng trắng."""
-        nfkd = unicodedata.normalize("NFKD", name.lower().strip())
+        """Lowercase, bỏ dấu (kể cả đ/Đ), chuẩn hóa dấu câu → khoảng trắng."""
+        lowered = name.lower().strip()
+        nfkd = unicodedata.normalize("NFKD", lowered)
         ascii_name = "".join(c for c in nfkd if not unicodedata.combining(c))
+        # đ/Đ (U+0111) không phải dấu tổ hợp nên NFKD không tách — xử lý riêng.
+        ascii_name = ascii_name.replace("đ", "d")
         ascii_name = re.sub(r"[^\w\s]", " ", ascii_name)
         return re.sub(r"\s+", " ", ascii_name).strip()
 
@@ -252,12 +302,16 @@ class EntityNormalizer:
         Trả về (canonical_name, canonical_norm) hoặc None nếu bị lọc.
         """
         raw = name.strip()
+        ent_type = str(entity_type or "OTHER").upper()
+        # Bỏ kính ngữ trước tên người để gộp các biến thể (Ông/Bà:, Ông, ...).
+        if ent_type == "PERSON":
+            raw = strip_person_title(raw)
+
         if self.is_blocked_entity(raw, entity_type):
             logger.debug("Blocked entity: '%s' (%s)", raw, entity_type)
             return None
 
         name_norm = self.normalize_name(raw)
-        ent_type = str(entity_type or "OTHER").upper()
 
         alias_hit = self._lookup_alias(name_norm)
         if alias_hit:
@@ -299,7 +353,14 @@ class EntityNormalizer:
             if not raw_name:
                 continue
 
-            ent_type = str(ent.get("type", "OTHER")).upper()
+            raw_label = str(ent.get("type", "") or ent.get("label", "")).strip()
+            ent_type = canonical_entity_label(raw_label)
+            # subtype: giữ mô tả chi tiết tự do; nếu LLM trả label lạ (bị ép về OTHER)
+            # thì lưu label gốc làm subtype để không mất thông tin.
+            subtype = str(ent.get("subtype", "")).strip()
+            if not subtype and ent_type == "OTHER" and raw_label and raw_label.upper() != "OTHER":
+                subtype = raw_label
+
             resolved = self.resolve_canonical(
                 raw_name,
                 ent_type,
@@ -321,6 +382,10 @@ class EntityNormalizer:
                     existing["aliases"].append(raw_name)
                 if len(description) > len(existing.get("description", "")):
                     existing["description"] = description
+                if subtype and not existing.get("subtype"):
+                    existing["subtype"] = subtype
+                # Cùng norm nhưng nhãn khác → giữ type ưu tiên (PERSON > ORGANIZATION...).
+                existing["type"] = preferred_entity_type(existing["type"], ent_type)
                 continue
 
             normalized = {
@@ -329,6 +394,7 @@ class EntityNormalizer:
                 "canonical_name": canonical_name,
                 "name_norm": canonical_norm,
                 "type": ent_type,
+                "subtype": subtype,
                 "description": description,
                 "aliases": [raw_name] if raw_name != canonical_name else [],
             }
@@ -349,6 +415,9 @@ class EntityNormalizer:
                 normalized["aliases"] = list(
                     dict.fromkeys(normalized["aliases"] + reg_entry.aliases)
                 )
+                # Type nhất quán xuyên chunk (registry đã gộp theo ưu tiên).
+                normalized["type"] = reg_entry.entity_type
+                entry.entity_type = reg_entry.entity_type
 
         normalized_entities = list(by_norm.values())
 

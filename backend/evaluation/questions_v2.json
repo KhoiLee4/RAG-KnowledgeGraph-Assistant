@@ -1,0 +1,632 @@
+{
+  "version": "3",
+  "description": "Bộ 40 câu hỏi benchmark RAG vs GraphRAG (mỗi nhóm 10 câu: factual, descriptive, relationship, edge_case). Nhóm relationship R01-R09 là câu multi-hop: đáp án trải trên >=2 tài liệu (nhân sự/dự án ở file này, thuộc tính đối tác ở file hồ sơ đối tác mới), buộc phải suy luận bắc cầu — nơi GraphRAG có ưu thế so với vector RAG. R10 là câu single-hop đối chứng. Cần index thêm 3 tài liệu mới: TMT_DoiTac_DaiPhat.docx, TMT_DoiTac_HongDuc.docx, TMT_DoiTac_DaiHocSaiGon.docx. Sau khi index xong, chạy discover để điền expected_chunks cho các câu R01-R09.",
+  "collection_name": "kb_116945382034191751356",
+  "owner_id": "116945382034191751356",
+  "questions": [
+    {
+      "id": "F01",
+      "category": "factual",
+      "question": "Kích thước chunk và độ chồng lấp (overlap) mặc định của hệ thống là bao nhiêu?",
+      "expected_source": "01_RAG_va_Chunking.docx / 05_Bang_cau_hinh_va_nhan_su.xlsx",
+      "expected_chunks": [
+        {
+          "chunk_id": "1RV23kP4XJ4WKjpB5OSlPUoGHKqL64fCD__chunk_0"
+        }
+      ],
+      "ground_truth_keywords": [
+        "512",
+        "50"
+      ],
+      "should_refuse": false,
+      "human_score": 2
+    },
+    {
+      "id": "F02",
+      "category": "factual",
+      "question": "Hệ thống dùng mô hình nào để sinh câu trả lời và mô hình nào để tạo embedding?",
+      "expected_source": "04_Cau_hinh_He_thong.docx / 05_Bang_cau_hinh_va_nhan_su.xlsx",
+      "expected_chunks": [
+        {
+          "chunk_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0"
+        }
+      ],
+      "ground_truth_keywords": [
+        "gemini-2.5-flash",
+        "gemini-embedding-001"
+      ],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "F03",
+      "category": "factual",
+      "question": "Tham số GRAPH_ALPHA dùng để cân bằng vector và graph có giá trị bao nhiêu?",
+      "expected_source": "03_Kien_truc_GraphRAG.docx / 05_Bang_cau_hinh_va_nhan_su.xlsx",
+      "expected_chunks": [
+        {
+          "chunk_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_2"
+        }
+      ],
+      "ground_truth_keywords": [
+        "0.7"
+      ],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "F04",
+      "category": "factual",
+      "question": "Công ty Cổ phần Công nghệ Thiên Minh được thành lập năm nào và ai là người sáng lập?",
+      "expected_source": "TMT_GioiThieu_CongTy.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "17esO5F1Th9-g7k6tDd_1NVbwVYwosYKP__chunk_0"
+        }
+      ],
+      "ground_truth_keywords": [
+        "2018",
+        "Nguyễn Văn An"
+      ],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "F05",
+      "category": "factual",
+      "question": "Dự án MedBot hợp tác triển khai với đối tác nào?",
+      "expected_source": "TMT_DuAn_MedBot.docx / TMT_NhanSu_DuAn.xlsx",
+      "expected_chunks": [
+        {
+          "chunk_id": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_0"
+        }
+      ],
+      "ground_truth_keywords": [
+        "Bệnh viện Đa khoa Hồng Đức"
+      ],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "F06",
+      "category": "factual",
+      "question": "Mức thù lao trong hợp đồng cộng tác viên của Lê Đình Khôi là bao nhiêu?",
+      "expected_source": "LeDinhKhoi_Freelancer_Mar2026.pdf",
+      "expected_chunks": [
+        {
+          "chunk_id": "10Tx9z6cA25p4awyu94BqMI61GF_kGloC__chunk_0"
+        }
+      ],
+      "ground_truth_keywords": [
+        "12.000.000",
+        "12,000,000"
+      ],
+      "should_refuse": false,
+      "human_score": null,
+      "notes": "Chấp nhận ghi 12 triệu đồng"
+    },
+    {
+      "id": "F07",
+      "category": "factual",
+      "question": "Mức phụ cấp học việc mỗi ngày của thực tập sinh Lê Đình Khôi là bao nhiêu?",
+      "expected_source": "LeDinhKhoi_InternShip_Aug2025.pdf / LeDinhKhoi_InternShip_Nov2025.pdf",
+      "expected_chunks": [
+        {
+          "chunk_id": "1E_h0BS9bK7PHvB2_IxdnSDSqduNwRFMF__chunk_6"
+        }
+      ],
+      "ground_truth_keywords": [
+        "150.000",
+        "150,000"
+      ],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "F08",
+      "category": "factual",
+      "question": "Kim tự tháp Giza được xây dựng cho pharaoh nào?",
+      "expected_source": "LichSu_VanMinhAiCap.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "1pfnRiMMwewesulm1OajA9kuOUTm5MjXk__chunk_1"
+        }
+      ],
+      "ground_truth_keywords": [
+        "Khufu"
+      ],
+      "should_refuse": false,
+      "human_score": null,
+      "notes": "Tài liệu chủ đề nhiễu"
+    },
+    {
+      "id": "F09",
+      "category": "factual",
+      "question": "Hiệu suất của tấm pin quang điện thương mại phổ biến hiện nay là bao nhiêu?",
+      "expected_source": "KhoaHoc_NangLuongTaiTao.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "1S4jdmv5BwEfsYBbVO4WXPP2ezP3EyccK__chunk_1"
+        }
+      ],
+      "ground_truth_keywords": [
+        "18%",
+        "22%"
+      ],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "F10",
+      "category": "factual",
+      "question": "ChromaDB và Neo4j (Bolt) chạy ở cổng nào?",
+      "expected_source": "04_Cau_hinh_He_thong.docx / 05_Bang_cau_hinh_va_nhan_su.xlsx",
+      "expected_chunks": [
+        {
+          "chunk_id": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_0"
+        }
+      ],
+      "ground_truth_keywords": [
+        "8000",
+        "7687"
+      ],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "D01",
+      "category": "descriptive",
+      "question": "Tóm tắt kỹ thuật RAG và vai trò của nó trong hỏi đáp tài liệu.",
+      "expected_source": "01_RAG_va_Chunking.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "1cake2iD7knNAT8aslYHnrZhyLH_1nbq4__chunk_0"
+        }
+      ],
+      "ground_truth_keywords": [
+        "truy xuất",
+        "embedding",
+        "ảo giác"
+      ],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "D02",
+      "category": "descriptive",
+      "question": "Mô tả cơ chế Hybrid Retrieval trong kiến trúc GraphRAG của hệ thống.",
+      "expected_source": "03_Kien_truc_GraphRAG.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "1MlwCUUeF4BXa5u8gqMQjH5Qq83Z7fyQB__chunk_0"
+        }
+      ],
+      "ground_truth_keywords": [
+        "vector",
+        "graph",
+        "community",
+        "Louvain"
+      ],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "D03",
+      "category": "descriptive",
+      "question": "Trình bày chính sách nghỉ phép năm của Công ty Thiên Minh.",
+      "expected_source": "TMT_ChinhSach_CongTy.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "1-_m9Oy9DMlU_ETpIQ0ACB8WeImYXCYcB__chunk_0"
+        }
+      ],
+      "ground_truth_keywords": [
+        "12 ngày",
+        "thâm niên",
+        "ba ngày"
+      ],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "D04",
+      "category": "descriptive",
+      "question": "Nêu các lợi ích và thách thức chính của năng lượng tái tạo.",
+      "expected_source": "KhoaHoc_NangLuongTaiTao.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "1S4jdmv5BwEfsYBbVO4WXPP2ezP3EyccK__chunk_4"
+        }
+      ],
+      "ground_truth_keywords": [
+        "giảm phát thải",
+        "không ổn định",
+        "lưu trữ"
+      ],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "D05",
+      "category": "descriptive",
+      "question": "Mô tả cách nấu nước dùng phở bò cơ bản.",
+      "expected_source": "AmThuc_PhoVietNam.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "1gWT8mit3gu0tYwd1MfZgoJEG7VyFogMM__chunk_1"
+        }
+      ],
+      "ground_truth_keywords": [
+        "ninh xương",
+        "gừng",
+        "hành tây",
+        "gia vị"
+      ],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "D06",
+      "category": "descriptive",
+      "question": "Các nhóm chất dinh dưỡng cơ bản gồm những gì và vai trò của chúng?",
+      "expected_source": "SucKhoe_DinhDuong.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "1D8X2Fa3UBB2272-6G-0StcPoRPsNs_AA__chunk_0"
+        }
+      ],
+      "ground_truth_keywords": [
+        "carbohydrate",
+        "protein",
+        "chất béo"
+      ],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "D07",
+      "category": "descriptive",
+      "question": "Giới thiệu tổng quan về Công ty Thiên Minh: lĩnh vực hoạt động, tầm nhìn và sứ mệnh.",
+      "expected_source": "TMT_GioiThieu_CongTy.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "17esO5F1Th9-g7k6tDd_1NVbwVYwosYKP__chunk_2"
+        }
+      ],
+      "ground_truth_keywords": [
+        "trí tuệ nhân tạo",
+        "y tế",
+        "giáo dục",
+        "logistics"
+      ],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "D08",
+      "category": "descriptive",
+      "question": "Trình bày tổng quan dự án MedBot và kết quả đạt được.",
+      "expected_source": "TMT_DuAn_MedBot.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_0"
+        }
+      ],
+      "ground_truth_keywords": [
+        "trợ lý ảo",
+        "y tế",
+        "20.000",
+        "30%"
+      ],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "D09",
+      "category": "descriptive",
+      "question": "Tóm tắt những đặc điểm chính của văn minh Ai Cập cổ đại.",
+      "expected_source": "LichSu_VanMinhAiCap.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "1pfnRiMMwewesulm1OajA9kuOUTm5MjXk__chunk_0"
+        }
+      ],
+      "ground_truth_keywords": [
+        "sông Nile",
+        "kim tự tháp",
+        "chữ tượng hình"
+      ],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "D10",
+      "category": "descriptive",
+      "question": "Hệ thống cô lập dữ liệu giữa các người dùng khác nhau như thế nào?",
+      "expected_source": "04_Cau_hinh_He_thong.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "1LBUufzsBzauuRfFltD6loEytxtca6kV6__chunk_2"
+        }
+      ],
+      "ground_truth_keywords": [
+        "collection",
+        "owner_id"
+      ],
+      "should_refuse": false,
+      "human_score": null
+    },
+    {
+      "id": "R01",
+      "category": "relationship",
+      "question": "Kỹ sư backend chính của dự án SmartRoute làm việc với đối tác đặt tại tỉnh, thành phố nào?",
+      "expected_source": "TMT_CoCau_NhanSu.docx / TMT_DuAn_SmartRoute.docx → TMT_DoiTac_DaiPhat.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "17bsUxeqeaBI8J6sBP0aStLzor25rYXna__chunk_1"
+        }
+      ],
+      "ground_truth_keywords": [
+        "Bình Dương"
+      ],
+      "should_refuse": false,
+      "human_score": null,
+      "notes": "Multi-hop: Võ Minh Đức → SmartRoute → Đại Phát → Bình Dương (trải 2-3 tài liệu)"
+    },
+    {
+      "id": "R02",
+      "category": "relationship",
+      "question": "Đối tác trong dự án mà ông Lê Hoàng Cường làm kỹ sư trưởng do ai làm giám đốc?",
+      "expected_source": "TMT_CoCau_NhanSu.docx / TMT_DuAn_MedBot.docx → TMT_DoiTac_HongDuc.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_1"
+        }
+      ],
+      "ground_truth_keywords": [
+        "Lý Thị Hoa"
+      ],
+      "should_refuse": false,
+      "human_score": null,
+      "notes": "Multi-hop: Cường → MedBot → Bệnh viện Hồng Đức → GĐ Lý Thị Hoa"
+    },
+    {
+      "id": "R03",
+      "category": "relationship",
+      "question": "Dự án nào của Thiên Minh hợp tác với đối tác có trụ sở tại tỉnh Bình Dương?",
+      "expected_source": "TMT_DoiTac_DaiPhat.docx → TMT_DuAn_SmartRoute.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "1qGSw5N7fd-7DJdzhkPhIqUNhUJ7ZkP6q__chunk_0"
+        }
+      ],
+      "ground_truth_keywords": [
+        "SmartRoute"
+      ],
+      "should_refuse": false,
+      "human_score": null,
+      "notes": "Multi-hop: Bình Dương → Đại Phát → SmartRoute"
+    },
+    {
+      "id": "R04",
+      "category": "relationship",
+      "question": "Bệnh viện đối tác của dự án MedBot đặt tại thành phố nào?",
+      "expected_source": "TMT_DuAn_MedBot.docx → TMT_DoiTac_HongDuc.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_0"
+        }
+      ],
+      "ground_truth_keywords": [
+        "Cần Thơ"
+      ],
+      "should_refuse": false,
+      "human_score": null,
+      "notes": "Multi-hop: MedBot → Bệnh viện Hồng Đức → Cần Thơ"
+    },
+    {
+      "id": "R05",
+      "category": "relationship",
+      "question": "Giảng viên điều phối hợp tác phía trường đối tác của dự án EduPath là ai?",
+      "expected_source": "TMT_DuAn_EduPath.docx → TMT_DoiTac_DaiHocSaiGon.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "1Vo0qB2D59Y8kFvr04rMA9Ck-LbXxgtsS__chunk_1"
+        }
+      ],
+      "ground_truth_keywords": [
+        "Bùi Thị Ngọc"
+      ],
+      "should_refuse": false,
+      "human_score": null,
+      "notes": "Multi-hop: EduPath → Trường ĐH Sài Gòn → TS Bùi Thị Ngọc"
+    },
+    {
+      "id": "R06",
+      "category": "relationship",
+      "question": "Người điều hành công ty vận tải là đối tác của Thiên Minh tên là gì?",
+      "expected_source": "TMT_DuAn_SmartRoute.docx → TMT_DoiTac_DaiPhat.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "17bsUxeqeaBI8J6sBP0aStLzor25rYXna__chunk_0"
+        }
+      ],
+      "ground_truth_keywords": [
+        "Trịnh Văn Bảo"
+      ],
+      "should_refuse": false,
+      "human_score": null,
+      "notes": "Multi-hop: SmartRoute → Đại Phát (vận tải) → GĐ Trịnh Văn Bảo"
+    },
+    {
+      "id": "R07",
+      "category": "relationship",
+      "question": "Giám đốc Dự án Đặng Thu Hà quản lý dự án có đối tác đặt tại Cần Thơ; kỹ sư trưởng của dự án đó là ai?",
+      "expected_source": "TMT_DoiTac_HongDuc.docx → TMT_DuAn_MedBot.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "10S44xxgsEkTGx162fVF3XIvfoofPlpbp__chunk_1"
+        }
+      ],
+      "ground_truth_keywords": [
+        "Lê Hoàng Cường"
+      ],
+      "should_refuse": false,
+      "human_score": null,
+      "notes": "Multi-hop: Cần Thơ → Hồng Đức → MedBot → kỹ sư trưởng Lê Hoàng Cường"
+    },
+    {
+      "id": "R08",
+      "category": "relationship",
+      "question": "Ông Bùi Văn Phong phụ trách hạ tầng cho những dự án nào, và các dự án đó hợp tác với những đối tác nào?",
+      "expected_source": "TMT_CoCau_NhanSu.docx / TMT_NhanSu_DuAn.xlsx → TMT_DuAn_MedBot.docx / TMT_DuAn_SmartRoute.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "11AsYHuh-U-g4w3QwmV-VZQbZxEMC1SDk__chunk_3"
+        }
+      ],
+      "ground_truth_keywords": [
+        "Bệnh viện Đa khoa Hồng Đức",
+        "Đại Phát"
+      ],
+      "should_refuse": false,
+      "human_score": null,
+      "notes": "Multi-hop: Phong → MedBot + SmartRoute → Hồng Đức + Đại Phát"
+    },
+    {
+      "id": "R09",
+      "category": "relationship",
+      "question": "Đầu mối phối hợp phía bệnh viện đối tác của dự án MedBot là ai?",
+      "expected_source": "TMT_DuAn_MedBot.docx → TMT_DoiTac_HongDuc.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "1gQlwqKb6pIRTKdG7aZpFiTAXcx1QmHgC__chunk_1"
+        }
+      ],
+      "ground_truth_keywords": [
+        "Trương Văn Khoa"
+      ],
+      "should_refuse": false,
+      "human_score": null,
+      "notes": "Multi-hop: MedBot → Hồng Đức → đầu mối Trương Văn Khoa"
+    },
+    {
+      "id": "R10",
+      "category": "relationship",
+      "question": "Những nhân sự nào báo cáo trực tiếp cho Giám đốc Công nghệ Trần Thị Bình?",
+      "expected_source": "TMT_CoCau_NhanSu.docx",
+      "expected_chunks": [
+        {
+          "chunk_id": "11AsYHuh-U-g4w3QwmV-VZQbZxEMC1SDk__chunk_1"
+        }
+      ],
+      "ground_truth_keywords": [
+        "Lê Hoàng Cường",
+        "Phạm Thị Dung"
+      ],
+      "should_refuse": false,
+      "human_score": null,
+      "notes": "Câu đối chứng: quan hệ nằm gọn trong 1 tài liệu (single-hop)"
+    },
+    {
+      "id": "E01",
+      "category": "edge_case",
+      "question": "Doanh thu năm 2025 của Công ty Thiên Minh là bao nhiêu?",
+      "expected_source": "(không có trong tài liệu)",
+      "expected_chunks": [],
+      "ground_truth_keywords": [],
+      "should_refuse": true,
+      "human_score": null
+    },
+    {
+      "id": "E02",
+      "category": "edge_case",
+      "question": "Số điện thoại cá nhân của giảng viên Trần Phong Nhã là gì?",
+      "expected_source": "(không có trong tài liệu)",
+      "expected_chunks": [],
+      "ground_truth_keywords": [],
+      "should_refuse": true,
+      "human_score": null
+    },
+    {
+      "id": "E03",
+      "category": "edge_case",
+      "question": "Giá bán một tô phở bò tại Hà Nội hiện nay là bao nhiêu?",
+      "expected_source": "(không có trong tài liệu)",
+      "expected_chunks": [],
+      "ground_truth_keywords": [],
+      "should_refuse": true,
+      "human_score": null
+    },
+    {
+      "id": "E04",
+      "category": "edge_case",
+      "question": "Mức lương chính thức của Lê Đình Khôi sau khi ký hợp đồng lao động là bao nhiêu?",
+      "expected_source": "(không có - chỉ có hợp đồng CTV và thỏa thuận học việc)",
+      "expected_chunks": [],
+      "ground_truth_keywords": [],
+      "should_refuse": true,
+      "human_score": null
+    },
+    {
+      "id": "E05",
+      "category": "edge_case",
+      "question": "Công ty Vận tải Đại Phát có bao nhiêu nhân viên?",
+      "expected_source": "(không có - hồ sơ đối tác chỉ nêu số đầu xe, không nêu số nhân viên)",
+      "expected_chunks": [],
+      "ground_truth_keywords": [],
+      "should_refuse": true,
+      "human_score": null
+    },
+    {
+      "id": "E06",
+      "category": "edge_case",
+      "question": "Công ty Thiên Minh có bao nhiêu văn phòng chi nhánh ở nước ngoài?",
+      "expected_source": "(không có - tài liệu chỉ nêu chi nhánh Đà Nẵng)",
+      "expected_chunks": [],
+      "ground_truth_keywords": [],
+      "should_refuse": true,
+      "human_score": null
+    },
+    {
+      "id": "E07",
+      "category": "edge_case",
+      "question": "Bệnh viện Đa khoa Hồng Đức có bao nhiêu bác sĩ?",
+      "expected_source": "(không có - hồ sơ đối tác chỉ nêu số giường bệnh, không nêu số bác sĩ)",
+      "expected_chunks": [],
+      "ground_truth_keywords": [],
+      "should_refuse": true,
+      "human_score": null
+    },
+    {
+      "id": "E08",
+      "category": "edge_case",
+      "question": "Lê Đình Khôi tốt nghiệp đại học vào năm nào?",
+      "expected_source": "(không có trong tài liệu)",
+      "expected_chunks": [],
+      "ground_truth_keywords": [],
+      "should_refuse": true,
+      "human_score": null
+    },
+    {
+      "id": "E09",
+      "category": "edge_case",
+      "question": "Giá trị hợp đồng của dự án SmartRoute với Công ty Vận tải Đại Phát là bao nhiêu?",
+      "expected_source": "(không có trong tài liệu)",
+      "expected_chunks": [],
+      "ground_truth_keywords": [],
+      "should_refuse": true,
+      "human_score": null
+    },
+    {
+      "id": "E10",
+      "category": "edge_case",
+      "question": "Kim tự tháp Giza cao bao nhiêu mét?",
+      "expected_source": "(không có trong tài liệu)",
+      "expected_chunks": [],
+      "ground_truth_keywords": [],
+      "should_refuse": true,
+      "human_score": null
+    }
+  ]
+}

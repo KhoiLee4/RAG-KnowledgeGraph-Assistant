@@ -86,6 +86,10 @@ class Settings(BaseSettings):
     ENTITY_FUZZY_THRESHOLD: int = 85    # Ngưỡng thefuzz token_sort_ratio (0–100)
     ENTITY_ALIAS_MAP_PATH: str = "data/entity_aliases.json"
 
+    # ── Relation normalization (map loại lạ → canonical bằng embedding) ─
+    RELATION_NORMALIZE_USE_EMBEDDING: bool = True  # Tắt để chỉ dùng alias tĩnh (không gọi API)
+    RELATION_CANONICAL_THRESHOLD: float = 0.75     # Cosine tối thiểu để map về canonical
+
     # ── Community detection (Louvain + summary) ────────────────
     GRAPH_BUILD_COMMUNITIES: bool = True   # Chạy sau sync-all async
     COMMUNITY_MIN_SIZE: int = 3            # Ngưỡng merge / bỏ qua community nhỏ

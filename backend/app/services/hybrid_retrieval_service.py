@@ -7,6 +7,7 @@ Kết hợp Community summary + Graph facts + Vector chunks cho ChatService.
 from __future__ import annotations
 
 import logging
+import unicodedata
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -18,6 +19,22 @@ from app.services.query_analyzer import QueryAnalysis, get_query_analyzer, is_re
 from app.services.retrieval_service import RetrievalService
 
 logger = logging.getLogger(__name__)
+
+
+def _normalize_text(text: str) -> str:
+    s = unicodedata.normalize("NFD", text.lower())
+    return "".join(c for c in s if unicodedata.category(c) != "Mn")
+
+
+def _entity_mentioned_in_query(entity_name: str, query: str) -> bool:
+    """Kiểm tra tên entity có xuất hiện trong câu hỏi (tránh quan hệ graph nhiễu)."""
+    en = _normalize_text(entity_name)
+    qn = _normalize_text(query)
+    if not en or not qn:
+        return False
+    if en in qn:
+        return True
+    return any(len(tok) >= 4 and tok in qn for tok in en.split())
 
 
 @dataclass
@@ -96,14 +113,37 @@ class HybridRetrievalService:
 
         return "\n".join(lines).strip(), citations, ref
 
+    def _filter_graph_relations(
+        self,
+        relations: list[dict[str, Any]],
+        query: str,
+        query_type: str,
+    ) -> list[dict[str, Any]]:
+        if query_type in ("relationship", "combined"):
+            return relations
+        filtered: list[dict[str, Any]] = []
+        for rel in relations:
+            frm = str(rel.get("from", ""))
+            to = str(rel.get("to", ""))
+            if _entity_mentioned_in_query(frm, query) or _entity_mentioned_in_query(
+                to, query
+            ):
+                filtered.append(rel)
+        return filtered
+
     def _build_graph_section(
         self,
         path_relations: list[dict[str, Any]],
         graph_facts: dict[str, Any],
         ref_start: int,
         max_chars: int,
+        query: str = "",
+        query_type: str = "combined",
     ) -> tuple[str, list[dict[str, Any]], int]:
-        relations = path_relations + (graph_facts.get("relations") or [])
+        fact_relations = self._filter_graph_relations(
+            graph_facts.get("relations") or [], query, query_type
+        )
+        relations = path_relations + fact_relations
         chunk_refs = graph_facts.get("chunk_refs") or []
 
         if not relations:
@@ -229,7 +269,9 @@ class HybridRetrievalService:
     ) -> str:
         sections: list[str] = []
         if query_type == "factual":
-            order = [graph_text, community_text, vector_text]
+            order = [vector_text, graph_text, community_text]
+        elif query_type == "descriptive":
+            order = [community_text, vector_text, graph_text]
         else:
             order = [community_text, graph_text, vector_text]
 
@@ -330,22 +372,22 @@ class HybridRetrievalService:
 
         ref = 1
         if qtype == "factual":
+            vec_text, vec_cites, ref = self._build_vector_section(
+                vector_chunks, ref, budgets["vector"]
+            )
             graph_text, graph_cites, ref = self._build_graph_section(
-                path_relations, graph_facts, ref, budgets["graph"]
+                path_relations, graph_facts, ref, budgets["graph"], query, qtype
             )
             comm_text, comm_cites, ref = self._build_community_section(
                 communities, ref, budgets["community"]
             )
-            vec_text, vec_cites, _ = self._build_vector_section(
-                vector_chunks, ref, budgets["vector"]
-            )
-            all_citations = graph_cites + comm_cites + vec_cites
+            all_citations = vec_cites + graph_cites + comm_cites
         else:
             comm_text, comm_cites, ref = self._build_community_section(
                 communities, ref, budgets["community"]
             )
             graph_text, graph_cites, ref = self._build_graph_section(
-                path_relations, graph_facts, ref, budgets["graph"]
+                path_relations, graph_facts, ref, budgets["graph"], query, qtype
             )
             vec_text, vec_cites, _ = self._build_vector_section(
                 vector_chunks, ref, budgets["vector"]
